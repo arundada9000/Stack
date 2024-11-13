@@ -38,3 +38,47 @@ copyButton.addEventListener("click", () => {
     copyButton.textContent = "Copy";
   }, 5000);
 });
+
+// Animation on scroll
+const animatedElements = document.querySelectorAll(".scroll-animate");
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show-content");
+      }
+      //else {
+      //   entry.target.classList.remove("show");
+      // }
+    });
+  },
+  {
+    threshold: 0.5,
+  }
+);
+
+animatedElements.forEach((element) => observer.observe(element));
+
+// back to top
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 100) {
+    backToTopBtn.style.display = "flex";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// progress bar
+window.addEventListener("scroll", function () {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+  document.querySelector(".progress-bar").style.height = scrollPercent + "%";
+});

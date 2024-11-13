@@ -9,7 +9,7 @@
         content="Stack data structure, stack Visualizer, stack information , about stack , stack , stack examples, stack in dsa , stack uses,arun neupane, arundada9000" />
     <meta name="description" content="Stack Data Structure visualized for better understanding." />
     <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./language.css">
+    <link rel="stylesheet" href="./extra.css">
     <link rel="shortcut icon" href="./images/stack-fav.png" type="image/x-icon">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -24,26 +24,30 @@
 <body>
     <header class="header">
         <img src="./images/stack.gif" alt="Stack Data structure">
-        <h1>Stack Data Structure</h1>
+        <h1 class="scroll-animate">Stack Data Structure</h1>
     </header>
+
+    <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+    </div>
 
     <main>
         <section class="container">
             <div class="main-content">
                 <!-- Stack container -->
-                <div class="stack-container">
-                    <div class="empty">Stack is Empty.</div>
+                <div class="stack-container scroll-animate">
+                    <div class="empty scroll-animate">Stack is Empty.</div>
                     <!-- Stack items will be dynamically added here -->
                 </div>
 
                 <!-- Message display area -->
-                <div id="message" class="message">Stack Message</div>
+                <div id="message" class="message scroll-animate">Stack Message</div>
             </div>
             <img src="./images/finger.gif" alt="Pointer" class="pointer-image">
         </section>
 
         <!--  input and button area -->
-        <section class="input-container">
+        <section class="input-container scroll-animate">
             <input type="number" id="push-element" placeholder="Enter value" class="input" />
             <button id="push-btn">Push</button>
             <button id="pop-btn">Pop</button>
@@ -54,19 +58,21 @@
 
         <div class="info-container">
             <header>
-                <h1>Understanding the Stack Data Structure</h1>
-                <p>A comprehensive overview of stacks, their operations, and real-world applications.</p>
+                <h1 class="scroll-animate">Understanding the Stack Data Structure</h1>
+                <p class="scroll-animate">A comprehensive overview of stacks, their operations, and real-world
+                    applications.</p>
             </header>
 
             <section class="definition">
-                <h2>What is a Stack?</h2>
-                <p>A stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle. Elements are
+                <h2 class="scroll-animate">What is a Stack?</h2>
+                <p class="scroll-animate">A stack is a linear data structure that follows the Last-In-First-Out (LIFO)
+                    principle. Elements are
                     added and removed from the top of the stack.</p>
             </section>
 
             <section class="operations">
-                <h2>Stack Operations</h2>
-                <ul>
+                <h2 class="scroll-animate">Stack Operations</h2>
+                <ul class="scroll-animate">
                     <li><strong>Push:</strong> Adds an element to the top of the stack.</li>
                     <li><strong>Pop:</strong> Removes the top element from the stack.</li>
                     <li><strong>Peek:</strong> Returns the top element without removing it.</li>
@@ -76,9 +82,9 @@
             </section>
 
             <section class="examples">
-                <h2>Examples of Stack in Action</h2>
-                <p>Some common examples of stack usage:</p>
-                <ul>
+                <h2 class="scroll-animate">Examples of Stack in Action</h2>
+                <p class="scroll-animate">Some common examples of stack usage:</p>
+                <ul class="scroll-animate">
                     <li>Undo functionality in text editors.</li>
                     <li>Backtracking in maze solving algorithms.</li>
                     <li>Function call stack in programming.</li>
@@ -86,9 +92,9 @@
             </section>
 
             <section class="real-world-usage">
-                <h2>Real-World Applications</h2>
-                <p>Stacks are widely used in various computing contexts:</p>
-                <ul>
+                <h2 class="scroll-animate">Real-World Applications</h2>
+                <p class="scroll-animate">Stacks are widely used in various computing contexts:</p>
+                <ul class="scroll-animate">
                     <li>Browser history navigation.</li>
                     <li>Expression evaluation and syntax parsing.</li>
                     <li>Managing recursive function calls.</li>
@@ -110,11 +116,14 @@
                 <button class="language-copy-button scroll-animate">Copy</button>
             </section>
             <footer>
-                <p>Learn more about data structures and their applications in computer science.</p>
+                <p class="scroll-animate">Learn more about data structures and their applications in computer science.
+                </p>
             </footer>
         </div>
 
     </main>
+
+    <button id="backToTopBtn" title="Go to top">↑</button>
 
     <script>
         const codeSnippets = {
@@ -319,7 +328,7 @@ stack.print_stack()`
         };
 
     </script>
-    <script src="./language.js"></script>
+    <script src="./extra.js"></script>
     <script src="./script.js"></script>
 </body>
 

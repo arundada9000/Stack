@@ -98,7 +98,7 @@ header h1 {
 .stack {
   cursor: pointer;
   width: 80%;
-  background: linear-gradient(360deg, #608da5, #0577f9);
+  background: linear-gradient(360deg, #28a3e6, #024fa6);
   color: white;
   padding: 10px;
   margin: 5px 0;
@@ -106,12 +106,12 @@ header h1 {
   font-weight: bold;
   border-radius: 5px;
   transform: translateY(-100px) scale(0);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
   animation: spawn 1s ease-in-out forwards;
 }
 
 .stack:hover {
-  background-color: #66bb6a;
+  background: linear-gradient(135deg, #0066f6, #046fdb);
   transform: scale(1.05);
 }
 
@@ -295,6 +295,10 @@ input[type="number"] {
     width: 100%;
     max-width: 90%;
     margin: 0 auto 10px;
+    height: 3.5rem;
+    overflow: auto;
+    margin-bottom: 0;
+    padding: 5px;
   }
   .stack-container {
     max-height: 62vh;
@@ -303,12 +307,7 @@ input[type="number"] {
   .main-content {
     flex-direction: column;
   }
-  .message {
-    height: 3.5rem;
-    overflow: auto;
-    margin-bottom: 0;
-    padding: 5px;
-  }
+ 
 }
 @keyframes spawn {
   0% {

@@ -1,0 +1,112 @@
+/* Code container */
+.language-code-container {
+  max-width: 800px;
+  margin-top: 1.5rem !important;
+  padding: 20px;
+  background-color: #282c34;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+.language-code-container h1 {
+  font-size: 1.5rem;
+  color: #f0f0f0;
+  text-align: center;
+  margin: 10px 0 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.language-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.language-selector button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.language-selector button[data-language="javascript"] {
+  background-color: #d2b916;
+}
+
+.language-selector button[data-language="c"] {
+  background-color: #00599c;
+}
+
+.language-selector button[data-language="cpp"] {
+  background-color: #00599c;
+}
+
+.language-selector button[data-language="java"] {
+  background-color: #f89820;
+}
+
+.language-selector button[data-language="python"] {
+  background-color: #3776ab;
+}
+
+.language-selector button:hover {
+  transform: scale(1.05);
+}
+
+.inside-code-container {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 1rem;
+  min-height: 150px;
+  margin-bottom: 10px;
+  width: 100%;
+  overflow-x: auto;
+}
+pre[class*="language-"],
+code[class*="language-"] {
+  background-color: #141414 !important;
+  color: #f8f8f2;
+  font-family: roboto, "Courier New", Courier, monospace !important;
+}
+#code-display {
+  padding: 15px;
+  border-radius: 6px;
+  color: #d4d4d4;
+  overflow-x: auto;
+  font-family: monospace;
+  display: none;
+  animation: fadeInTopToBottom 1s forwards;
+}
+@keyframes fadeInTopToBottom {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.language-copy-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.language-copy-button:hover {
+  background-color: #218838;
+}

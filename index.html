@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Visualizer</title>
+    <meta name="keywords"
+        content="Stack data structure, stack Visualizer, stack information , about stack , stack , stack examples, stack in dsa , stack uses,arun neupane, arundada9000" />
+    <meta name="description" content="Stack Data Structure visualized for better understanding." />
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./language.css">
+    <link rel="shortcut icon" href="./images/stack-fav.png" type="image/x-icon">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <img src="./images/stack.gif" alt="Stack Data structure">
+        <h1>Stack Data Structure</h1>
+    </header>
+
+    <main>
+        <section class="container">
+            <div class="main-content">
+                <!-- Stack container -->
+                <div class="stack-container">
+                    <div class="empty">Stack is Empty.</div>
+                    <!-- Stack items will be dynamically added here -->
+                </div>
+
+                <!-- Message display area -->
+                <div id="message" class="message">Stack Message</div>
+            </div>
+            <img src="./images/finger.gif" alt="Pointer" class="pointer-image">
+        </section>
+
+        <!--  input and button area -->
+        <section class="input-container">
+            <input type="number" id="push-element" placeholder="Enter value" class="input" />
+            <button id="push-btn">Push</button>
+            <button id="pop-btn">Pop</button>
+            <button id="peek-btn">Peek</button>
+            <button id="clear-btn">Clear</button>
+            <button id="display-btn">Display</button>
+        </section>
+
+        <div class="info-container">
+            <header>
+                <h1>Understanding the Stack Data Structure</h1>
+                <p>A comprehensive overview of stacks, their operations, and real-world applications.</p>
+            </header>
+
+            <section class="definition">
+                <h2>What is a Stack?</h2>
+                <p>A stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle. Elements are
+                    added and removed from the top of the stack.</p>
+            </section>
+
+            <section class="operations">
+                <h2>Stack Operations</h2>
+                <ul>
+                    <li><strong>Push:</strong> Adds an element to the top of the stack.</li>
+                    <li><strong>Pop:</strong> Removes the top element from the stack.</li>
+                    <li><strong>Peek:</strong> Returns the top element without removing it.</li>
+                    <li><strong>isEmpty:</strong> Checks if the stack is empty.</li>
+                    <li><strong>isFull:</strong> Checks if the stack is full (in case of a bounded stack).</li>
+                </ul>
+            </section>
+
+            <section class="examples">
+                <h2>Examples of Stack in Action</h2>
+                <p>Some common examples of stack usage:</p>
+                <ul>
+                    <li>Undo functionality in text editors.</li>
+                    <li>Backtracking in maze solving algorithms.</li>
+                    <li>Function call stack in programming.</li>
+                </ul>
+            </section>
+
+            <section class="real-world-usage">
+                <h2>Real-World Applications</h2>
+                <p>Stacks are widely used in various computing contexts:</p>
+                <ul>
+                    <li>Browser history navigation.</li>
+                    <li>Expression evaluation and syntax parsing.</li>
+                    <li>Managing recursive function calls.</li>
+                </ul>
+            </section>
+
+            <section class="language-code-container">
+                <h1 class="scroll-animate">Stack Code Implementation</h1>
+                <div class="language-selector scroll-animate">
+                    <button data-language="c">C</button>
+                    <button data-language="cpp">C++</button>
+                    <button data-language="javascript">JavaScript</button>
+                    <button data-language="python">Python</button>
+                    <button data-language="java">Java</button>
+                </div>
+                <pre class="inside-code-container">
+                    <code id="code-display"></code>
+                </pre>
+                <button class="language-copy-button scroll-animate">Copy</button>
+            </section>
+            <footer>
+                <p>Learn more about data structures and their applications in computer science.</p>
+            </footer>
+        </div>
+
+    </main>
+
+    <script>
+        const codeSnippets = {
+            javascript: `// JavaScript code for Stack Implementation
+class Stack {
+    constructor() {
+        this.items = [];
+    }
+
+    push(element) {
+        this.items.push(element);
+    }
+
+    pop() {
+        if (this.isEmpty()) return 'Stack is empty';
+        return this.items.pop();
+    }
+
+    peek() {
+        if (this.isEmpty()) return 'Stack is empty';
+        return this.items[this.items.length - 1];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+
+    printStack() {
+        console.log(this.items.toString());
+    }
+}
+
+const stack = new Stack();
+stack.push(10);
+stack.push(20);
+stack.printStack();
+console.log('Top element:', stack.peek());
+stack.pop();
+stack.printStack();`,
+
+            c: `// C code for Stack Implementation
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+struct Stack {
+    int items[MAX];
+    int top;
+};
+
+void initStack(struct Stack* stack) {
+    stack->top = -1;
+}
+
+int isFull(struct Stack* stack) {
+    return stack->top == MAX - 1;
+}
+
+int isEmpty(struct Stack* stack) {
+    return stack->top == -1;
+}
+
+void push(struct Stack* stack, int element) {
+    if (isFull(stack)) {
+        printf("Stack Overflow\\n");
+    } else {
+        stack->items[++stack->top] = element;
+    }
+}
+
+int pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack Underflow\\n");
+        return -1;
+    } else {
+        return stack->items[stack->top--];
+    }
+}
+
+int peek(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty\\n");
+        return -1;
+    } else {
+        return stack->items[stack->top];
+    }
+}
+
+int main() {
+    struct Stack stack;
+    initStack(&stack);
+    push(&stack, 10);
+    push(&stack, 20);
+    printf("Top element: %d\\n", peek(&stack));
+    pop(&stack);
+    printf("Top element after pop: %d\\n", peek(&stack));
+    return 0;
+}`,
+
+            cpp: `// C++ code for Stack Implementation
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Stack {
+private:
+    vector<int> items;
+
+public:
+    void push(int element) {
+        items.push_back(element);
+    }
+
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack is empty" << endl;
+        } else {
+            items.pop_back();
+        }
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty" << endl;
+            return -1;
+        } else {
+            return items.back();
+        }
+    }
+
+    bool isEmpty() {
+        return items.empty();
+    }
+
+    void printStack() {
+        for (int item : items) {
+            cout << item << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Stack stack;
+    stack.push(10);
+    stack.push(20);
+    stack.printStack();
+    cout << "Top element: " << stack.peek() << endl;
+    stack.pop();
+    stack.printStack();
+    return 0;
+}`,
+
+            java: `// Java code for Stack Implementation
+import java.util.Stack;
+
+public class StackExample {
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(10);
+        stack.push(20);
+        System.out.println("Stack: " + stack);
+        System.out.println("Top element: " + stack.peek());
+        stack.pop();
+        System.out.println("Stack after pop: " + stack);
+    }
+}`,
+
+            python: `# Python code for Stack Implementation
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, element):
+        self.items.append(element)
+
+    def pop(self):
+        if self.is_empty():
+            return 'Stack is empty'
+        return self.items.pop()
+
+    def peek(self):
+        if self.is_empty():
+            return 'Stack is empty'
+        return self.items[-1]
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def print_stack(self):
+        print(self.items)
+
+stack = Stack()
+stack.push(10)
+stack.push(20)
+stack.print_stack()
+print('Top element:', stack.peek())
+stack.pop()
+stack.print_stack()`
+        };
+
+    </script>
+    <script src="./language.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>

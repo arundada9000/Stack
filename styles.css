@@ -61,7 +61,6 @@ header h1 {
   border-radius: 10px;
   background: linear-gradient(360deg, #0577f9, #ffffff);
   padding: 10px;
-  overflow-y: auto;
   box-shadow: 0 4px 8px rgb(1, 255, 39);
   transition: height 0.3s ease;
   scrollbar-width: thin;
@@ -307,7 +306,6 @@ input[type="number"] {
   .main-content {
     flex-direction: column;
   }
- 
 }
 @keyframes spawn {
   0% {

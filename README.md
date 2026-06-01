@@ -1,10 +1,10 @@
-# Stack Visualization 🔢🧑‍💻
+﻿# Stack Visualization ‍
 
 Welcome to **Stack Visualization**! This project allows you to visualize the operations of a stack data structure in a dynamic and interactive way. You can see how elements are pushed onto and popped from the stack, helping you better understand stack behavior and operations.
 
 ---
 
-## 🚀 Features
+##  Features
 
 - **Interactive Stack Operations:**
   - **Push:** Add elements to the stack and watch them appear visually.
@@ -16,13 +16,13 @@ Welcome to **Stack Visualization**! This project allows you to visualize the ope
 
 ---
 
-## 🌟 Live Demo
+##  Live Demo
 
 Check it out Here : [Easy Stack](https://easystack.netlify.app)
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Stack Visualization** is built using the following technologies:
 
@@ -34,7 +34,7 @@ Check it out Here : [Easy Stack](https://easystack.netlify.app)
 
 ---
 
-## 🌟 How It Works
+##  How It Works
 
 1. **Visualizing Stack Operations:**
    - The stack is represented visually on the page with a stack container, where each element is shown as a box.
@@ -48,7 +48,7 @@ Check it out Here : [Easy Stack](https://easystack.netlify.app)
 
 ---
 
-## 🛡️ Privacy Notice
+##  Privacy Notice
 
 **Stack Visualization** does not collect any user data or require any backend. The project runs entirely in the browser and all operations are processed locally. No personal information is stored or transmitted.
 
@@ -66,7 +66,7 @@ If you want to contribute to the project, feel free to fork the repository, make
 
 ---
 
-## 📬 Contact
+##  Contact
 
 If you have any questions, feature requests, or suggestions, feel free to reach out to me:
 
@@ -75,4 +75,9 @@ If you have any questions, feature requests, or suggestions, feel free to reach 
 
 ---
 
-_Thank you for checking out **Stack Visualization**! I hope it helps you understand the stack data structure better!_ 🌟
+_Thank you for checking out **Stack Visualization**! I hope it helps you understand the stack data structure better!_ 
+---
+
+## License
+
+This project is for educational and personal learning purposes only. Commercial use, public deployment, or any revenue-generating use requires explicit written permission from the author. See [LICENSE](LICENSE) for details.

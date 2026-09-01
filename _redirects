@@ -1,0 +1,77 @@
+# ============================================================
+# EasyStack - Netlify Redirects
+# 1. Canonicalize: .html / camelCase -> lowercase clean URLs (301)
+# 2. Rewrite: clean URLs -> actual files (200)
+# ============================================================
+
+# Canonical redirects (strip .html, lowercase)
+/index.html           /                       301
+/contact.html         /contact                301
+/privacy.html         /privacy                301
+
+# Guide and tool pages
+/guides.html          /guides                 301
+/stack-operations.html /stack-operations      301
+/push-pop.html        /push-pop               301
+/array-stack.html     /array-stack            301
+/linked-list-stack.html /linked-list-stack    301
+/stack-complexity.html /stack-complexity      301
+/stack-analogies.html /stack-analogies        301
+/javascript-stack.html /javascript-stack      301
+/call-stack.html      /call-stack             301
+/stack-memory.html    /stack-memory           301
+/monotonic-stack.html /monotonic-stack        301
+/stack-debugging.html /stack-debugging        301
+/stack-recursion.html /stack-recursion        301
+/stack-best-practices.html /stack-best-practices 301
+/stack-problems.html  /stack-problems         301
+/stacks-vs-queues.html /stacks-vs-queues     301
+/stack-dfs.html       /stack-dfs              301
+/browser-stack.html   /browser-stack          301
+/os-stack.html        /os-stack               301
+/stack-interview.html /stack-interview        301
+/python-stack.html    /python-stack           301
+/java-stack.html      /java-stack             301
+/cpp-stack.html       /cpp-stack              301
+/c-stack.html         /c-stack                301
+/stack-visualizer.html /stack-visualizer      301
+/stack-frame-visualizer.html /stack-frame-visualizer 301
+/complexity-analyzer.html /complexity-analyzer 301
+/feedback.html        /feedback               301
+/about.html           /about                  301
+/404.html             /404                    301
+/offline.html         /offline                301
+
+# Serve at clean URLs
+/contact              /contact.html           200
+/privacy              /privacy.html           200
+/guides               /guides.html            200
+/stack-operations     /stack-operations.html  200
+/push-pop             /push-pop.html          200
+/array-stack          /array-stack.html       200
+/linked-list-stack    /linked-list-stack.html 200
+/stack-complexity     /stack-complexity.html  200
+/stack-analogies      /stack-analogies.html   200
+/javascript-stack     /javascript-stack.html  200
+/call-stack           /call-stack.html        200
+/stack-memory         /stack-memory.html      200
+/monotonic-stack      /monotonic-stack.html   200
+/stack-debugging      /stack-debugging.html   200
+/stack-recursion      /stack-recursion.html   200
+/stack-best-practices /stack-best-practices.html 200
+/stack-problems       /stack-problems.html    200
+/stacks-vs-queues     /stacks-vs-queues.html  200
+/stack-dfs            /stack-dfs.html         200
+/browser-stack        /browser-stack.html     200
+/os-stack             /os-stack.html          200
+/stack-interview      /stack-interview.html   200
+/python-stack         /python-stack.html      200
+/java-stack           /java-stack.html        200
+/cpp-stack            /cpp-stack.html         200
+/c-stack              /c-stack.html           200
+/stack-visualizer     /stack-visualizer.html  200
+/stack-frame-visualizer /stack-frame-visualizer.html 200
+/complexity-analyzer  /complexity-analyzer.html 200
+/feedback             /feedback.html          200
+/about                /about.html             200
+/offline              /offline.html           200

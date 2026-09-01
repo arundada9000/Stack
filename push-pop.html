@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Push and Pop: How Stack Insertion and Deletion Work | EasyStack</title>
+<meta name="description" content="A visual guide to push and pop operations on a stack data structure. See how LIFO works with step-by-step examples and code in C, C++, Java, Python, and JavaScript." />
+<meta name="keywords" content="push pop stack, stack insertion, stack deletion, stack overflow, stack underflow, LIFO push pop, stack operations visual" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/push-pop" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Push and Pop: How Stack Insertion and Deletion Work" />
+<meta property="og:description" content="A visual guide to push and pop operations on a stack data structure with step-by-step examples." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/push-pop" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Push and Pop: How Stack Insertion and Deletion Work" />
+<meta name="twitter:description" content="A visual guide to push and pop operations with code in 5 languages." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Push and Pop: How Stack Insertion and Deletion Work",
+    "description": "A visual guide to push and pop operations on a stack data structure with step-by-step examples.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/push-pop",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/push-pop" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" },
+        { "@type": "ListItem", "position": 3, "name": "Push and Pop", "item": "https://easystack.netlify.app/push-pop" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Can push and pop be done in any order?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Push always adds to the top and pop always removes from the top. You cannot push to the middle or bottom of a stack. If you need random access, use an array or list instead." }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the difference between stack overflow and stack underflow?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Stack overflow happens when you push onto a full fixed-size stack. Stack underflow happens when you pop from an empty stack. Both are errors that must be handled." }
+        },
+        {
+            "@type": "Question",
+            "name": "Do all programming languages handle push and pop the same way?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The concept is the same across all languages, but the syntax differs. Python uses list.append() and list.pop(), Java uses Deque.push() and Deque.pop(), C uses struct pointers, and so on." }
+        },
+        {
+            "@type": "Question",
+            "name": "What happens in memory when you push an element?",
+            "acceptedAnswer": { "@type": "Answer", "text": "In an array stack, the element is written to the next available index and the top pointer increments. In a linked list stack, a new node is allocated on the heap and its next pointer is set to the current top node." }
+        },
+        {
+            "@type": "Question",
+            "name": "Is it possible to push multiple elements at once?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Conceptually no - each push is an individual O(1) operation. You can push elements in a loop to add many at once, but each push is still a separate operation under the hood." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides">All Guides</a></li>
+                <li><a href="./stack-operations">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Core Operations</span>
+                <h1>Push and Pop</h1>
+                <p class="hero__sub">Push and pop are the two fundamental operations that define how data enters and leaves a stack. Every other stack operation builds on these two.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>The Push Operation</h2>
+                <p>Push is the operation that adds a new element to the top of the stack. It is the only way to insert data. A stack does not allow insertion at any other position.</p>
+                <h3>Step-by-Step Process</h3>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div><strong>Validate capacity.</strong> If the stack uses a fixed-size array, check whether the array is full. If it is full, you get a stack overflow error. For dynamic arrays or linked lists, skip this step.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div><strong>Find the next position.</strong> Increment the top pointer by one. In an array this means moving from index <code>top</code> to <code>top + 1</code>. In a linked list this means creating a new node.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div><strong>Place the element.</strong> Write the new value at the top position. For a linked list, set the new node's next pointer to the old top node.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div><strong>Update state.</strong> The stack now has one more element. If you track size, increment the counter.</div>
+                    </div>
+                </div>
+                <div class="callout callout--info">
+                    <strong>Example:</strong> Pushing 5, then 10, then 15 onto an empty stack results in a stack where 15 is at the top, 10 is in the middle, and 5 is at the bottom. Popping will return 15 first.
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>The Pop Operation</h2>
+                <p>Pop removes the element at the top of the stack and returns it. This is the only way to remove data from a stack. You cannot remove elements from the middle or bottom.</p>
+                <h3>Step-by-Step Process</h3>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div><strong>Check for emptiness.</strong> If isEmpty returns true, you have a stack underflow. Handle the error by throwing an exception, returning null, or returning a sentinel value.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div><strong>Read the top element.</strong> Store the value at position <code>top</code> in a temporary variable so you can return it.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div><strong>Decrement the top pointer.</strong> Move top from its current position to <code>top - 1</code>. In a linked list, free the old top node and set head to the next node.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div><strong>Return the value.</strong> Return the stored element to the caller. The stack now has one fewer element.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>What Happens During a Stack Overflow</h2>
+                <p>Stack overflow occurs when you try to push an element onto a stack that has no remaining capacity. This only happens with fixed-size array stacks where the array has a predetermined maximum length.</p>
+                <div class="callout callout--warn">
+                    <strong>Warning:</strong> Stack overflow is a serious error. In systems programming (C and C++), it can cause undefined behavior or crashes. In managed languages like Java and Python, it typically throws an exception. Always check capacity before pushing, or use a dynamic array that resizes automatically.
+                </div>
+                <p>In the call stack, stack overflow happens when recursion goes too deep. Each recursive call adds a frame, and if the call stack exceeds its limit (typically a few megabytes), the program crashes with a stack overflow error.</p>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>What Happens During a Stack Underflow</h2>
+                <p>Stack underflow occurs when you try to pop or peek from an empty stack. There is no top element to return.</p>
+                <div class="callout callout--warn">
+                    <strong>Warning:</strong> Underflow is more common than overflow in practice because it is easy to forget to check isEmpty before popping. In C, popping from an empty stack can read garbage memory. In Java, you get an EmptyStackException. In Python, you get an IndexError. Always check isEmpty first.
+                </div>
+                <p>A common defensive pattern is to wrap pop in a conditional:</p>
+                <pre><code>if (!isEmpty()) {
+    value = pop();
+    // use value
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Push and Pop in Memory</h2>
+                <p>Understanding what happens in memory helps you choose the right implementation and debug issues.</p>
+                <h3>Array Stack Memory</h3>
+                <p>An array stack stores elements in contiguous memory. When you push, the new element goes into the next available slot. The <code>top</code> variable (an integer index) points to the highest occupied position. The array itself does not move; only the index changes.</p>
+                <p>This makes array stacks very fast because accessing contiguous memory is cache-friendly. The CPU can load adjacent elements into the cache line in a single memory access.</p>
+                <h3>Linked List Stack Memory</h3>
+                <p>A linked list stack stores each element in a separate node allocated on the heap. Each node contains the data and a pointer to the next node. Pushing allocates a new node and updates the head pointer. Popping frees the head node and moves the pointer forward.</p>
+                <p>Each node may live at a different address in memory, so the CPU cannot predict the next access pattern. This makes linked list stacks slightly slower in practice due to cache misses, even though both have O(1) time complexity.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Code Examples in 5 Languages</h2>
+
+                <h3>C</h3>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#define MAX 1000
+int stack[MAX], top = -1;
+
+void push(int x) {
+    if (top == MAX - 1) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack[++top] = x;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack underflow\n");
+        return -1;
+    }
+    return stack[top--];
+}</code></pre>
+                </div>
+
+                <h3>C++</h3>
+                <div class="code-block" data-lang="cpp">
+                    <div class="code-block__header"><span>C++</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#include &lt;stack&gt;
+#include &lt;iostream&gt;
+
+std::stack&lt;int&gt; s;
+
+void pushExample() {
+    s.push(10);
+    s.push(20);
+    s.push(30);
+}
+
+int popExample() {
+    if (s.empty()) {
+        std::cout &lt;&lt; "Stack underflow\n";
+        return -1;
+    }
+    int val = s.top();
+    s.pop();
+    return val;
+}</code></pre>
+                </div>
+
+                <h3>Java</h3>
+                <div class="code-block" data-lang="java">
+                    <div class="code-block__header"><span>Java</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>import java.util.Stack;
+
+Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+
+// Push
+stack.push(10);
+stack.push(20);
+stack.push(30);
+
+// Pop
+if (!stack.isEmpty()) {
+    int top = stack.pop();
+    System.out.println("Popped: " + top);
+}</code></pre>
+                </div>
+
+                <h3>Python</h3>
+                <div class="code-block" data-lang="python">
+                    <div class="code-block__header"><span>Python</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>stack = []
+
+# Push
+stack.append(10)
+stack.append(20)
+stack.append(30)
+
+# Pop
+if stack:
+    top = stack.pop()
+    print(f"Popped: {top}")
+
+# Peek
+if stack:
+    print(f"Top: {stack[-1]}")</code></pre>
+                </div>
+
+                <h3>JavaScript</h3>
+                <div class="code-block" data-lang="javascript">
+                    <div class="code-block__header"><span>JavaScript</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>const stack = [];
+
+// Push
+stack.push(10);
+stack.push(20);
+stack.push(30);
+
+// Pop
+if (stack.length &gt; 0) {
+    const top = stack.pop();
+    console.log("Popped:", top);
+}
+
+// Peek
+if (stack.length &gt; 0) {
+    console.log("Top:", stack[stack.length - 1]);
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Common Mistakes with Push and Pop</h2>
+                <div class="callout callout--info">
+                    <strong>Mistake 1: Not checking isEmpty before pop.</strong> This is the most common bug. If your stack is empty and you call pop, you get a runtime error. Always guard pop calls with an isEmpty check unless you are certain the stack is not empty.
+                </div>
+                <div class="callout callout--warn">
+                    <strong>Mistake 2: Forgetting that pop returns the removed value.</strong> In some languages pop returns the popped value (Java, Python, JavaScript). In others you must call peek first, then pop (C++ std::stack). Make sure you know which pattern your language uses.
+                </div>
+                <div class="callout callout--info">
+                    <strong>Mistake 3: Pushing beyond capacity.</strong> With fixed-size arrays, always check that <code>top &lt; MAX - 1</code> before pushing. Forgetting this check causes a buffer overflow which is undefined behavior in C and C++.
+                </div>
+                <div class="callout callout--warn">
+                    <strong>Mistake 4: Confusing push order with pop order.</strong> Pushing A, B, C means popping returns C, B, A. This is the LIFO property. If you need FIFO order, use a queue instead.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>Can push and pop be done in any order?</summary>
+                        <p>No. Push always adds to the top and pop always removes from the top. You cannot push to the middle or bottom of a stack. If you need random access, use an array or list instead.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What is the difference between stack overflow and stack underflow?</summary>
+                        <p>Stack overflow happens when you push onto a full fixed-size stack. Stack underflow happens when you pop from an empty stack. Both are errors that must be handled.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do all programming languages handle push and pop the same way?</summary>
+                        <p>The concept is the same across all languages, but the syntax differs. Python uses list.append() and list.pop(), Java uses Deque.push() and Deque.pop(), C uses struct pointers, and so on.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What happens in memory when you push an element?</summary>
+                        <p>In an array stack, the element is written to the next available index and the top pointer increments. In a linked list stack, a new node is allocated on the heap and its next pointer is set to the current top node.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is it possible to push multiple elements at once?</summary>
+                        <p>Conceptually no - each push is an individual O(1) operation. You can push elements in a loop to add many at once, but each push is still a separate operation under the hood.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

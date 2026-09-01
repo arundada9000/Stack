@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Stack Visualizer: See How Function Calls Stack Up</title>
+<meta name="description" content="Visualize the call stack in real time. Watch function calls push frames and returns pop them. Understand recursion, stack overflow, and tail calls with animated frames.">
+<meta name="keywords" content="call stack visualizer, function call stack, recursion visualizer, stack frames, stack overflow, programming visualizer">
+<meta name="author" content="Arun Neupane">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<link rel="canonical" href="https://easystack.netlify.app/stack-frame-visualizer">
+
+<meta property="og:title" content="Call Stack Visualizer: See How Function Calls Stack Up">
+<meta property="og:description" content="Visualize the call stack in real time. Watch function calls push frames and returns pop them.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://easystack.netlify.app/stack-frame-visualizer">
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png">
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Call Stack Visualizer">
+<meta name="twitter:description" content="Watch function calls push frames and returns pop them. Understand recursion visually.">
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png">
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "EasyStack Call Stack Visualizer",
+  "url": "https://easystack.netlify.app/stack-frame-visualizer",
+  "description": "Visualize the call stack in real time. Watch function calls push frames and returns pop them. Understand recursion and stack overflow with animated frames.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Arun Neupane"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Call Stack Visualizer", "item": "https://easystack.netlify.app/stack-frame-visualizer" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a call stack?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A call stack is a data structure that your programming language uses to keep track of active function calls. When a function is called, a frame is pushed onto the stack. When it returns, the frame is popped. This visualizer shows that process step by step."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is stack overflow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stack overflow happens when too many frames are pushed onto the call stack without any returning. This usually occurs with runaway recursion. The visualizer demonstrates this with deeply nested function calls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I slow down the animation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the speed slider at the top of the tool to adjust the delay between steps. You can set it from 100ms (fast) to 2000ms (slow) to follow each frame push and pop carefully."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links desktop-links">
+        <li><a href="./">Visualizer</a></li>
+        <li><a href="./guides">Guides</a></li>
+        <li><a href="./stack-visualizer">Tool</a></li>
+        <li><a href="./stack-frame-visualizer" aria-current="page">Call Stack</a></li>
+        <li><a href="./stack-interview">Interview</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <ul class="nav-links nav-mobile" id="navLinks">
+      <li><a href="./">Visualizer</a></li>
+      <li><a href="./guides">All Guides</a></li>
+      <li><a href="./stack-operations">Stack Operations</a></li>
+      <li><a href="./stack-visualizer">Advanced Tool</a></li>
+      <li><a href="./stack-frame-visualizer" aria-current="page">Call Stack Visualizer</a></li>
+      <li><a href="./complexity-analyzer">Complexity</a></li>
+      <li><a href="./stack-interview">Interview Problems</a></li>
+      <li><a href="./about">About</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main" class="playing-field">
+  <section class="hero hero--tool" data-reveal>
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="./">Home</a><span class="crumb-sep"></span><span aria-current="page">Call Stack Visualizer</span>
+      </nav>
+      <span class="hero__kicker">Visualization Tool</span>
+      <h1>Call Stack Visualizer</h1>
+      <p class="hero__lead">Watch function calls push frames onto the stack and returns pop them off. See recursion, branching, and stack overflow in action with step-by-step animation.</p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="toolbar" role="toolbar" aria-label="Simulation controls">
+        <button type="button" class="btn btn--accent" id="factorialBtn">Run factorial(4) <kbd>1</kbd></button>
+        <button type="button" class="btn btn--accent" id="fibonacciBtn">Run fibonacci(5) <kbd>2</kbd></button>
+        <button type="button" class="btn btn--accent" id="nestedBtn">Run nested() <kbd>3</kbd></button>
+        <button type="button" class="btn" id="resetBtn">Reset</button>
+        <div class="field" style="min-width:200px">
+          <label for="frameSpeed">Animation Speed</label>
+          <div class="range-row">
+            <input type="range" id="frameSpeed" min="100" max="2000" value="500" step="50">
+            <span class="range-value" id="frameSpeedVal">500ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="shortcuts-bar" aria-label="Keyboard shortcuts">
+        <span class="tiny">Shortcuts:</span>
+        <kbd>1</kbd> factorial
+        <kbd>2</kbd> fibonacci
+        <kbd>3</kbd> nested
+        <kbd>T</kbd> Theme
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="stack-stage" aria-label="Call stack visualization">
+        <div class="stack-items" id="frameStack" role="list" aria-live="polite" aria-label="Call stack frames">
+        </div>
+        <div class="empty-state" id="emptyState">Call Stack is Empty</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Step Log</h2>
+      <p class="section__desc">Each push and pop of a stack frame is recorded here.</p>
+      <div class="step-log" id="stepLog" role="log" aria-live="polite" aria-label="Operation log"></div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Frequently Asked Questions</h2>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary><span class="q-mark">Q</span> What is a call stack?</summary>
+          <div class="faq-item__body"><p>A call stack is a data structure that your programming language uses to keep track of active function calls. When a function is called, a frame is pushed onto the stack. When it returns, the frame is popped. This visualizer shows that process step by step.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> What is stack overflow?</summary>
+          <div class="faq-item__body"><p>Stack overflow happens when too many frames are pushed onto the call stack without any returning. This usually occurs with runaway recursion. The visualizer demonstrates this with deeply nested function calls.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> Can I slow down the animation?</summary>
+          <div class="faq-item__body"><p>Yes. Use the speed slider at the top of the tool to adjust the delay between steps. You can set it from 100ms (fast) to 2000ms (slow) to follow each frame push and pop carefully.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+        <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="./">Basic Visualizer</a></li>
+          <li><a href="./stack-visualizer">Advanced Tool</a></li>
+          <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+          <li><a href="./complexity-analyzer">Complexity Analyzer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guides</h4>
+        <ul>
+          <li><a href="./guides">All Guides</a></li>
+          <li><a href="./stack-operations">Stack Operations</a></li>
+          <li><a href="./stack-complexity">Time Complexity</a></li>
+          <li><a href="./call-stack">The Call Stack</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./about">About</a></li>
+          <li><a href="./contact">Contact</a></li>
+          <li><a href="./feedback">Feedback</a></li>
+          <li><a href="./privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+      <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./hig.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  var frames = [];
+  var frameStack = document.getElementById("frameStack");
+  var emptyState = document.getElementById("emptyState");
+  var stepLog = document.getElementById("stepLog");
+  var speedSlider = document.getElementById("frameSpeed");
+  var speedValue = document.getElementById("frameSpeedVal");
+  var running = false;
+
+  function getDuration() {
+    return parseInt(speedSlider.value, 10);
+  }
+
+  function log(op, detail) {
+    var entry = document.createElement("div");
+    entry.className = "log-entry";
+    var now = new Date();
+    var ts = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0") + ":" + String(now.getSeconds()).padStart(2, "0");
+    entry.innerHTML = '<span class="log-op">' + op + '</span><span class="log-val">' + detail + '</span><span class="tiny">' + ts + '</span>';
+    stepLog.appendChild(entry);
+    stepLog.scrollTop = stepLog.scrollHeight;
+  }
+
+  function showToast(msg, duration) {
+    duration = duration || 2000;
+    var toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("is-visible");
+    setTimeout(function() { toast.classList.remove("is-visible"); }, duration);
+  }
+
+  function updateEmpty() {
+    emptyState.style.display = frames.length === 0 ? "block" : "none";
+  }
+
+  function renderFrames() {
+    frameStack.innerHTML = "";
+    for (var i = 0; i < frames.length; i++) {
+      var card = document.createElement("div");
+      card.className = "stack-item";
+      if (i === frames.length - 1) card.classList.add("is-top");
+      card.setAttribute("role", "listitem");
+      var locals = frames[i].locals ? " | " + frames[i].locals : "";
+      card.innerHTML = '<strong>' + frames[i].name + '</strong><br><span style="font-size:12px;opacity:0.85">' + frames[i].args + locals + '</span>';
+      frameStack.appendChild(card);
+    }
+    updateEmpty();
+  }
+
+  function delay(ms) {
+    return new Promise(function(resolve) { setTimeout(resolve, ms); });
+  }
+
+  async function pushFrame(name, args, locals) {
+    var dur = getDuration();
+    frames.push({ name: name, args: args, locals: locals || "" });
+    renderFrames();
+    log("PUSH", name + "(" + args + ")");
+    await delay(dur);
+  }
+
+  async function popFrame(returnVal) {
+    var dur = getDuration();
+    var top = frames[frames.length - 1];
+    if (top) {
+      log("POP", top.name + " -> " + (returnVal !== undefined ? returnVal : "void"));
+      showToast(top.name + " returned " + (returnVal !== undefined ? returnVal : "void"));
+    }
+    frames.pop();
+    renderFrames();
+    await delay(dur);
+  }
+
+  async function runFactorial() {
+    if (running) return;
+    running = true;
+    disableButtons(true);
+    frames = [];
+    renderFrames();
+    log("START", "factorial(4)");
+    showToast("Running factorial(4)...");
+
+    await pushFrame("factorial", "n=4");
+    await pushFrame("factorial", "n=3", "n=4");
+    await pushFrame("factorial", "n=2", "n=3");
+    await pushFrame("factorial", "n=1", "n=2");
+
+    await popFrame(1);
+    showToast("factorial(1) = 1");
+    await popFrame(2);
+    showToast("factorial(2) = 2");
+    await popFrame(6);
+    showToast("factorial(3) = 6");
+    await popFrame(24);
+    showToast("factorial(4) = 24");
+
+    log("END", "factorial(4) = 24");
+    running = false;
+    disableButtons(false);
+  }
+
+  async function runFibonacci() {
+    if (running) return;
+    running = true;
+    disableButtons(true);
+    frames = [];
+    renderFrames();
+    log("START", "fibonacci(5)");
+    showToast("Running fibonacci(5)...");
+
+    await pushFrame("fib", "n=5");
+    await pushFrame("fib", "n=4", "n=5");
+    await pushFrame("fib", "n=3", "n=4");
+    await pushFrame("fib", "n=2", "n=3");
+    showToast("Base case: fib(2) = 1");
+    await delay(getDuration());
+    await popFrame(1);
+    await pushFrame("fib", "n=1", "n=3");
+    showToast("Base case: fib(1) = 1");
+    await delay(getDuration());
+    await popFrame(1);
+    await popFrame(2);
+    showToast("fib(3) = 2");
+    await pushFrame("fib", "n=2", "n=4");
+    showToast("Base case: fib(2) = 1");
+    await delay(getDuration());
+    await popFrame(1);
+    await popFrame(3);
+    showToast("fib(4) = 3");
+    await pushFrame("fib", "n=3", "n=5");
+    await pushFrame("fib", "n=2", "n=3");
+    showToast("Base case: fib(2) = 1");
+    await delay(getDuration());
+    await popFrame(1);
+    await pushFrame("fib", "n=1", "n=3");
+    showToast("Base case: fib(1) = 1");
+    await delay(getDuration());
+    await popFrame(1);
+    await popFrame(2);
+    showToast("fib(3) = 2");
+    await popFrame(5);
+    showToast("fib(5) = 5");
+
+    log("END", "fibonacci(5) = 5");
+    running = false;
+    disableButtons(false);
+  }
+
+  async function runNested() {
+    if (running) return;
+    running = true;
+    disableButtons(true);
+    frames = [];
+    renderFrames();
+    log("START", "nested()");
+    showToast("Running nested()...");
+
+    await pushFrame("outer", "x=10");
+    log("CALL", "inner() from outer");
+    await pushFrame("inner", "y=20", "x=10");
+    log("CALL", "helper() from inner");
+    await pushFrame("helper", "z=30", "x=10, y=20");
+    showToast("helper() doing work...");
+    await delay(getDuration() * 2);
+    await popFrame("done");
+    showToast("inner() calling another helper");
+    log("CALL", "helper() again from inner");
+    await pushFrame("helper", "z=40", "x=10, y=20");
+    showToast("helper() doing work...");
+    await delay(getDuration() * 2);
+    await popFrame("done");
+    await popFrame(200);
+    showToast("inner() returned 200");
+    await popFrame(200);
+    showToast("outer() returned 200");
+
+    log("END", "nested() = 200");
+    running = false;
+    disableButtons(false);
+  }
+
+  function disableButtons(disabled) {
+    document.getElementById("factorialBtn").disabled = disabled;
+    document.getElementById("fibonacciBtn").disabled = disabled;
+    document.getElementById("nestedBtn").disabled = disabled;
+  }
+
+  document.getElementById("factorialBtn").addEventListener("click", runFactorial);
+  document.getElementById("fibonacciBtn").addEventListener("click", runFibonacci);
+  document.getElementById("nestedBtn").addEventListener("click", runNested);
+  document.getElementById("resetBtn").addEventListener("click", function() {
+    if (running) return;
+    frames = [];
+    renderFrames();
+    stepLog.innerHTML = "";
+    showToast("Reset");
+  });
+
+  speedSlider.addEventListener("input", function() {
+    speedValue.textContent = speedSlider.value + "ms";
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
+    var key = e.key.toLowerCase();
+    if (key === "1") { e.preventDefault(); runFactorial(); }
+    else if (key === "2") { e.preventDefault(); runFibonacci(); }
+    else if (key === "3") { e.preventDefault(); runNested(); }
+    else if (key === "t") {
+      e.preventDefault();
+      var toggle = document.getElementById("themeToggle");
+      if (toggle) toggle.click();
+    }
+  });
+
+  updateEmpty();
+})();
+</script>
+</body>
+</html>

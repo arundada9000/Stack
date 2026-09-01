@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack in C++: std::stack Container Adapter | EasyStack</title>
+    <meta name="description" content="Use the C++ STL stack container adapter with vector, deque, or list as the underlying container. Learn template-based stack design and performance tradeoffs." />
+    <meta name="keywords" content="c++ stack, std::stack, container adapter, vector vs deque stack, C++ STL, template stack, move semantics stack, C++ data structures" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/cpp-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack in C++: std::stack Container Adapter" />
+    <meta property="og:description" content="Use the C++ STL stack container adapter with vector, deque, or list as the underlying container. Learn template-based stack design and performance tradeoffs." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/cpp-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack in C++: std::stack Container Adapter" />
+    <meta name="twitter:description" content="Use the C++ STL stack container adapter with vector, deque, or list as the underlying container. Learn template-based stack design and performance tradeoffs." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack in C++: std::stack Container Adapter",
+        "description": "Use the C++ STL stack container adapter with vector, deque, or list as the underlying container. Learn template-based stack design and performance tradeoffs.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/cpp-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Which underlying container should I use for std::stack?", "acceptedAnswer": {"@type": "Answer", "text": "deque is the default and a great choice for general use. vector is usually fastest for cache locality and is ideal when you know the stack stays small or bounded. list avoids resizing but has poor cache locality and higher memory overhead, so it is rarely the best pick for a stack."}},
+            {"@type": "Question", "name": "What is a container adapter in C++?", "acceptedAnswer": {"@type": "Answer", "text": "A container adapter is a class that provides a restricted interface on top of another container. std::stack is an adapter: it wraps a container like deque or vector and exposes only push, pop, top, empty, and size, hiding the container's other operations so LIFO semantics cannot be violated."}},
+            {"@type": "Question", "name": "Why do push and pop not return values in std::stack?", "acceptedAnswer": {"@type": "Answer", "text": "std::stack follows C++ design rules: functions that can fail throw exceptions, top() returns a reference (allowing modification), and pop() returns void. To get a value and remove it, read top() first, then call pop(). This avoids copy and exception-safety problems."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack in C++", "item": "https://easystack.netlify.app/cpp-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>C++</h1>
+                <p>Use the C++ STL stack container adapter with any compatible underlying container, and understand the performance tradeoffs of each choice.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>std::stack Overview</h2>
+                <p><code>std::stack</code> is a container adapter from the C++ Standard Library. It does not reimplement a stack from scratch. Instead, it wraps an existing container and exposes only the operations that make sense for a stack: <code>push</code>, <code>pop</code>, <code>top</code>, <code>empty</code>, and <code>size</code>.</p>
+                <p>Because it hides the underlying container's other methods, <code>std::stack</code> guarantees that LIFO order cannot be violated. You cannot accidentally insert in the middle or iterate over the contents, which keeps the interface honest and safe.</p>
+                <pre><code>#include &lt;stack&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    std::stack&lt;int&gt; s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+
+    std::cout &lt;&lt; s.top();   // 3
+    s.pop();
+    std::cout &lt;&lt; s.top();   // 2
+    std::cout &lt;&lt; s.size();  // 2
+}</code></pre>
+                <p><a href="./stack-operations">The stack operations in detail</a></p>
+
+                <h2>Underlying Containers</h2>
+                <p>You choose the underlying container by passing it as the second template parameter. The default is <code>std::deque</code>, but <code>std::vector</code> and <code>std::list</code> are also valid.</p>
+                <pre><code>#include &lt;stack&gt;
+#include &lt;vector&gt;
+#include &lt;deque&gt;
+#include &lt;list&gt;
+
+std::stack&lt;int, std::deque&lt;int&gt;&gt;  a;  // default
+std::stack&lt;int, std::vector&lt;int&gt;&gt; b;  // cache friendly
+std::stack&lt;int, std::list&lt;int&gt;&gt;   c;  // pointer based</code></pre>
+                <p>Each container offers a different tradeoff. <code>deque</code> balances growth and random access. <code>vector</code> gives the best cache locality and is preferred when you control the maximum size. <code>list</code> avoids reallocation entirely but pays for pointer chasing and extra memory per element.</p>
+                <p><a href="./array-stack">Array-backed stack design</a> | <a href="./linked-list-stack">Linked list stack design</a></p>
+
+                <h2>Push, Pop, Top, and Empty</h2>
+                <p>The operations are straightforward. <code>push</code> adds to the top, <code>top</code> reads the top without removing it, <code>pop</code> removes the top, and <code>empty</code> tells you whether the stack is empty.</p>
+                <pre><code>std::stack&lt;int&gt; s;
+
+s.push(10);
+s.push(20);
+
+int value = s.top();       // 20, not removed
+s.pop();                   // removes 20
+bool empty = s.empty();    // false</code></pre>
+                <p>Note that <code>pop()</code> returns void in C++. Unlike Python's <code>list.pop()</code>, you must read <code>top()</code> first and then call <code>pop()</code>. This avoids the cost and exception-safety issues of returning a value by copy.</p>
+                <p><a href="./stack-complexity">Why all these operations are O(1)</a></p>
+
+                <h2>Custom Stack with std::vector</h2>
+                <p>If you want a stack with a slightly larger API, such as a <code>clear()</code> method or direct size control, you can build a small wrapper around <code>std::vector</code>.</p>
+                <pre><code>#include &lt;vector&gt;
+
+template &lt;typename T&gt;
+class VectorStack {
+    std::vector&lt;T&gt; data;
+public:
+    void push(const T&amp; value) { data.push_back(value); }
+    void pop() { if (!data.empty()) data.pop_back(); }
+    T&amp; top() { return data.back(); }
+    bool empty() const { return data.empty(); }
+    size_t size() const { return data.size(); }
+    void clear() { data.clear(); }
+};</code></pre>
+                <p>This is essentially <code>std::stack&lt;T, std::vector&lt;T&gt;&gt;</code> plus a few convenience methods. The vector grows automatically with O(1) amortized pushes. <a href="./c-stack">A fully manual C stack implementation</a></p>
+
+                <h2>Performance Comparison</h2>
+                <div style="overflow-x:auto;">
+                <table class="hig">
+                    <caption>Comparing the common underlying containers for std::stack.</caption>
+                    <thead>
+                        <tr><th>Container</th><th>Push/Pop</th><th>Memory</th><th>Cache Locality</th><th>Best Use</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>deque</td><td>O(1) amortized</td><td>Medium</td><td>Good</td><td>Default, general use</td></tr>
+                        <tr><td>vector</td><td>O(1) amortized</td><td>Low</td><td>Excellent</td><td>Small or bounded stacks</td></tr>
+                        <tr><td>list</td><td>O(1)</td><td>High</td><td>Poor</td><td>Never-resize guaranteed</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <p>All three give O(1) push and pop. The differences are constant factors: <code>vector</code> wins on raw speed thanks to contiguous memory, <code>deque</code> is a strong general default, and <code>list</code> trades memory and locality for guaranteed no-reallocation behavior.</p>
+
+                <h2>Move Semantics and Stack</h2>
+                <p>C++ move semantics let you push objects without unnecessary copying. <code>std::stack</code> forwards to the underlying container, so you can move a temporary object in.</p>
+                <pre><code>#include &lt;string&gt;
+#include &lt;stack&gt;
+
+std::stack&lt;std::string&gt; s;
+
+std::string word = "hello";
+s.push(word);                 // copies
+s.push(std::move(word));      // moves, word is now empty
+s.push(std::string("world")); // moves the temporary</code></pre>
+                <p>Move semantics matter when stack elements are expensive to copy, such as large strings, containers, or file handles. Passing an rvalue, or calling <code>std::move</code>, avoids a full copy of the element.</p>
+                <p><a href="./stack-memory">How stack elements are stored in memory</a></p>
+
+                <h2>Complete C++ Stack Examples</h2>
+                <h3>Reversing a string</h3>
+                <pre><code>#include &lt;stack&gt;
+#include &lt;string&gt;
+
+std::string reverse(const std::string&amp; in) {
+    std::stack&lt;char&gt; s;
+    for (char c : in) s.push(c);
+    std::string out;
+    while (!s.empty()) {
+        out.push_back(s.top());
+        s.pop();
+    }
+    return out;
+}</code></pre>
+
+                <h3>Matching parentheses</h3>
+                <pre><code>#include &lt;stack&gt;
+#include &lt;unordered_map&gt;
+
+bool isValid(const std::string&amp; str) {
+    std::unordered_map&lt;char, char&gt; close = {
+        {')', '('}, {']', '['}, {'}', '{'}};
+    std::stack&lt;char&gt; s;
+    for (char c : str) {
+        if (close.count(c)) {
+            if (s.empty() || s.top() != close[c]) return false;
+            s.pop();
+        } else {
+            s.push(c);
+        }
+    }
+    return s.empty();
+}</code></pre>
+                <p><a href="./stack-interview">More stack problems with solutions</a></p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p><code>std::stack</code> is a thin adapter over a container you choose. Use <code>deque</code> by default, reach for <code>vector</code> when cache locality and raw speed matter, and reserve <code>list</code> for cases that absolutely cannot reallocate. Remember top-then-pop, and use move semantics to avoid needless copies.</p>
+                    <p><a href="./guides">Explore all EasyStack guides</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Which underlying container should I use for std::stack?</h3>
+                    <p>deque is the default and a great choice for general use. vector is usually fastest for cache locality and is ideal when you know the stack stays small or bounded. list avoids resizing but has poor cache locality and higher memory overhead, so it is rarely the best pick for a stack.</p>
+
+                    <h3>What is a container adapter in C++?</h3>
+                    <p>A container adapter is a class that provides a restricted interface on top of another container. std::stack is an adapter: it wraps a container like deque or vector and exposes only push, pop, top, empty, and size, hiding the container's other operations so LIFO semantics cannot be violated.</p>
+
+                    <h3>Why do push and pop not return values in std::stack?</h3>
+                    <p>std::stack follows C++ design rules: functions that can fail throw exceptions, top() returns a reference (allowing modification), and pop() returns void. To get a value and remove it, read top() first, then call pop(). This avoids copy and exception-safety problems.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack in Python: List-Based Implementation and Collections | EasyStack</title>
+    <meta name="description" content="Implement stacks in Python using lists and deque. Learn Pythonic patterns, the collections.deque alternative, and how CPython manages the interpreter stack." />
+    <meta name="keywords" content="python stack, python list stack, collections deque stack, CPython interpreter stack, recursion limit python, python data structures, LIFO python" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/python-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack in Python: List-Based Implementation and Collections" />
+    <meta property="og:description" content="Implement stacks in Python using lists and deque. Learn Pythonic patterns, the collections.deque alternative, and how CPython manages the interpreter stack." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/python-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack in Python: List-Based Implementation and Collections" />
+    <meta name="twitter:description" content="Implement stacks in Python using lists and deque. Learn Pythonic patterns, the collections.deque alternative, and how CPython manages the interpreter stack." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack in Python: List-Based Implementation and Collections",
+        "description": "Implement stacks in Python using lists and deque. Learn Pythonic patterns, the collections.deque alternative, and how CPython manages the interpreter stack.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/python-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Should I use a list or a deque for a stack in Python?", "acceptedAnswer": {"@type": "Answer", "text": "For a stack, a list is usually the best choice. appending and popping from the end of a list are O(1) amortized operations, and lists have the lowest memory overhead. A deque also works and is efficient, but for pure LIFO stack usage a list is simpler and slightly faster because deques add a small pointer overhead."}},
+            {"@type": "Question", "name": "Does Python have a built-in Stack class?", "acceptedAnswer": {"@type": "Answer", "text": "No. Python has no dedicated Stack class, but list.append() and list.pop() already implement LIFO behavior. For a clearer API you can wrap those methods in a small class, or use collections.deque. There is no separate Stack type like Java's java.util.Stack."}},
+            {"@type": "Question", "name": "What is sys.getrecursionlimit() and how does it relate to the stack?", "acceptedAnswer": {"@type": "Answer", "text": "sys.getrecursionlimit() returns the maximum depth of the Python interpreter stack, how many nested function calls are allowed, with a default of 1000. Exceeding it raises RecursionError. This protects the C stack that CPython runs on from being exhausted by deep recursion."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack in Python", "item": "https://easystack.netlify.app/python-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>Python</h1>
+                <p>Implement stacks in Python using lists and deque, understand CPython's internal stacks, and write clean, type-hinted stack code.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>Stack Using a Python List</h2>
+                <p>The most direct way to use a stack in Python is a plain list. The <code>append()</code> method pushes an element onto the top, and <code>pop()</code> removes and returns the top element. Both operate on the end of the list, which is O(1) amortized.</p>
+                <pre><code>stack = []
+
+stack.append(10)      # push
+stack.append(20)
+stack.append(30)
+
+top = stack[-1]       # peek: 30
+value = stack.pop()   # pop: 30
+print(stack)          # [10, 20]</code></pre>
+                <p>Because list operations at the end are fast and avoid the overhead of a custom class, a bare list is the idiomatic stack in Python. Avoid <code>insert(0, ...)</code> or <code>pop(0)</code>, which are O(n) and break stack semantics by using the wrong end. <a href="./stack-operations">Review push, pop, and peek</a></p>
+
+                <h2>Stack Using collections.deque</h2>
+                <p>The <code>collections.deque</code> is a double-ended queue that supports fast appends and pops on either end. Its <code>append()</code> and <code>pop()</code> methods work identically to a list for stack use, but a deque is a better choice when you also need fast access on the left side.</p>
+                <pre><code>from collections import deque
+
+stack = deque()
+stack.append(10)
+stack.append(20)
+
+top = stack[-1]       # peek
+value = stack.pop()   # pop</code></pre>
+                <p>A deque maintains a doubly linked list of blocks internally, so no resizing is needed. This makes <code>append</code> and <code>pop</code> O(1) worst case rather than the amortized O(1) of a list. <a href="./linked-list-stack">How linked structures avoid resizing</a></p>
+
+                <h2>List vs Deque Performance</h2>
+                <p>For a pure stack, a list is usually the right tool. Appending to a list is extremely fast thanks to exponential resizing, and lists have lower memory overhead than deques, which store pointers in a doubly linked structure.</p>
+                <p>A deque wins when you need to add or remove from both ends, such as a queue or a sliding window. For LIFO-only use, the constant-factor differences are tiny, so choose the simpler list unless profiling shows otherwise.</p>
+                <p>One practical difference: a list supports random access like <code>stack[i]</code>, while a deque supports it too but only in O(1) amortized time on the ends. If you never need indexing, both work fine as a stack. <a href="./stack-complexity">Understand the time complexities</a></p>
+
+                <h2>CPython Interpreter Stack</h2>
+                <p>When you run Python, a program called CPython interprets your source and executes bytecode. Internally, CPython maintains several stacks to make this work.</p>
+                <p>The evaluation stack holds intermediate values while bytecode instructions execute. The frame stack tracks active function calls, pushing a new frame when a function is called and popping it when it returns. Block stacks track control-flow constructs like loops and exceptions. And the call stack is what grows when you call a function recursively.</p>
+                <p>These internal stacks all follow LIFO, exactly like the stack data structure you use in your own code. Understanding them clarifies why Python reports <code>RecursionError</code> when you go too deep. <a href="./call-stack">How the call stack drives function execution</a></p>
+
+                <h2>sys.getrecursionlimit() and Stack Depth</h2>
+                <p>Python limits how deep the call stack can grow to protect the underlying C stack used by CPython. The default recursion limit is 1000 and can be inspected or changed with the <code>sys</code> module.</p>
+                <pre><code>import sys
+
+print(sys.getrecursionlimit())   # 1000
+
+sys.setrecursionlimit(2000)      # raise it (use with care)
+print(sys.getrecursionlimit())   # 2000</code></pre>
+                <p>Raising the limit can let deep recursion run further, but it risks crashing the interpreter if the C stack overflows. Prefer converting deep recursion to an explicit stack or an iterative loop instead. <a href="./python-stack">Related Python stack patterns</a></p>
+
+                <h2>Common Python Stack Patterns</h2>
+                <h3>Balanced Parentheses</h3>
+                <p>A list stack naturally validates matching brackets:</p>
+                <pre><code>def is_balanced(s):
+    stack = []
+    pairs = {")": "(", "]": "[", "}": "{"}
+    for ch in s:
+        if ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+        else:
+            stack.append(ch)
+    return not stack</code></pre>
+
+                <h3>Undo History</h3>
+                <p>Push actions as they happen and pop to undo:</p>
+                <pre><code>history = []
+
+def execute(action):
+    action.apply()
+    history.append(action)
+
+def undo():
+    if history:
+        history.pop().revert()</code></pre>
+
+                <h3>Iterative DFS</h3>
+                <p>Replace recursion with an explicit stack for graph traversal:</p>
+                <pre><code>def dfs(start):
+    stack = [start]
+    visited = set()
+    while stack:
+        node = stack.pop()
+        if node in visited:
+            continue
+        visited.add(node)
+        stack.extend(neighbors(node))</code></pre>
+
+                <h2>Complete Python Stack Class with Type Hints</h2>
+                <p>Here is a clean, typed Stack class you can drop into any project:</p>
+                <pre><code>from collections.abc import Iterator
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
+
+class Stack(Generic[T]):
+    def __init__(self) -> None:
+        self._data: list[T] = []
+
+    def push(self, item: T) -> None:
+        self._data.append(item)
+
+    def pop(self) -> T:
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
+
+    def peek(self) -> T:
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self._data[-1]
+
+    def is_empty(self) -> bool:
+        return not self._data
+
+    def size(self) -> int:
+        return len(self._data)
+
+    def __iter__(self) -> Iterator[T]:
+        return reversed(self._data)
+
+stack: Stack[int] = Stack()
+stack.push(1)
+stack.push(2)
+print(stack.peek())      # 2
+print(list(stack))       # [2, 1]</code></pre>
+                <p>Generic type hints make the stack reusable and self-documenting. <a href="./stack-memory">How the stack stores its elements in memory</a></p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p>In Python the list is the idiomatic stack: append and pop on the end give you LIFO in O(1) amortized time. Use deque when you also need fast operations on the other end. And remember that CPython itself is built on stacks, which is why deep recursion eventually raises RecursionError.</p>
+                    <p><a href="./guides">Explore all EasyStack guides</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Should I use a list or a deque for a stack in Python?</h3>
+                    <p>For a stack, a list is usually the best choice. appending and popping from the end of a list are O(1) amortized operations, and lists have the lowest memory overhead. A deque also works and is efficient, but for pure LIFO stack usage a list is simpler and slightly faster because deques add a small pointer overhead.</p>
+
+                    <h3>Does Python have a built-in Stack class?</h3>
+                    <p>No. Python has no dedicated Stack class, but list.append() and list.pop() already implement LIFO behavior. For a clearer API you can wrap those methods in a small class, or use collections.deque. There is no separate Stack type like Java's java.util.Stack.</p>
+
+                    <h3>What is sys.getrecursionlimit() and how does it relate to the stack?</h3>
+                    <p>sys.getrecursionlimit() returns the maximum depth of the Python interpreter stack, how many nested function calls are allowed, with a default of 1000. Exceeding it raises RecursionError. This protects the C stack that CPython runs on from being exhausted by deep recursion.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack Data Structure Guides: Learn Stacks from Scratch | EasyStack</title>
+<meta name="description" content="A complete library of stack data structure guides: operations, implementations in 5 languages, complexity analysis, the call stack, monotonic stacks, and interview problems." />
+<meta name="keywords" content="stack data structure guide, stack tutorial, learn stack, stack operations, stack implementation, push pop, array stack, linked list stack, call stack, monotonic stack, stack interview" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/guides" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Stack Data Structure Guides: Learn Stacks from Scratch" />
+<meta property="og:description" content="A complete library of stack data structure guides: operations, implementations, complexity, call stack, monotonic stacks, and interview problems." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/guides" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Stack Data Structure Guides: Learn Stacks from Scratch" />
+<meta name="twitter:description" content="A complete library of stack data structure guides covering every aspect of stacks." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Stack Data Structure Guides: Learn Stacks from Scratch",
+    "description": "A complete library of stack data structure guides: operations, implementations, complexity, call stack, monotonic stacks, and interview problems.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/guides",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/guides" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Where should I start if I am new to stacks?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Start with the Stack Operations guide to learn push, pop, peek, and isEmpty. Then move to Array Stack or Linked List Stack to see how they are implemented in code." }
+        },
+        {
+            "@type": "Question",
+            "name": "Do I need to know multiple programming languages?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Every code example is provided in C, C++, Java, Python, and JavaScript so you can pick the language you are most comfortable with and follow along." }
+        },
+        {
+            "@type": "Question",
+            "name": "Are these guides suitable for interview preparation?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Stack Interview guide covers common coding interview problems, and the Stack Problems guide includes practice questions ranging from beginner to advanced." }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the difference between the Call Stack guide and the Stack Memory guide?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The Call Stack guide explains how function calls are managed during program execution. The Stack Memory guide explains how memory is allocated for stack frames in low-level languages like C and C++." }
+        },
+        {
+            "@type": "Question",
+            "name": "Can I use these guides offline?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. EasyStack is a PWA and works fully offline once cached. You can also view the source code on GitHub if you want to host it locally." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides" aria-current="page">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides" aria-current="page">All Guides</a></li>
+                <li><a href="./stack-operations">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Guide Library</span>
+                <h1>Stack Data Structure Guides</h1>
+                <p class="hero__sub">A comprehensive collection of guides covering every aspect of the stack data structure. From fundamentals to advanced topics, pick a guide and start learning.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <div class="card-grid">
+
+                    <a href="./stack-operations" class="card card--guide">
+                        <span class="card__orb card__orb--green"></span>
+                        <h3 class="card__title">Stack Operations</h3>
+                        <p class="card__desc">Push, pop, peek, isEmpty, size, and clear. Learn every core operation with explanations and time complexity.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./push-pop" class="card card--guide">
+                        <span class="card__orb card__orb--blue"></span>
+                        <h3 class="card__title">Push and Pop</h3>
+                        <p class="card__desc">A visual deep-dive into insertion and deletion. Step-by-step examples in five languages with memory diagrams.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./array-stack" class="card card--guide">
+                        <span class="card__orb card__orb--orange"></span>
+                        <h3 class="card__title">Array Stack</h3>
+                        <p class="card__desc">Implement a stack using a fixed or dynamic array. Covers the top pointer, resizing, and stack overflow.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./linked-list-stack" class="card card--guide">
+                        <span class="card__orb card__orb--purple"></span>
+                        <h3 class="card__title">Linked List Stack</h3>
+                        <p class="card__desc">Build a stack from a linked list for dynamic sizing with no overflow risk. Node-based push and pop explained.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-complexity" class="card card--guide">
+                        <span class="card__orb card__orb--red"></span>
+                        <h3 class="card__title">Time and Space Complexity</h3>
+                        <p class="card__desc">Big O analysis for every stack operation. Compare array vs linked list performance and understand growth rates.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-analogies" class="card card--guide">
+                        <span class="card__orb card__orb--teal"></span>
+                        <h3 class="card__title">Real-World Analogies</h3>
+                        <p class="card__desc">Stacks of plates, undo buttons, browser history. Relate the stack data structure to things you already know.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./javascript-stack" class="card card--guide">
+                        <span class="card__orb card__orb--yellow"></span>
+                        <h3 class="card__title">JavaScript Stack</h3>
+                        <p class="card__desc">Implement stacks in JavaScript using arrays and objects. Covers V8 engine optimizations and ES6 patterns.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./call-stack" class="card card--guide">
+                        <span class="card__orb card__orb--pink"></span>
+                        <h3 class="card__title">The Call Stack</h3>
+                        <p class="card__desc">How your program tracks function calls. Understand recursion, stack frames, and stack overflow errors.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-memory" class="card card--guide">
+                        <span class="card__orb card__orb--indigo"></span>
+                        <h3 class="card__title">Stack Memory</h3>
+                        <p class="card__desc">How memory is allocated for stack frames. Local variables, parameters, return addresses, and the stack pointer.</p>
+                        <div class="card__chips"><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./monotonic-stack" class="card card--guide">
+                        <span class="card__orb card__orb--green"></span>
+                        <h3 class="card__title">Monotonic Stack</h3>
+                        <p class="card__desc">A stack that maintains elements in sorted order. Solve next greater element problems and sliding window maximums.</p>
+                        <div class="card__chips"><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-debugging" class="card card--guide">
+                        <span class="card__orb card__orb--red"></span>
+                        <h3 class="card__title">Stack Debugging</h3>
+                        <p class="card__desc">Read stack traces, trace through recursive calls, and diagnose stack overflow and segmentation faults.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-recursion" class="card card--guide">
+                        <span class="card__orb card__orb--blue"></span>
+                        <h3 class="card__title">Stack and Recursion</h3>
+                        <p class="card__desc">Every recursive call pushes a frame onto the call stack. Learn how recursion and stacks are fundamentally linked.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-best-practices" class="card card--guide">
+                        <span class="card__orb card__orb--teal"></span>
+                        <h3 class="card__title">Stack Best Practices</h3>
+                        <p class="card__desc">Production-grade patterns. Error handling, boundary checks, thread safety, and memory-efficient stack designs.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-problems" class="card card--guide">
+                        <span class="card__orb card__orb--orange"></span>
+                        <h3 class="card__title">Stack Problems</h3>
+                        <p class="card__desc">Practice problems from easy to hard. Balanced parentheses, tower of Hanoi, stock span, and 20 more challenges.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stacks-vs-queues" class="card card--guide">
+                        <span class="card__orb card__orb--purple"></span>
+                        <h3 class="card__title">Stacks vs Queues</h3>
+                        <p class="card__desc">LIFO vs FIFO. When to use a stack and when to use a queue, with side-by-side comparisons and use cases.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-dfs" class="card card--guide">
+                        <span class="card__orb card__orb--indigo"></span>
+                        <h3 class="card__title">Stack and DFS</h3>
+                        <p class="card__desc">Depth-first search uses a stack (explicit or implicit via recursion) to explore graphs and trees deeply.</p>
+                        <div class="card__chips"><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./browser-stack" class="card card--guide">
+                        <span class="card__orb card__orb--yellow"></span>
+                        <h3 class="card__title">Browser Back Button</h3>
+                        <p class="card__desc">Your browser uses a stack for navigation history. Push URLs on visit, pop on back. A real stack in your daily life.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./os-stack" class="card card--guide">
+                        <span class="card__orb card__orb--pink"></span>
+                        <h3 class="card__title">OS and System Stacks</h3>
+                        <p class="card__desc">Operating systems use stacks for interrupts, context switching, and process management. See stacks at the system level.</p>
+                        <div class="card__chips"><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./stack-interview" class="card card--guide">
+                        <span class="card__orb card__orb--green"></span>
+                        <h3 class="card__title">Stack Interview Guide</h3>
+                        <p class="card__desc">A curated guide for coding interviews. Common patterns, trick questions, and how to explain stack solutions clearly.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span><span class="chip chip--advanced">Advanced</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./python-stack" class="card card--guide">
+                        <span class="card__orb card__orb--blue"></span>
+                        <h3 class="card__title">Python Stack</h3>
+                        <p class="card__desc">Lists as stacks, the deque module, and collections. Pythonic patterns for stack operations with examples.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./java-stack" class="card card--guide">
+                        <span class="card__orb card__orb--red"></span>
+                        <h3 class="card__title">Java Stack</h3>
+                        <p class="card__desc">The java.util.Stack class and the modern Deque interface. Why Deque is preferred and how to use both.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./cpp-stack" class="card card--guide">
+                        <span class="card__orb card__orb--orange"></span>
+                        <h3 class="card__title">C++ Stack</h3>
+                        <p class="card__desc">The std::stack container adapter. Underlying containers, iterators, and how STL stacks compare to custom implementations.</p>
+                        <div class="card__chips"><span class="chip chip--beginner">Beginner</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                    <a href="./c-stack" class="card card--guide">
+                        <span class="card__orb card__orb--teal"></span>
+                        <h3 class="card__title">C Stack</h3>
+                        <p class="card__desc">Manual memory management with malloc and free. Build a stack from scratch in C with structs and pointers.</p>
+                        <div class="card__chips"><span class="chip chip--intermediate">Intermediate</span></div>
+                        <span class="card__go" aria-hidden="true">&rarr;</span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>How to Use These Guides</h2>
+                <p>These guides are designed to be read in order if you are learning stacks for the first time, or used as references if you already know the basics. Here is a recommended path:</p>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div>
+                            <strong>Start with fundamentals.</strong> Read the Stack Operations guide to understand what push, pop, peek, and isEmpty do. Then read Push and Pop for a visual walkthrough.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div>
+                            <strong>Pick an implementation.</strong> Choose either Array Stack or Linked List Stack based on your needs. Read both to understand the trade-offs.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div>
+                            <strong>Understand performance.</strong> Read the Time and Space Complexity guide to know the Big O costs of every operation.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div>
+                            <strong>Go deeper.</strong> Explore the Call Stack, Monotonic Stack, and Stack and DFS guides to see how stacks power real algorithms.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">5</span>
+                        <div>
+                            <strong>Practice.</strong> Work through Stack Problems and the Stack Interview Guide to test your understanding.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>Where should I start if I am new to stacks?</summary>
+                        <p>Start with the Stack Operations guide to learn push, pop, peek, and isEmpty. Then move to Array Stack or Linked List Stack to see how they are implemented in code.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do I need to know multiple programming languages?</summary>
+                        <p>No. Every code example is provided in C, C++, Java, Python, and JavaScript so you can pick the language you are most comfortable with and follow along.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Are these guides suitable for interview preparation?</summary>
+                        <p>Yes. The Stack Interview guide covers common coding interview problems, and the Stack Problems guide includes practice questions ranging from beginner to advanced.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What is the difference between the Call Stack guide and the Stack Memory guide?</summary>
+                        <p>The Call Stack guide explains how function calls are managed during program execution. The Stack Memory guide explains how memory is allocated for stack frames in low-level languages like C and C++.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Can I use these guides offline?</summary>
+                        <p>Yes. EasyStack is a PWA and works fully offline once cached. You can also view the source code on GitHub if you want to host it locally.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

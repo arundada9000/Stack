@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linked List Stack Implementation: Dynamic and Flexible | EasyStack</title>
+<meta name="description" content="Implement a stack using a linked list for dynamic sizing with no overflow risk. Learn the node-based approach with code in C, C++, Java, Python, and JavaScript." />
+<meta name="keywords" content="linked list stack, stack linked list, node stack, dynamic stack, no overflow stack, linked list implementation, prepend stack" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/linked-list-stack" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Linked List Stack Implementation: Dynamic and Flexible" />
+<meta property="og:description" content="Implement a stack using a linked list for dynamic sizing with no overflow risk." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/linked-list-stack" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Linked List Stack Implementation: Dynamic and Flexible" />
+<meta name="twitter:description" content="Implement a stack using a linked list for dynamic sizing with no overflow risk." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Linked List Stack Implementation: Dynamic and Flexible",
+    "description": "Implement a stack using a linked list for dynamic sizing with no overflow risk.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/linked-list-stack",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/linked-list-stack" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" },
+        { "@type": "ListItem", "position": 3, "name": "Linked List Stack", "item": "https://easystack.netlify.app/linked-list-stack" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Can a linked list stack overflow?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Technically yes, if the system runs out of heap memory. But practically, a linked list stack will not overflow due to capacity limits the way a fixed-size array stack does. It grows as long as memory is available." }
+        },
+        {
+            "@type": "Question",
+            "name": "Why is push on a linked list stack O(1)?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Push prepends a new node to the head of the linked list. This requires only creating a node and updating two pointers (new node's next and the head pointer). No traversal is needed, so it is constant time." }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the memory overhead of a linked list stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Each node stores the data plus a pointer to the next node. On a 64-bit system, the pointer takes 8 bytes. So for an int stack, each element uses 12 bytes (4 for int + 8 for pointer) instead of 4 bytes in an array stack. This is the trade-off for dynamic sizing." }
+        },
+        {
+            "@type": "Question",
+            "name": "When should I use a linked list stack over an array stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Use a linked list stack when you cannot predict the maximum number of elements and want to avoid resizing pauses. It is also useful when you need to frequently push and pop large batches and want guaranteed O(1) without amortized overhead." }
+        },
+        {
+            "@type": "Question",
+            "name": "Do high-level languages use linked list stacks internally?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Most high-level languages use dynamic arrays for their built-in stack types. Python lists, Java ArrayList-based stacks, and JavaScript arrays are all array-based. Linked list stacks are more common in systems programming and educational contexts." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides">All Guides</a></li>
+                <li><a href="./stack-operations">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Implementation</span>
+                <h1>Linked List Stack Implementation</h1>
+                <p class="hero__sub">Build a stack from a linked list for truly dynamic sizing. Every push allocates a new node. Every pop frees one. No capacity limits, no resizing pauses.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>How a Linked List Stack Works</h2>
+                <p>A linked list stack uses a singly linked list where the head of the list is the top of the stack. Each element is stored in a separate node that contains the data and a pointer (or reference) to the next node.</p>
+                <p>Push always adds a new node at the head (the front of the list). Pop always removes the head node. Because we only ever touch the head, both operations are O(1) with no need to traverse the list.</p>
+                <div class="visual-box">
+                    <p class="visual-box__label">Linked List Stack: head = C</p>
+                    <div class="linked-list-viz">
+                        <div class="linked-list-viz__node linked-list-viz__node--head">
+                            <span class="linked-list-viz__data">C</span>
+                            <span class="linked-list-viz__ptr">&rarr;</span>
+                        </div>
+                        <div class="linked-list-viz__node">
+                            <span class="linked-list-viz__data">B</span>
+                            <span class="linked-list-viz__ptr">&rarr;</span>
+                        </div>
+                        <div class="linked-list-viz__node">
+                            <span class="linked-list-viz__data">A</span>
+                            <span class="linked-list-viz__ptr">NULL</span>
+                        </div>
+                    </div>
+                    <p class="visual-box__label">head points to node C (the top). Popping removes C, making B the new head.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Node Structure</h2>
+                <p>Each node in the linked list contains two fields:</p>
+                <ul>
+                    <li><strong>data:</strong> The value stored in this node. This can be any type (int, string, object, etc.).</li>
+                    <li><strong>next:</strong> A pointer to the next node in the list. The last node's next pointer is NULL (or None in Python).</li>
+                </ul>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C / C++</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>struct Node {
+    int data;
+    struct Node *next;
+};</code></pre>
+                </div>
+                <div class="code-block" data-lang="python">
+                    <div class="code-block__header"><span>Python</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Push onto a Linked List Stack</h2>
+                <p>Push prepends a new node to the head of the list. This is the simplest insertion operation in a linked list.</p>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div>Create a new node with the given data.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div>Set the new node's next pointer to the current head.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div>Update the head pointer to point to the new node.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div>Increment the size counter if you track one.</div>
+                    </div>
+                </div>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>void push(Node **head, int val) {
+    Node *newNode = malloc(sizeof(Node));
+    newNode->data = val;
+    newNode->next = *head;
+    *head = newNode;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Pop from a Linked List Stack</h2>
+                <p>Pop removes the head node and returns its data. The second node (if any) becomes the new head.</p>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div>Check if the head is NULL. If it is, the stack is empty (underflow).</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div>Store the current head's data in a temporary variable.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div>Store the current head in a temporary pointer.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div>Move the head to <code>head->next</code>.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">5</span>
+                        <div>Free the old head node and return the stored data.</div>
+                    </div>
+                </div>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>int pop(Node **head) {
+    if (*head == NULL) return -1;
+    Node *temp = *head;
+    int val = temp->data;
+    *head = (*head)->next;
+    free(temp);
+    return val;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Advantages Over Arrays</h2>
+                <div class="content-split content-split--even">
+                    <div class="panel">
+                        <h3>No Fixed Size</h3>
+                        <p>A linked list stack grows and shrinks one node at a time. There is no capacity to set in advance and no overflow caused by a full array. The stack can grow as large as available memory allows.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>No Resizing</h3>
+                        <p>Array stacks occasionally need to resize (allocate a bigger array and copy everything). Linked list stacks never resize. Every push is exactly O(1) with no amortized overhead.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Memory Efficiency for Sparse Usage</h3>
+                        <p>If your stack usage fluctuates wildly (sometimes empty, sometimes full), a linked list stack uses only the memory it needs. An array stack reserves its full capacity even when mostly empty.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>No Copying on Growth</h3>
+                        <p>When a dynamic array doubles, it copies every element to the new array. For stacks holding large objects, this copying can be expensive. Linked list stacks avoid this entirely by allocating one node at a time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Disadvantages</h2>
+                <div class="callout callout--warn">
+                    <strong>Extra memory for pointers.</strong> Each node stores a pointer (or reference) in addition to the data. On a 64-bit system, this adds 8 bytes per element. For a stack of integers (4 bytes each), the pointer more than doubles the per-element memory cost.
+                </div>
+                <div class="callout callout--warn">
+                    <strong>Cache misses.</strong> Nodes are allocated on the heap and may not be contiguous in memory. When you pop many elements in sequence, the CPU cannot prefetch the next node because it does not know where it is. Array stacks access contiguous memory, which is much more cache-friendly.
+                </div>
+                <div class="callout callout--info">
+                    <strong>Allocation overhead.</strong> Each push requires a heap allocation (malloc, new, or equivalent). Heap allocation is slower than simply writing to the next array slot. In performance-critical code, this overhead matters.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Memory Layout Comparison</h2>
+                <p>Understanding the memory layout helps you choose between an array stack and a linked list stack.</p>
+                <div class="content-split content-split--even">
+                    <div class="panel">
+                        <h3>Array Stack</h3>
+                        <p>Elements are stored in a single contiguous block of memory. The OS allocates this block in one call. All elements sit next to each other, so the CPU cache can hold multiple elements at once.</p>
+                        <pre><code>Memory:
+[50][30][70][_][_]
+ ^top = 2
+ contiguous</code></pre>
+                    </div>
+                    <div class="panel">
+                        <h3>Linked List Stack</h3>
+                        <p>Each node is a separate allocation. Nodes can be anywhere on the heap. The only connection is the next pointer in each node.</p>
+                        <pre><code>Memory:
+head -> [70|*] -> [30|*] -> [50|NULL]
+         addr:0x100  addr:0x300  addr:0x50
+         scattered on heap</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Code in 5 Languages</h2>
+
+                <h3>C</h3>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#include &lt;stdlib.h&gt;
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+typedef struct {
+    Node *top;
+    int size;
+} LLStack;
+
+void init(LLStack *s) { s->top = NULL; s->size = 0; }
+
+void push(LLStack *s, int val) {
+    Node *n = malloc(sizeof(Node));
+    n->data = val;
+    n->next = s->top;
+    s->top = n;
+    s->size++;
+}
+
+int pop(LLStack *s) {
+    if (s->top == NULL) return -1;
+    Node *temp = s->top;
+    int val = temp->data;
+    s->top = temp->next;
+    free(temp);
+    s->size--;
+    return val;
+}</code></pre>
+                </div>
+
+                <h3>C++</h3>
+                <div class="code-block" data-lang="cpp">
+                    <div class="code-block__header"><span>C++</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#include &lt;iostream&gt;
+
+template &lt;typename T&gt;
+class LLStack {
+    struct Node {
+        T data;
+        Node *next;
+        Node(T d, Node *n = nullptr) : data(d), next(n) {}
+    };
+    Node *head = nullptr;
+    int sz = 0;
+public:
+    void push(T val) {
+        head = new Node(val, head);
+        sz++;
+    }
+    T pop() {
+        if (!head) throw std::runtime_error("Underflow");
+        Node *temp = head;
+        T val = temp->data;
+        head = head->next;
+        delete temp;
+        sz--;
+        return val;
+    }
+    bool isEmpty() const { return head == nullptr; }
+    int size() const { return sz; }
+};</code></pre>
+                </div>
+
+                <h3>Java</h3>
+                <div class="code-block" data-lang="java">
+                    <div class="code-block__header"><span>Java</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>public class LLStack&lt;T&gt; {
+    private class Node {
+        T data;
+        Node next;
+        Node(T data) { this.data = data; }
+    }
+
+    private Node top = null;
+    private int size = 0;
+
+    public void push(T val) {
+        top = new Node(val);
+        top.next = top;
+        size++;
+    }
+
+    public T pop() {
+        if (top == null) throw new RuntimeException("Underflow");
+        T val = top.data;
+        top = top.next;
+        size--;
+        return val;
+    }
+
+    public T peek() {
+        if (top == null) throw new RuntimeException("Empty");
+        return top.data;
+    }
+
+    public boolean isEmpty() { return top == null; }
+    public int size() { return size; }
+}</code></pre>
+                </div>
+
+                <h3>Python</h3>
+                <div class="code-block" data-lang="python">
+                    <div class="code-block__header"><span>Python</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedStack:
+    def __init__(self):
+        self.top = None
+        self._size = 0
+
+    def push(self, val):
+        node = Node(val)
+        node.next = self.top
+        self.top = node
+        self._size += 1
+
+    def pop(self):
+        if self.top is None:
+            raise IndexError("Stack underflow")
+        val = self.top.data
+        self.top = self.top.next
+        self._size -= 1
+        return val
+
+    def peek(self):
+        if self.top is None:
+            raise IndexError("Stack is empty")
+        return self.top.data
+
+    def is_empty(self):
+        return self.top is None
+
+    def size(self):
+        return self._size</code></pre>
+                </div>
+
+                <h3>JavaScript</h3>
+                <div class="code-block" data-lang="javascript">
+                    <div class="code-block__header"><span>JavaScript</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedStack {
+    constructor() {
+        this.top = null;
+        this._size = 0;
+    }
+
+    push(val) {
+        const node = new Node(val);
+        node.next = this.top;
+        this.top = node;
+        this._size++;
+    }
+
+    pop() {
+        if (!this.top) throw new Error("Stack underflow");
+        const val = this.top.data;
+        this.top = this.top.next;
+        this._size--;
+        return val;
+    }
+
+    peek() {
+        if (!this.top) throw new Error("Stack is empty");
+        return this.top.data;
+    }
+
+    isEmpty() { return this.top === null; }
+    size() { return this._size; }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>When to Choose Linked List Over Array</h2>
+                <p>Use a linked list stack when the decision factors favor flexibility over raw speed.</p>
+                <div class="table-wrap">
+                    <table class="hig">
+                        <thead>
+                            <tr>
+                                <th>Factor</th>
+                                <th>Array Stack</th>
+                                <th>Linked List Stack</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Max size known?</td>
+                                <td>Yes - use fixed-size</td>
+                                <td>No - linked list grows freely</td>
+                            </tr>
+                            <tr>
+                                <td>Cache performance</td>
+                                <td>Excellent (contiguous memory)</td>
+                                <td>Poor (scattered nodes)</td>
+                            </tr>
+                            <tr>
+                                <td>Memory overhead</td>
+                                <td>Low (data only)</td>
+                                <td>Higher (data + pointer per node)</td>
+                            </tr>
+                            <tr>
+                                <td>Push guarantees</td>
+                                <td>Amortized O(1) if dynamic</td>
+                                <td>Strictly O(1) always</td>
+                            </tr>
+                            <tr>
+                                <td>Resize pauses</td>
+                                <td>Yes, O(n) copy on resize</td>
+                                <td>Never</td>
+                            </tr>
+                            <tr>
+                                <td>Allocation per push</td>
+                                <td>None (unless resizing)</td>
+                                <td>One heap allocation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout callout--info">
+                    <strong>Rule of thumb:</strong> Default to an array stack (dynamic array). Switch to a linked list stack only if you have a specific reason, such as guaranteed O(1) push without amortization, or unpredictable growth patterns that make array resizing expensive.
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>Can a linked list stack overflow?</summary>
+                        <p>Technically yes, if the system runs out of heap memory. But practically, a linked list stack will not overflow due to capacity limits the way a fixed-size array stack does. It grows as long as memory is available.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Why is push on a linked list stack O(1)?</summary>
+                        <p>Push prepends a new node to the head of the linked list. This requires only creating a node and updating two pointers (new node's next and the head pointer). No traversal is needed, so it is constant time.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What is the memory overhead of a linked list stack?</summary>
+                        <p>Each node stores the data plus a pointer to the next node. On a 64-bit system, the pointer takes 8 bytes. So for an int stack, each element uses 12 bytes (4 for int + 8 for pointer) instead of 4 bytes in an array stack. This is the trade-off for dynamic sizing.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>When should I use a linked list stack over an array stack?</summary>
+                        <p>Use a linked list stack when you cannot predict the maximum number of elements and want to avoid resizing pauses. It is also useful when you need to frequently push and pop large batches and want guaranteed O(1) without amortized overhead.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do high-level languages use linked list stacks internally?</summary>
+                        <p>Most high-level languages use dynamic arrays for their built-in stack types. Python lists, Java ArrayList-based stacks, and JavaScript arrays are all array-based. Linked list stacks are more common in systems programming and educational contexts.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

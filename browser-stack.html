@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Navigation Stack: How the Back Button Works | EasyStack</title>
+    <meta name="description" content="Discover how web browsers use a stack to implement the back and forward buttons. Learn about the session history, pushState, and popstate events." />
+    <meta name="keywords" content="browser stack, navigation stack, back button stack, pushState, popstate, session history, browser history stack, SPA navigation" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/browser-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Browser Navigation Stack: How the Back Button Works" />
+    <meta property="og:description" content="Discover how web browsers use a stack to implement the back and forward buttons. Learn about the session history, pushState, and popstate events." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/browser-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Browser Navigation Stack: How the Back Button Works" />
+    <meta name="twitter:description" content="Discover how web browsers use a stack to implement the back and forward buttons. Learn about the session history, pushState, and popstate events." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Browser Navigation Stack: How the Back Button Works",
+        "description": "Discover how web browsers use a stack to implement the back and forward buttons. Learn about the session history, pushState, and popstate events.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/browser-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Browser Navigation Stack", "item": "https://easystack.netlify.app/browser-stack"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What stack does the browser back button use?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The browser maintains a session history stack. Each time you visit a new page, it is pushed onto the stack. When you click back, the current entry is popped and the previous entry is loaded. The forward button uses a separate redo stack."}
+            },
+            {
+                "@type": "Question",
+                "name": "What is pushState?",
+                "acceptedAnswer": {"@type": "Answer", "text": "pushState is a History API method that adds a new entry to the session history without reloading the page. It takes a state object, a title, and an optional URL. This is essential for single-page applications that need URL changes without full page reloads."}
+            },
+            {
+                "@type": "Question",
+                "name": "What is the popstate event?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The popstate event fires when the user clicks the back or forward button, or when history.back() or history.forward() is called. The event's state property contains the state object that was passed to pushState for that history entry."}
+            },
+            {
+                "@type": "Question",
+                "name": "How do I fix a broken back button in a single-page app?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Use the History API (pushState, replaceState, popstate) to manage navigation state. Each view transition should push a new history entry so the back button works naturally. Alternatively, use hash-based routing with hashchange events."}
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar"><div class="shell topbar__inner">
+        <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+        <nav aria-label="Primary"><ul class="nav-links desktop-links">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+        </ul></nav>
+        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+        <ul class="nav-links nav-mobile" id="navLinks">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+        </ul>
+    </div></header>
+
+    <main id="main">
+        <section class="hero hero--guide">
+            <div class="shell">
+                <nav class="breadcrumb" aria-label="Breadcrumb"><ol>
+                    <li><a href="./">Home</a></li>
+                    <li aria-current="page">Browser Navigation Stack</li>
+                </ol></nav>
+                <h1>Browser Internals</h1>
+                <p class="hero__sub">The browser back button is one of the most familiar uses of a stack. Every web browser maintains a navigation stack that tracks your browsing history and makes back/forward work.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell guide-layout">
+                <aside class="guide-sidebar" aria-label="On this page">
+                    <nav class="toc">
+                        <h2>On this page</h2>
+                        <ul>
+                            <li><a href="#history-stack">The Browser Navigation Stack</a></li>
+                            <li><a href="#back-button">How the Back Button Works</a></li>
+                            <li><a href="#forward">How Forward Works</a></li>
+                            <li><a href="#pushstate">pushState and replaceState</a></li>
+                            <li><a href="#popstate">popstate Event</a></li>
+                            <li><a href="#session-history">Session History vs Page State</a></li>
+                            <li><a href="#spa-navigation">Building SPA Navigation</a></li>
+                            <li><a href="#pitfalls">Common Pitfalls</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <article class="guide-article">
+                    <section id="history-stack">
+                        <h2>The Browser Navigation Stack</h2>
+                        <p>Every browser tab maintains a session history. This history is structured as a stack with a pointer to the current entry. Each entry represents a page visit and holds the URL, document state, and an optional state object.</p>
+                        <p>When you navigate to a new URL, the browser pushes a new entry onto the history stack and moves the pointer forward. The stack grows as you visit more pages. When you close the tab, the entire history stack is destroyed.</p>
+                        <p>The history stack is per-tab. Each tab has its own independent stack. Opening a link in a new tab creates a new stack.</p>
+                    </section>
+
+                    <section id="back-button">
+                        <h2>How the Back Button Works</h2>
+                        <p>When you click the back button, the browser pops the current entry from the history stack and loads the previous entry. The current URL changes to the previous URL, and the page content updates accordingly.</p>
+                        <p>Think of it as: the browser has a pointer called <code>currentIndex</code>. Initially it points to the top of the stack. When you go back, <code>currentIndex</code> decreases by one and the browser loads that entry. The popped entry is not destroyed immediately; it moves to a redo stack for the forward button.</p>
+                    </section>
+
+                    <section id="forward">
+                        <h2>How Forward Works</h2>
+                        <p>When you click the forward button, the browser takes the most recently popped entry and pushes it back onto the history stack, moving the pointer forward by one. This is the redo counterpart to the undo of the back button.</p>
+                        <p>The forward button is only available when you have gone back at least once. If you visit a new page after going back, the forward entries are discarded (just like how undo history is cleared when you make a new change in a text editor).</p>
+                    </section>
+
+                    <section id="pushstate">
+                        <h2>pushState and replaceState</h2>
+                        <p>The History API lets you manipulate the browser stack from JavaScript without reloading the page. This is critical for single-page applications (SPAs).</p>
+                        <p><code>history.pushState(state, title, url)</code> adds a new entry to the history stack. The page does not reload. The URL bar updates to show the new URL. You can store a state object that the browser will pass back to you when the user navigates to this entry.</p>
+                        <p><code>history.replaceState(state, title, url)</code> replaces the current entry in the history stack instead of adding a new one. Use this when you want to update the URL without creating a new back-button entry.</p>
+                        <div class="code-block">
+<pre><code>// Add a new history entry
+history.pushState({ page: 'settings' }, '', '/settings');
+
+// Replace the current entry
+history.replaceState({ page: 'home' }, '', '/');</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="popstate">
+                        <h2>popstate Event</h2>
+                        <p>The <code>popstate</code> event fires when the user navigates using the back or forward button, or when <code>history.back()</code>, <code>history.forward()</code>, or <code>history.go()</code> is called.</p>
+                        <p>The event object has a <code>state</code> property containing the state object that was passed to <code>pushState</code> for that entry. If the entry was created by a normal page load (not pushState), the state is null.</p>
+                        <div class="code-block">
+<pre><code>window.addEventListener('popstate', function(event) {
+    if (event.state) {
+        renderPage(event.state.page);
+    }
+});</code></pre>
+                        </div>
+                        <p>Note: <code>popstate</code> does not fire on the initial page load. Use the <code>load</code> event or check <code>history.state</code> on startup.</p>
+                    </section>
+
+                    <section id="session-history">
+                        <h2>Session History vs Page State</h2>
+                        <p>The session history tracks which URLs you visited. The state object attached to each entry tracks application-specific data. They are separate concerns.</p>
+                        <p>A common pattern is to store the current view, scroll position, or form data in the state object so that when the user returns via the back button, the application can restore its previous state. Without state objects, the browser only knows the URL, not what your app was displaying.</p>
+                    </section>
+
+                    <section id="spa-navigation">
+                        <h2>Building a Single-Page App Navigation System</h2>
+                        <p>To make a SPA with proper back-button support:</p>
+                        <ol>
+                            <li>Define routes as URL patterns (e.g., /home, /settings, /profile).</li>
+                            <li>When a route changes, call <code>history.pushState</code> with the new URL and route state.</li>
+                            <li>Listen for <code>popstate</code> to handle back/forward navigation.</li>
+                            <li>In the popstate handler, read the state and render the corresponding view.</li>
+                            <li>Handle the initial page load by checking <code>location.pathname</code> and rendering the right view.</li>
+                        </ol>
+                        <div class="code-block">
+<pre><code>function navigateTo(path, state) {
+    history.pushState(state, '', path);
+    renderView(state);
+}
+
+window.addEventListener('popstate', function(e) {
+    renderView(e.state);
+});
+
+// Handle initial load
+renderView({ page: location.pathname });</code></pre>
+                        </div>
+                    </section>
+
+                    <section id="pitfalls">
+                        <h2>Common Pitfalls</h2>
+                        <div class="callout callout--warn">
+                            <h3>Broken Back Button</h3>
+                            <p>The most common mistake in SPAs is not calling <code>pushState</code> on navigation. If the URL never changes, the back button takes the user out of the app entirely instead of to the previous view.</p>
+                        </div>
+                        <div class="callout callout--warn">
+                            <h3>Not Handling popstate</h3>
+                            <p>If you listen for popstate but do not update the view, the URL changes but the content does not. Always pair pushState with a popstate handler.</p>
+                        </div>
+                        <div class="callout callout--warn">
+                            <h3>Using hashchange Without pushState</h3>
+                            <p>Hash-based routing (#/page) works but produces ugly URLs. Modern SPAs should prefer pushState for clean URLs. Hash routing is a fallback for older browsers.</p>
+                        </div>
+                        <div class="callout callout--warn">
+                            <h3>Forgetting Initial State</h3>
+                            <p>popstate does not fire on page load. You must handle the initial route separately by checking <code>location.pathname</code> and <code>history.state</code> when the app starts.</p>
+                        </div>
+                    </section>
+
+                    <section id="faq" class="faq-section">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="faq-item">
+                            <h3>What stack does the browser back button use?</h3>
+                            <p>The browser maintains a session history stack. Each time you visit a new page, it is pushed onto the stack. When you click back, the current entry is popped and the previous entry is loaded. The forward button uses a separate redo stack.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>What is pushState?</h3>
+                            <p>pushState is a History API method that adds a new entry to the session history without reloading the page. It takes a state object, a title, and an optional URL. This is essential for single-page applications that need URL changes without full page reloads.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>What is the popstate event?</h3>
+                            <p>The popstate event fires when the user clicks the back or forward button, or when history.back() or history.forward() is called. The event's state property contains the state object that was passed to pushState for that history entry.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>How do I fix a broken back button in a single-page app?</h3>
+                            <p>Use the History API (pushState, replaceState, popstate) to manage navigation state. Each view transition should push a new history entry so the back button works naturally. Alternatively, use hash-based routing with hashchange events.</p>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

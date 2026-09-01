@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Stack Problems and Solutions: From Easy to Hard | EasyStack</title>
+    <meta name="description" content="Practice the most common stack problems: balanced brackets, min stack, valid parentheses, evaluate expression, and stock span. Solutions with explanations and code." />
+    <meta name="keywords" content="stack problems, valid parentheses, min stack, reverse polish notation, daily temperatures, stock span, stack coding problems" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/stack-problems" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Common Stack Problems and Solutions: From Easy to Hard" />
+    <meta property="og:description" content="Practice the most common stack problems: balanced brackets, min stack, valid parentheses, evaluate expression, and stock span. Solutions with explanations and code." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/stack-problems" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Common Stack Problems and Solutions: From Easy to Hard" />
+    <meta name="twitter:description" content="Practice the most common stack problems: balanced brackets, min stack, valid parentheses, evaluate expression, and stock span. Solutions with explanations and code." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Common Stack Problems and Solutions: From Easy to Hard",
+        "description": "Practice the most common stack problems: balanced brackets, min stack, valid parentheses, evaluate expression, and stock span. Solutions with explanations and code.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/stack-problems"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Stack Problems", "item": "https://easystack.netlify.app/stack-problems"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the most common stack interview problem?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Valid Parentheses (LeetCode 20) is the most frequently asked stack problem. It tests your understanding of matching pairs and LIFO order. Master this one first."}
+            },
+            {
+                "@type": "Question",
+                "name": "How do I solve the min stack problem?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Use two stacks: one for all elements and one that tracks the minimum at each level. The min stack only pushes a new value when it is less than or equal to the current minimum. This gives O(1) push, pop, and getMin."}
+            },
+            {
+                "@type": "Question",
+                "name": "When should I use a monotonic stack?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Use a monotonic stack when you need to find the next greater or next smaller element for every element in an array. Problems like Daily Temperatures, Stock Span, and Largest Rectangle in Histogram all use monotonic stacks."}
+            },
+            {
+                "@type": "Question",
+                "name": "What is the time complexity of stack-based solutions?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Most stack problems run in O(n) time because each element is pushed and popped at most once. The space is also O(n) in the worst case. Some problems like Min Stack require O(n) space for the auxiliary stack."}
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar"><div class="shell topbar__inner">
+        <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+        <nav aria-label="Primary"><ul class="nav-links desktop-links">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+        </ul></nav>
+        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+        <ul class="nav-links nav-mobile" id="navLinks">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+        </ul>
+    </div></header>
+
+    <main id="main">
+        <section class="hero hero--guide">
+            <div class="shell">
+                <nav class="breadcrumb" aria-label="Breadcrumb"><ol>
+                    <li><a href="./">Home</a></li>
+                    <li aria-current="page">Stack Problems</li>
+                </ol></nav>
+                <h1>Problem Set</h1>
+                <p class="hero__sub">Master the most common stack problems asked in coding interviews and competitions. Each problem includes a description, approach, and working code.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell guide-layout">
+                <aside class="guide-sidebar" aria-label="On this page">
+                    <nav class="toc">
+                        <h2>On this page</h2>
+                        <ul>
+                            <li><a href="#valid-parentheses">Valid Parentheses</a></li>
+                            <li><a href="#min-stack">Min Stack</a></li>
+                            <li><a href="#rpn">Evaluate Reverse Polish Notation</a></li>
+                            <li><a href="#queue-using-stacks">Queue Using Stacks</a></li>
+                            <li><a href="#daily-temperatures">Daily Temperatures</a></li>
+                            <li><a href="#largest-rectangle">Largest Rectangle in Histogram</a></li>
+                            <li><a href="#trapping-rain-water">Trapping Rain Water</a></li>
+                            <li><a href="#difficulty-table">Difficulty Summary</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <article class="guide-article">
+                    <section id="valid-parentheses">
+                        <h2>Valid Parentheses</h2>
+                        <p><strong>Problem:</strong> Given a string containing only <code>(</code>, <code>)</code>, <code>{</code>, <code>}</code>, <code>[</code>, and <code>]</code>, determine if the input is valid. An input is valid if every opening bracket has a matching closing bracket in the correct order.</p>
+                        <p><strong>Approach:</strong> Push each opening bracket onto the stack. When you encounter a closing bracket, check if it matches the top of the stack. If it does, pop the stack. If not, or if the stack is empty, the string is invalid. At the end, the stack should be empty.</p>
+                        <div class="code-block">
+<pre><code>def is_valid(s):
+    stack = []
+    mapping = {')': '(', ']': '[', '}': '{'}
+    for char in s:
+        if char in mapping:
+            if stack and stack[-1] == mapping[char]:
+                stack.pop()
+            else:
+                return False
+        else:
+            stack.append(char)
+    return len(stack) == 0</code></pre>
+                        </div>
+                        <p><strong>Complexity:</strong> O(n) time, O(n) space.</p>
+                    </section>
+
+                    <section id="min-stack">
+                        <h2>Min Stack</h2>
+                        <p><strong>Problem:</strong> Design a stack that supports push, pop, top, and retrieving the minimum element in O(1) time.</p>
+                        <p><strong>Approach:</strong> Use two stacks. The main stack holds all elements. The min stack holds the current minimum at each level. When pushing, also push onto the min stack if the value is less than or equal to the current minimum. When popping, pop from both stacks.</p>
+                        <div class="code-block">
+<pre><code>class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val):
+        self.stack.append(val)
+        if not self.min_stack or val &lt;= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self):
+        val = self.stack.pop()
+        if val == self.min_stack[-1]:
+            self.min_stack.pop()
+        return val
+
+    def top(self):
+        return self.stack[-1]
+
+    def get_min(self):
+        return self.min_stack[-1]</code></pre>
+                        </div>
+                        <p><strong>Complexity:</strong> O(1) for all operations. O(n) space for the auxiliary min stack.</p>
+                    </section>
+
+                    <section id="rpn">
+                        <h2>Evaluate Reverse Polish Notation</h2>
+                        <p><strong>Problem:</strong> Given an array of tokens representing a Reverse Polish Notation expression, evaluate it. Tokens are numbers or operators (+, -, *, /).</p>
+                        <p><strong>Approach:</strong> Push numbers onto the stack. When you encounter an operator, pop the top two elements, apply the operator, and push the result. The final answer is the only element left on the stack.</p>
+                        <div class="code-block">
+<pre><code>def eval_rpn(tokens):
+    stack = []
+    for token in tokens:
+        if token in '+-*/':
+            b = stack.pop()
+            a = stack.pop()
+            if token == '+': stack.append(a + b)
+            elif token == '-': stack.append(a - b)
+            elif token == '*': stack.append(a * b)
+            else: stack.append(int(a / b))
+        else:
+            stack.append(int(token))
+    return stack[0]</code></pre>
+                        </div>
+                        <p><strong>Complexity:</strong> O(n) time, O(n) space.</p>
+                    </section>
+
+                    <section id="queue-using-stacks">
+                        <h2>Implement Queue Using Stacks</h2>
+                        <p><strong>Problem:</strong> Implement a FIFO queue using only two stacks. The queue should support push, pop, peek, and isEmpty.</p>
+                        <p><strong>Approach:</strong> Use an input stack for push operations and an output stack for pop/peek. When the output stack is empty and you need to pop, transfer all elements from the input stack to the output stack (reversing the order). Each element is moved at most twice.</p>
+                        <div class="code-block">
+<pre><code>class QueueWithStacks:
+    def __init__(self):
+        self.input = []
+        self.output = []
+
+    def push(self, x):
+        self.input.append(x)
+
+    def pop(self):
+        self._transfer()
+        return self.output.pop()
+
+    def peek(self):
+        self._transfer()
+        return self.output[-1]
+
+    def isEmpty(self):
+        return not self.input and not self.output
+
+    def _transfer(self):
+        if not self.output:
+            while self.input:
+                self.output.append(self.input.pop())</code></pre>
+                        </div>
+                        <p><strong>Complexity:</strong> Amortized O(1) per operation. O(n) space.</p>
+                    </section>
+
+                    <section id="daily-temperatures">
+                        <h2>Daily Temperatures</h2>
+                        <p><strong>Problem:</strong> Given an array of daily temperatures, return an array where each element tells you how many days you have to wait until a warmer temperature. If there is no future day, use 0.</p>
+                        <p><strong>Approach:</strong> Use a monotonic decreasing stack that stores indices. Iterate through the array. For each day, while the stack is not empty and the current temperature is warmer than the temperature at the stack's top index, pop and record the difference in indices as the answer for that popped index.</p>
+                        <div class="code-block">
+<pre><code>def daily_temperatures(temps):
+    n = len(temps)
+    result = [0] * n
+    stack = []
+    for i in range(n):
+        while stack and temps[i] > temps[stack[-1]]:
+            j = stack.pop()
+            result[j] = i - j
+        stack.append(i)
+    return result</code></pre>
+                        </div>
+                        <p><strong>Complexity:</strong> O(n) time, O(n) space. Each element is pushed and popped at most once.</p>
+                    </section>
+
+                    <section id="largest-rectangle">
+                        <h2>Largest Rectangle in Histogram</h2>
+                        <p><strong>Problem:</strong> Given an array of bar heights representing a histogram, find the area of the largest rectangle that can be formed within the histogram bounds.</p>
+                        <p><strong>Approach:</strong> Use a monotonic increasing stack of indices. For each bar, if it is taller than the stack top, push it. If it is shorter, pop bars and calculate areas using the popped bar's height and the width between the current index and the new stack top. This ensures each bar extends as far left and right as possible.</p>
+                        <p><strong>Complexity:</strong> O(n) time, O(n) space.</p>
+                    </section>
+
+                    <section id="trapping-rain-water">
+                        <h2>Trapping Rain Water</h2>
+                        <p><strong>Problem:</strong> Given an array of bar heights, compute how much water can be trapped after rain.</p>
+                        <p><strong>Approach:</strong> Use a stack that stores indices of bars in decreasing order of height. When a taller bar is found, pop bars and calculate trapped water as the difference between the current bar height and the popped bar height, multiplied by the width. Alternatively, use two pointers for O(1) space.</p>
+                        <p><strong>Complexity:</strong> O(n) time, O(n) space with stack approach, O(1) space with two pointers.</p>
+                    </section>
+
+                    <section id="difficulty-table">
+                        <h2>Problem Difficulty Summary</h2>
+                        <table class="table table--hig">
+                            <thead>
+                                <tr>
+                                    <th>Problem</th>
+                                    <th>Difficulty</th>
+                                    <th>Key Technique</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#valid-parentheses">Valid Parentheses</a></td>
+                                    <td>Easy</td>
+                                    <td>Basic stack matching</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#min-stack">Min Stack</a></td>
+                                    <td>Easy</td>
+                                    <td>Auxiliary stack</td>
+                                    <td>O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#rpn">Evaluate RPN</a></td>
+                                    <td>Medium</td>
+                                    <td>Stack evaluation</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#queue-using-stacks">Queue Using Stacks</a></td>
+                                    <td>Easy</td>
+                                    <td>Two-stack transfer</td>
+                                    <td>Amortized O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#daily-temperatures">Daily Temperatures</a></td>
+                                    <td>Medium</td>
+                                    <td>Monotonic stack</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#largest-rectangle">Largest Rectangle</a></td>
+                                    <td>Hard</td>
+                                    <td>Monotonic stack</td>
+                                    <td>O(n)</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#trapping-rain-water">Trapping Rain Water</a></td>
+                                    <td>Hard</td>
+                                    <td>Monotonic stack or two pointers</td>
+                                    <td>O(n)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section id="faq" class="faq-section">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="faq-item">
+                            <h3>What is the most common stack interview problem?</h3>
+                            <p>Valid Parentheses (LeetCode 20) is the most frequently asked stack problem. It tests your understanding of matching pairs and LIFO order. Master this one first.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>How do I solve the min stack problem?</h3>
+                            <p>Use two stacks: one for all elements and one that tracks the minimum at each level. The min stack only pushes a new value when it is less than or equal to the current minimum. This gives O(1) push, pop, and getMin.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>When should I use a monotonic stack?</h3>
+                            <p>Use a monotonic stack when you need to find the next greater or next smaller element for every element in an array. Problems like Daily Temperatures, Stock Span, and Largest Rectangle in Histogram all use monotonic stacks.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>What is the time complexity of stack-based solutions?</h3>
+                            <p>Most stack problems run in O(n) time because each element is pushed and popped at most once. The space is also O(n) in the worst case. Some problems like Min Stack require O(n) space for the auxiliary stack.</p>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

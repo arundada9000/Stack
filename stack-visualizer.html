@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Stack Visualizer: Animated Push, Pop, Peek with Keyboard Shortcuts</title>
+<meta name="description" content="An advanced stack data structure visualizer with animated push and pop operations, a step log, keyboard shortcuts, and a toast notification system. Supports push, pop, peek, clear, and display.">
+<meta name="keywords" content="stack visualizer, stack tool, push pop peek, interactive stack, stack data structure visualizer, animated stack">
+<meta name="author" content="Arun Neupane">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<link rel="canonical" href="https://easystack.netlify.app/stack-visualizer">
+
+<meta property="og:title" content="Advanced Stack Visualizer: Animated Push, Pop, Peek with Keyboard Shortcuts">
+<meta property="og:description" content="An advanced stack data structure visualizer with animated push and pop operations, a step log, keyboard shortcuts, and a toast notification system.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://easystack.netlify.app/stack-visualizer">
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png">
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Advanced Stack Visualizer">
+<meta name="twitter:description" content="An advanced stack data structure visualizer with animated push and pop, keyboard shortcuts, and a step log.">
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png">
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "EasyStack Visualizer",
+  "url": "https://easystack.netlify.app/stack-visualizer",
+  "description": "An advanced stack data structure visualizer with animated push and pop operations, a step log, keyboard shortcuts, and a toast notification system.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Arun Neupane"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Use the Advanced Stack Visualizer",
+  "description": "Step-by-step guide for using the advanced stack visualizer tool.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Enter a value",
+      "text": "Type a number in the input field. Leave it empty to push a random value between 1 and 99."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Push or Pop",
+      "text": "Click the Push button or press P to add the value to the stack. Click Pop or press O to remove the top item."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Peek, Clear, or Display",
+      "text": "Press Peek (K) to highlight the top element, Clear (C) to empty the stack, or Display (D) to log all current items."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Adjust speed",
+      "text": "Use the speed slider to control animation duration from 100ms to 2000ms."
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Advanced Visualizer", "item": "https://easystack.netlify.app/stack-visualizer" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Advanced Stack Visualizer do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It lets you interact with a stack data structure in your browser. You can push values, pop the top element, peek at it without removing it, clear the entire stack, and display all current items, all with smooth animations and a step-by-step log."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What keyboard shortcuts are available?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Press P to push, O to pop, K to peek, C to clear, D to display all items, and T to toggle between light and dark themes. These work when the input field is not focused."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a limit to how many items I can push?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no hard limit. The stack grows dynamically in your browser. However, very large stacks may slow down the rendering since each item is a DOM element. Practical limits depend on your browser and device."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links desktop-links">
+        <li><a href="./">Visualizer</a></li>
+        <li><a href="./guides">Guides</a></li>
+        <li><a href="./stack-visualizer" aria-current="page">Tool</a></li>
+        <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+        <li><a href="./stack-interview">Interview</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <ul class="nav-links nav-mobile" id="navLinks">
+      <li><a href="./">Visualizer</a></li>
+      <li><a href="./guides">All Guides</a></li>
+      <li><a href="./stack-operations">Stack Operations</a></li>
+      <li><a href="./stack-visualizer" aria-current="page">Advanced Tool</a></li>
+      <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+      <li><a href="./complexity-analyzer">Complexity</a></li>
+      <li><a href="./stack-interview">Interview Problems</a></li>
+      <li><a href="./about">About</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main" class="playing-field">
+  <section class="hero hero--tool" data-reveal>
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="./">Home</a><span class="crumb-sep"></span><span aria-current="page">Advanced Visualizer</span>
+      </nav>
+      <span class="hero__kicker">Interactive Tool</span>
+      <h1>Advanced Stack Visualizer</h1>
+      <p class="hero__lead">Push, pop, and peek on an animated stack with keyboard shortcuts, a step log, and toast feedback. Adjust animation speed to match your learning pace.</p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="toolbar" role="toolbar" aria-label="Stack controls">
+        <div class="field">
+          <label for="stackInput" class="sr-only">Value to push</label>
+          <input type="number" id="stackInput" placeholder="Enter value">
+        </div>
+        <button type="button" class="btn btn--accent" id="pushBtn">Push <kbd>P</kbd></button>
+        <button type="button" class="btn" id="popBtn">Pop <kbd>O</kbd></button>
+        <button type="button" class="btn" id="peekBtn">Peek <kbd>K</kbd></button>
+        <button type="button" class="btn" id="clearBtn">Clear <kbd>C</kbd></button>
+        <button type="button" class="btn" id="displayBtn">Display <kbd>D</kbd></button>
+        <div class="field" style="min-width:200px">
+          <label for="speedSlider">Animation Speed</label>
+          <div class="range-row">
+            <input type="range" id="speedSlider" min="100" max="2000" value="400" step="50">
+            <span class="range-value" id="speedValue">400ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="shortcuts-bar" aria-label="Keyboard shortcuts">
+        <span class="tiny">Shortcuts:</span>
+        <kbd>P</kbd> Push
+        <kbd>O</kbd> Pop
+        <kbd>K</kbd> Peek
+        <kbd>C</kbd> Clear
+        <kbd>D</kbd> Display
+        <kbd>T</kbd> Theme
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="stack-stage" aria-label="Stack visualization">
+        <div class="stack-items" id="stackItems" role="list" aria-live="polite" aria-label="Stack elements">
+        </div>
+        <div class="empty-state" id="emptyState">Stack is Empty</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Step Log</h2>
+      <p class="section__desc">Every operation is recorded here with timestamps.</p>
+      <div class="step-log" id="stepLog" role="log" aria-live="polite" aria-label="Operation log"></div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Frequently Asked Questions</h2>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary><span class="q-mark">Q</span> What does the Advanced Stack Visualizer do?</summary>
+          <div class="faq-item__body"><p>It lets you interact with a stack data structure in your browser. You can push values, pop the top element, peek at it without removing it, clear the entire stack, and display all current items, all with smooth animations and a step-by-step log.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> What keyboard shortcuts are available?</summary>
+          <div class="faq-item__body"><p>Press P to push, O to pop, K to peek, C to clear, D to display all items, and T to toggle between light and dark themes. These work when the input field is not focused.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> Is there a limit to how many items I can push?</summary>
+          <div class="faq-item__body"><p>There is no hard limit. The stack grows dynamically in your browser. However, very large stacks may slow down the rendering since each item is a DOM element. Practical limits depend on your browser and device.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+        <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="./">Basic Visualizer</a></li>
+          <li><a href="./stack-visualizer">Advanced Tool</a></li>
+          <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+          <li><a href="./complexity-analyzer">Complexity Analyzer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guides</h4>
+        <ul>
+          <li><a href="./guides">All Guides</a></li>
+          <li><a href="./stack-operations">Stack Operations</a></li>
+          <li><a href="./stack-complexity">Time Complexity</a></li>
+          <li><a href="./call-stack">The Call Stack</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./about">About</a></li>
+          <li><a href="./contact">Contact</a></li>
+          <li><a href="./feedback">Feedback</a></li>
+          <li><a href="./privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+      <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./hig.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  var stack = [];
+  var stackItems = document.getElementById("stackItems");
+  var emptyState = document.getElementById("emptyState");
+  var stepLog = document.getElementById("stepLog");
+  var input = document.getElementById("stackInput");
+  var speedSlider = document.getElementById("speedSlider");
+  var speedValue = document.getElementById("speedValue");
+  var toast = document.getElementById("toast");
+  var animating = false;
+
+  function getDuration() {
+    return parseInt(speedSlider.value, 10);
+  }
+
+  function log(op, val) {
+    var entry = document.createElement("div");
+    entry.className = "log-entry";
+    var now = new Date();
+    var ts = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0") + ":" + String(now.getSeconds()).padStart(2, "0");
+    entry.innerHTML = '<span class="log-op">' + op + '</span><span class="log-val">' + val + '</span><span class="tiny">' + ts + '</span>';
+    stepLog.appendChild(entry);
+    stepLog.scrollTop = stepLog.scrollHeight;
+  }
+
+  function showToast(msg, duration) {
+    duration = duration || 2000;
+    toast.textContent = msg;
+    toast.classList.add("is-visible");
+    setTimeout(function() { toast.classList.remove("is-visible"); }, duration);
+  }
+
+  function updateEmpty() {
+    emptyState.style.display = stack.length === 0 ? "block" : "none";
+  }
+
+  function renderStack() {
+    stackItems.innerHTML = "";
+    for (var i = 0; i < stack.length; i++) {
+      var item = document.createElement("div");
+      item.className = "stack-item" + (i === stack.length - 1 ? " is-top" : "");
+      item.textContent = stack[i];
+      item.setAttribute("role", "listitem");
+      item.setAttribute("aria-label", "Stack item: " + stack[i]);
+      if (i === stack.length - 1) {
+        item.setAttribute("aria-label", "Top of stack: " + stack[i]);
+      }
+      stackItems.appendChild(item);
+    }
+    updateEmpty();
+  }
+
+  function push() {
+    if (animating) return;
+    var val = input.value.trim() !== "" ? Number(input.value) : Math.floor(Math.random() * 99) + 1;
+    if (isNaN(val)) val = Math.floor(Math.random() * 99) + 1;
+    input.value = "";
+    animating = true;
+    var dur = getDuration();
+    var item = document.createElement("div");
+    item.className = "stack-item";
+    item.textContent = val;
+    item.setAttribute("role", "listitem");
+    item.style.opacity = "0";
+    item.style.transform = "translateY(-30px) scale(0.8)";
+    emptyState.style.display = "none";
+    stackItems.appendChild(item);
+    stack.push(val);
+    requestAnimationFrame(function() {
+      item.style.transition = "opacity " + dur + "ms cubic-bezier(0.32,0.72,0,1), transform " + dur + "ms cubic-bezier(0.34,1.56,0.64,1)";
+      item.style.opacity = "1";
+      item.style.transform = "translateY(0) scale(1)";
+      setTimeout(function() {
+        item.style.transition = "";
+        item.style.transform = "";
+        renderStack();
+        animating = false;
+      }, dur);
+    });
+    log("PUSH", val);
+    showToast("Pushed " + val);
+  }
+
+  function pop() {
+    if (animating || stack.length === 0) {
+      if (stack.length === 0) { showToast("Stack is empty"); log("POP", "empty"); }
+      return;
+    }
+    animating = true;
+    var dur = getDuration();
+    var items = stackItems.querySelectorAll(".stack-item");
+    var topItem = items[items.length - 1];
+    var val = stack[stack.length - 1];
+    topItem.style.transition = "opacity " + dur + "ms ease, transform " + dur + "ms ease";
+    topItem.style.opacity = "0";
+    topItem.style.transform = "translateY(-30px) scale(0.7)";
+    setTimeout(function() {
+      stack.pop();
+      renderStack();
+      animating = false;
+    }, dur);
+    log("POP", val);
+    showToast("Popped " + val);
+  }
+
+  function peek() {
+    if (stack.length === 0) { showToast("Stack is empty"); log("PEEK", "empty"); return; }
+    var val = stack[stack.length - 1];
+    var items = stackItems.querySelectorAll(".stack-item");
+    var topItem = items[items.length - 1];
+    if (topItem) {
+      topItem.classList.add("is-top");
+      var dur = getDuration();
+      setTimeout(function() { topItem.classList.remove("is-top"); }, dur * 1.5);
+    }
+    log("PEEK", val);
+    showToast("Top: " + val);
+  }
+
+  function clear() {
+    if (animating || stack.length === 0) {
+      if (stack.length === 0) { showToast("Stack is already empty"); log("CLEAR", "already empty"); }
+      return;
+    }
+    animating = true;
+    var dur = Math.min(getDuration(), 300);
+    var items = stackItems.querySelectorAll(".stack-item");
+    var count = items.length;
+    var cleared = 0;
+    for (var i = 0; i < count; i++) {
+      (function(item, delay) {
+        setTimeout(function() {
+          item.style.transition = "opacity " + dur + "ms ease, transform " + dur + "ms ease";
+          item.style.opacity = "0";
+          item.style.transform = "translateY(20px) scale(0.7)";
+          cleared++;
+          if (cleared === count) {
+            setTimeout(function() {
+              stack = [];
+              renderStack();
+              animating = false;
+            }, dur);
+          }
+        }, delay);
+      })(items[i], i * 60);
+    }
+    log("CLEAR", "all items");
+    showToast("Cleared");
+  }
+
+  function display() {
+    if (stack.length === 0) { showToast("Stack: []"); log("DISPLAY", "[]"); return; }
+    var str = "[" + stack.join(", ") + "]";
+    showToast("Stack: " + str);
+    log("DISPLAY", str);
+  }
+
+  document.getElementById("pushBtn").addEventListener("click", push);
+  document.getElementById("popBtn").addEventListener("click", pop);
+  document.getElementById("peekBtn").addEventListener("click", peek);
+  document.getElementById("clearBtn").addEventListener("click", clear);
+  document.getElementById("displayBtn").addEventListener("click", display);
+
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") { e.preventDefault(); push(); }
+  });
+
+  speedSlider.addEventListener("input", function() {
+    speedValue.textContent = speedSlider.value + "ms";
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return;
+    var key = e.key.toLowerCase();
+    if (key === "p") { e.preventDefault(); push(); }
+    else if (key === "o") { e.preventDefault(); pop(); }
+    else if (key === "k") { e.preventDefault(); peek(); }
+    else if (key === "c") { e.preventDefault(); clear(); }
+    else if (key === "d") { e.preventDefault(); display(); }
+    else if (key === "t") {
+      e.preventDefault();
+      var toggle = document.getElementById("themeToggle");
+      if (toggle) toggle.click();
+    }
+  });
+
+  updateEmpty();
+})();
+</script>
+</body>
+</html>

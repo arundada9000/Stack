@@ -1,6 +1,14 @@
-# Allow all search engines
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Allow Google to index everything
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: Bingbot
+Allow: /
+
 Sitemap: https://easystack.netlify.app/sitemap.xml

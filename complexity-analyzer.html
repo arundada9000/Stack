@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack Complexity Analyzer: Compare Array vs Linked List Performance</title>
+<meta name="description" content="Analyze and compare the time and space complexity of array-based and linked-list-based stacks. Interactive chart showing operation costs at different scales.">
+<meta name="keywords" content="stack complexity, time complexity stack, array stack vs linked list, Big O stack operations, stack performance analysis">
+<meta name="author" content="Arun Neupane">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<link rel="canonical" href="https://easystack.netlify.app/complexity-analyzer">
+
+<meta property="og:title" content="Stack Complexity Analyzer: Compare Array vs Linked List Performance">
+<meta property="og:description" content="Analyze and compare the time and space complexity of array-based and linked-list-based stacks.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://easystack.netlify.app/complexity-analyzer">
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png">
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stack Complexity Analyzer">
+<meta name="twitter:description" content="Compare array vs linked list stack performance with interactive charts.">
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png">
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "EasyStack Complexity Analyzer",
+  "url": "https://easystack.netlify.app/complexity-analyzer",
+  "description": "Analyze and compare the time and space complexity of array-based and linked-list-based stacks with interactive charts.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Arun Neupane"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Complexity Analyzer", "item": "https://easystack.netlify.app/complexity-analyzer" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the time complexity of stack operations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Push, pop, and peek are all O(1) for both array-based and linked-list-based stacks. Search is O(n) because you may need to check every element. The key difference is in constant factors: array stacks have better cache locality, making them faster in practice even though the Big O is the same."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which stack implementation is better, array or linked list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Array stacks are generally faster in practice because array elements are stored contiguously in memory, which gives better cache performance. Linked list stacks have no fixed size limit and never need resizing, but each node requires extra memory for a pointer. Choose based on your constraints."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does O(1) mean for stack operations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O(1) means constant time. The operation takes the same amount of time regardless of how many elements are in the stack. Pushing the 1st element takes the same time as pushing the 10,000th element. This is what makes stacks so efficient for LIFO access patterns."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links desktop-links">
+        <li><a href="./">Visualizer</a></li>
+        <li><a href="./guides">Guides</a></li>
+        <li><a href="./stack-visualizer">Tool</a></li>
+        <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+        <li><a href="./stack-interview">Interview</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <ul class="nav-links nav-mobile" id="navLinks">
+      <li><a href="./">Visualizer</a></li>
+      <li><a href="./guides">All Guides</a></li>
+      <li><a href="./stack-operations">Stack Operations</a></li>
+      <li><a href="./stack-visualizer">Advanced Tool</a></li>
+      <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+      <li><a href="./complexity-analyzer" aria-current="page">Complexity</a></li>
+      <li><a href="./stack-interview">Interview Problems</a></li>
+      <li><a href="./about">About</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="main" class="playing-field">
+  <section class="hero hero--tool" data-reveal>
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="./">Home</a><span class="crumb-sep"></span><span aria-current="page">Complexity Analyzer</span>
+      </nav>
+      <span class="hero__kicker">Analysis Tool</span>
+      <h1>Stack Complexity Analyzer</h1>
+      <p class="hero__lead">Compare the time and space complexity of array-based and linked-list-based stack implementations. See how Big O costs translate to real performance differences.</p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="segmented" role="tablist" aria-label="Implementation type">
+        <button role="tab" class="is-on" id="tabArray" aria-selected="true" aria-controls="panelArray">Array Stack</button>
+        <button role="tab" id="tabLinked" aria-selected="false" aria-controls="panelLinked">Linked List Stack</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <div class="stat-strip" id="panelArray" role="tabpanel" aria-labelledby="tabArray">
+        <div class="stat">
+          <div class="stat__label">Push</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Amortized for dynamic arrays</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Pop</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Remove from end</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Peek</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Direct index access</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Search</div>
+          <div class="stat__value" style="color:var(--orange)">O(n)</div>
+          <div class="stat__hint">Linear scan required</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Space</div>
+          <div class="stat__value" style="color:var(--indigo)">O(n)</div>
+          <div class="stat__hint">Contiguous memory block</div>
+        </div>
+      </div>
+      <div class="stat-strip hidden" id="panelLinked" role="tabpanel" aria-labelledby="tabLinked">
+        <div class="stat">
+          <div class="stat__label">Push</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Insert at head</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Pop</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Remove from head</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Peek</div>
+          <div class="stat__value gradient-text">O(1)</div>
+          <div class="stat__hint">Read head pointer</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Search</div>
+          <div class="stat__value" style="color:var(--orange)">O(n)</div>
+          <div class="stat__hint">Traverse links</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Space</div>
+          <div class="stat__value" style="color:var(--indigo)">O(n)</div>
+          <div class="stat__hint">Plus pointer overhead</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Growth Curves</h2>
+      <p class="section__desc">How operation costs grow as the stack gets larger. O(1) stays flat while O(n) climbs linearly.</p>
+      <div class="chart-box">
+        <svg id="growthChart" aria-label="Growth curve chart comparing O(1), O(log n), and O(n)"></svg>
+      </div>
+      <div class="legend">
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--accent)"></span> O(1) - Stack push/pop/peek</span>
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--green)"></span> O(log n) - Binary search</span>
+        <span class="legend__item"><span class="legend__swatch" style="background:var(--red)"></span> O(n) - Linear search</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Operation Comparison</h2>
+      <p class="section__desc">Detailed breakdown of costs for every stack operation across both implementations.</p>
+      <div class="table-wrap">
+        <table class="hig">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Array Stack</th>
+              <th>Linked List Stack</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Push</strong></td>
+              <td>O(1) amortized - append to end, occasional resize</td>
+              <td>O(1) always - insert at head, no resize</td>
+              <td><span class="chip chip--green">Linked List</span></td>
+            </tr>
+            <tr>
+              <td><strong>Pop</strong></td>
+              <td>O(1) - remove from end</td>
+              <td>O(1) - remove from head</td>
+              <td><span class="chip chip--accent">Tie</span></td>
+            </tr>
+            <tr>
+              <td><strong>Peek</strong></td>
+              <td>O(1) - index access arr[arr.length-1]</td>
+              <td>O(1) - follow head pointer</td>
+              <td><span class="chip chip--accent">Tie</span></td>
+            </tr>
+            <tr>
+              <td><strong>Search</strong></td>
+              <td>O(n) - but cache-friendly sequential scan</td>
+              <td>O(n) - pointer chasing, cache misses</td>
+              <td><span class="chip chip--orange">Array</span></td>
+            </tr>
+            <tr>
+              <td><strong>Space per element</strong></td>
+              <td>4-8 bytes (the value only)</td>
+              <td>12-24 bytes (value + next pointer + alignment)</td>
+              <td><span class="chip chip--orange">Array</span></td>
+            </tr>
+            <tr>
+              <td><strong>Memory pattern</strong></td>
+              <td>Contiguous block, prefetch-friendly</td>
+              <td>Scattered nodes, pointer chasing</td>
+              <td><span class="chip chip--orange">Array</span></td>
+            </tr>
+            <tr>
+              <td><strong>Resize cost</strong></td>
+              <td>O(n) when array doubles, amortized O(1)</td>
+              <td>No resize ever needed</td>
+              <td><span class="chip chip--green">Linked List</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Cache Locality: The Hidden Advantage</h2>
+      <p class="prose">
+        <p>On paper, array and linked list stacks both have O(1) push, pop, and peek. In practice, array stacks are significantly faster for most workloads. The reason is <strong>cache locality</strong>.</p>
+        <p>Modern CPUs fetch data from main memory in chunks called <strong>cache lines</strong> (typically 64 bytes). When an array stack pushes or pops, it accesses adjacent memory addresses, so the next operation almost always hits the L1 or L2 cache. A linked list stack scatters nodes across the heap, causing frequent cache misses that can be 10-100x slower than cache hits.</p>
+        <p>For stacks that stay under a few thousand elements, the array implementation will almost always win in benchmarks, even though both are O(1). The linked list version only pulls ahead when the stack grows so large that the array must repeatedly double its allocation, copying millions of elements.</p>
+        <p>The bottom line: <strong>use an array stack by default</strong>. Switch to a linked list stack only if you need guaranteed O(1) worst-case push without occasional resize pauses, or if you are in a memory-constrained environment where pre-allocating a large array is not feasible.</p>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" data-reveal>
+    <div class="shell">
+      <h2 class="section__title">Frequently Asked Questions</h2>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary><span class="q-mark">Q</span> What is the time complexity of stack operations?</summary>
+          <div class="faq-item__body"><p>Push, pop, and peek are all O(1) for both array-based and linked-list-based stacks. Search is O(n) because you may need to check every element. The key difference is in constant factors: array stacks have better cache locality, making them faster in practice even though the Big O is the same.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> Which stack implementation is better, array or linked list?</summary>
+          <div class="faq-item__body"><p>Array stacks are generally faster in practice because array elements are stored contiguously in memory, which gives better cache performance. Linked list stacks have no fixed size limit and never need resizing, but each node requires extra memory for a pointer. Choose based on your constraints.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="q-mark">Q</span> What does O(1) mean for stack operations?</summary>
+          <div class="faq-item__body"><p>O(1) means constant time. The operation takes the same amount of time regardless of how many elements are in the stack. Pushing the 1st element takes the same time as pushing the 10,000th element. This is what makes stacks so efficient for LIFO access patterns.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+        <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="./">Basic Visualizer</a></li>
+          <li><a href="./stack-visualizer">Advanced Tool</a></li>
+          <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+          <li><a href="./complexity-analyzer">Complexity Analyzer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Guides</h4>
+        <ul>
+          <li><a href="./guides">All Guides</a></li>
+          <li><a href="./stack-operations">Stack Operations</a></li>
+          <li><a href="./stack-complexity">Time Complexity</a></li>
+          <li><a href="./call-stack">The Call Stack</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./about">About</a></li>
+          <li><a href="./contact">Contact</a></li>
+          <li><a href="./feedback">Feedback</a></li>
+          <li><a href="./privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+      <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./hig.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  var tabArray = document.getElementById("tabArray");
+  var tabLinked = document.getElementById("tabLinked");
+  var panelArray = document.getElementById("panelArray");
+  var panelLinked = document.getElementById("panelLinked");
+
+  tabArray.addEventListener("click", function() {
+    tabArray.classList.add("is-on");
+    tabArray.setAttribute("aria-selected", "true");
+    tabLinked.classList.remove("is-on");
+    tabLinked.setAttribute("aria-selected", "false");
+    panelArray.classList.remove("hidden");
+    panelLinked.classList.add("hidden");
+  });
+
+  tabLinked.addEventListener("click", function() {
+    tabLinked.classList.add("is-on");
+    tabLinked.setAttribute("aria-selected", "true");
+    tabArray.classList.remove("is-on");
+    tabArray.setAttribute("aria-selected", "false");
+    panelLinked.classList.remove("hidden");
+    panelArray.classList.add("hidden");
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    var svg = document.getElementById("growthChart");
+    if (svg && window.EasyStack && window.EasyStack.hig && window.EasyStack.hig.drawGrowthCurve) {
+      window.EasyStack.hig.drawGrowthCurve(svg, [
+        { label: "O(1)", color: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#007AFF", fn: function() { return 1; } },
+        { label: "O(log n)", color: getComputedStyle(document.documentElement).getPropertyValue("--green").trim() || "#34C759", fn: function(n) { return Math.log2(Math.max(1, n)); } },
+        { label: "O(n)", color: getComputedStyle(document.documentElement).getPropertyValue("--red").trim() || "#FF3B30", fn: function(n) { return n; } }
+      ], { nMax: 100, width: 760, height: 360 });
+    }
+  });
+})();
+</script>
+</body>
+</html>

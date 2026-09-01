@@ -20,12 +20,39 @@
         content="Push, pop and peek on a visual stack, then learn the call stack, undo history and classic interview problems, with code in 5 languages." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://easystack.netlify.app/" />
-    <meta property="og:image" content="https://easystack.netlify.app/images/stack-fav.png" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Stack Data Structure Visualizer" />
     <meta name="twitter:description"
         content="Visualize stack operations and learn where stacks are used in real programs." />
-    <meta name="twitter:image" content="https://easystack.netlify.app/images/stack-fav.png" />
+    <meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "EasyStack",
+      "url": "https://easystack.netlify.app",
+      "description": "Interactive stack data structure visualizer with guides and tools.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://easystack.netlify.app/guides?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" }
+      ]
+    }
+    </script>
 
     <script type="application/ld+json">
     {
@@ -90,6 +117,9 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./extra.css">
     <link rel="shortcut icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <meta name="theme-color" content="#39bcf9">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
@@ -101,6 +131,22 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main" style="position:absolute;left:-1000px;top:0;z-index:100;background:#007AFF;color:#fff;padding:10px 16px;border-radius:0 0 12px 0;text-decoration:none">Skip to content</a>
+    <style>.skip-link:focus{left:0;color:#fff}</style>
+
+    <nav class="topbar" style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.88);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(60,60,67,0.29)">
+        <div style="display:flex;align-items:center;gap:20px;height:56px;max-width:1120px;margin:0 auto;padding:0 20px">
+            <a href="./" style="display:flex;align-items:center;gap:10px;color:#000;font-weight:700;text-decoration:none;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif"><img src="./images/stack.gif" alt="" width="30" height="30" style="border-radius:9px"> EasyStack</a>
+            <ul style="display:flex;align-items:center;gap:4px;margin-left:auto;list-style:none;padding:0;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif">
+                <li><a href="./" style="display:block;padding:7px 13px;border-radius:10px;color:#007AFF;font-size:15px;font-weight:600;text-decoration:none">Visualizer</a></li>
+                <li><a href="./guides" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Guides</a></li>
+                <li><a href="./stack-visualizer" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Tool</a></li>
+                <li><a href="./stack-frame-visualizer" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Call Stack</a></li>
+                <li><a href="./stack-interview" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <header class="header">
         <img src="./images/stack.gif" alt="Stack Data structure">
         <h1 class="scroll-animate">Stack Data Structure</h1>
@@ -288,14 +334,62 @@
                 </pre>
                 <button class="language-copy-button scroll-animate">Copy</button>
             </section>
+            <section class="scroll-animate" style="margin-top:2rem;padding:1.5rem;background:rgba(0,122,255,0.06);border-radius:12px;border:1px solid rgba(0,122,255,0.15)">
+                <h2 style="color:#059ff7;font-size:1.3rem;margin-bottom:0.5rem">Want to Learn More?</h2>
+                <p style="color:#666;margin-bottom:1rem">Explore our comprehensive guides covering stack operations, implementations in 5 languages, the call stack, monotonic stacks, and interview problems.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <a href="./guides" style="padding:8px 16px;background:#007AFF;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px">All Guides</a>
+                    <a href="./stack-operations" style="padding:8px 16px;background:rgba(0,0,0,0.08);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;color:#333">Stack Operations</a>
+                    <a href="./stack-complexity" style="padding:8px 16px;background:rgba(0,0,0,0.08);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;color:#333">Complexity</a>
+                    <a href="./call-stack" style="padding:8px 16px;background:rgba(0,0,0,0.08);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;color:#333">Call Stack</a>
+                    <a href="./stack-visualizer" style="padding:8px 16px;background:rgba(0,0,0,0.08);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;color:#333">Advanced Tool</a>
+                    <a href="./stack-interview" style="padding:8px 16px;background:rgba(0,0,0,0.08);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;color:#333">Interview Prep</a>
+                </div>
+            </section>
+
             <footer class="site-footer">
                 <p class="scroll-animate">Want to go further? Try predicting what the visualizer will show before you
                     press each button. When you can do that reliably, you understand stacks.</p>
-                <p class="footer-links scroll-animate">
-                    <a href="./privacy.html">Privacy Policy</a> |
-                    <a href="./contact.html">Contact</a> |
-                    <a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a>
-                </p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;margin:1.5rem 0;padding:1.5rem 0;border-top:1px solid #333">
+                    <div>
+                        <h3 style="color:#888;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem">Guides</h3>
+                        <ul style="list-style:none;padding:0;display:grid;gap:6px">
+                            <li><a href="./stack-operations" style="color:#888;text-decoration:none;font-size:0.9rem">Stack Operations</a></li>
+                            <li><a href="./push-pop" style="color:#888;text-decoration:none;font-size:0.9rem">Push and Pop</a></li>
+                            <li><a href="./stack-complexity" style="color:#888;text-decoration:none;font-size:0.9rem">Time Complexity</a></li>
+                            <li><a href="./call-stack" style="color:#888;text-decoration:none;font-size:0.9rem">The Call Stack</a></li>
+                            <li><a href="./stack-analogies" style="color:#888;text-decoration:none;font-size:0.9rem">Real-World Analogies</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color:#888;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem">Learn</h3>
+                        <ul style="list-style:none;padding:0;display:grid;gap:6px">
+                            <li><a href="./guides" style="color:#888;text-decoration:none;font-size:0.9rem">All Guides</a></li>
+                            <li><a href="./array-stack" style="color:#888;text-decoration:none;font-size:0.9rem">Array Implementation</a></li>
+                            <li><a href="./linked-list-stack" style="color:#888;text-decoration:none;font-size:0.9rem">Linked List Stack</a></li>
+                            <li><a href="./stack-memory" style="color:#888;text-decoration:none;font-size:0.9rem">Stack Memory</a></li>
+                            <li><a href="./monotonic-stack" style="color:#888;text-decoration:none;font-size:0.9rem">Monotonic Stack</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color:#888;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem">Tools</h3>
+                        <ul style="list-style:none;padding:0;display:grid;gap:6px">
+                            <li><a href="./stack-visualizer" style="color:#888;text-decoration:none;font-size:0.9rem">Advanced Visualizer</a></li>
+                            <li><a href="./stack-frame-visualizer" style="color:#888;text-decoration:none;font-size:0.9rem">Call Stack Visualizer</a></li>
+                            <li><a href="./complexity-analyzer" style="color:#888;text-decoration:none;font-size:0.9rem">Complexity Analyzer</a></li>
+                            <li><a href="./stack-interview" style="color:#888;text-decoration:none;font-size:0.9rem">Interview Problems</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color:#888;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem">Site</h3>
+                        <ul style="list-style:none;padding:0;display:grid;gap:6px">
+                            <li><a href="./about" style="color:#888;text-decoration:none;font-size:0.9rem">About</a></li>
+                            <li><a href="./contact" style="color:#888;text-decoration:none;font-size:0.9rem">Contact</a></li>
+                            <li><a href="./privacy" style="color:#888;text-decoration:none;font-size:0.9rem">Privacy Policy</a></li>
+                            <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener" style="color:#888;text-decoration:none;font-size:0.9rem">Source Code</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <p class="footer-credit scroll-animate">&copy; <span id="year">2026</span>
                     <a href="https://arunneupane.netlify.app/" target="_blank" rel="noopener">Arun Neupane</a>.
                     Built by a CSIT student from Nepal. Reach me anytime:
@@ -514,9 +608,27 @@ stack.print_stack()`
     <script src="./extra.js"></script>
     <script src="./script.js"></script>
     <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("./service-worker.js").catch(function () {});
+            });
+        }
+
         // Keep footer copyright year current
         const yearEl = document.getElementById("year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Keyboard shortcuts for the visualizer
+        document.addEventListener("keydown", function(e) {
+            if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+            switch(e.key.toLowerCase()) {
+                case "p": pushBtn.click(); break;
+                case "o": popBtn.click(); break;
+                case "k": peekBtn.click(); break;
+                case "c": clearBtn.click(); break;
+                case "d": displayBtn.click(); break;
+            }
+        });
     </script>
 </body>
 

@@ -6,19 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Contact | Stack Visualizer</title>
+    <title>Contact Arun Neupane | EasyStack Support</title>
     <meta name="description"
-        content="Get in touch with Arun Neupane, the maker of the Stack Visualizer. Report a bug, request a feature, or ask a question.">
+        content="Get in touch with Arun Neupane, the maker of the EasyStack Stack Visualizer. Report a bug, request a feature, or ask a question.">
+    <meta name="keywords" content="contact, easystack, stack visualizer, arun neupane, bug report, feature request" />
+    <meta name="author" content="Arun Neupane" />
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://easystack.netlify.app/contact">
 
     <link rel="shortcut icon" href="./images/stack-fav.png" type="image/x-icon">
+    <meta name="theme-color" content="#F2F2F7">
 
-    <meta property="og:title" content="Contact | Stack Visualizer">
-    <meta property="og:description" content="Reach the maker of the Stack Visualizer for support or feedback.">
+    <meta property="og:title" content="Contact Arun Neupane | EasyStack Support">
+    <meta property="og:description" content="Reach the maker of the EasyStack Stack Visualizer for support or feedback.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easystack.netlify.app/contact">
-    <meta property="og:image" content="https://easystack.netlify.app/images/stack-fav.png">
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png">
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Contact | EasyStack" />
+    <meta name="twitter:description" content="Reach the maker of the EasyStack Stack Visualizer." />
 
     <link rel="stylesheet" href="./styles.css">
     <style>
@@ -30,9 +40,9 @@
     {
       "@context": "https://schema.org",
       "@type": "ContactPage",
-      "name": "Contact Stack Visualizer",
+      "name": "Contact EasyStack",
       "url": "https://easystack.netlify.app/contact",
-      "description": "Contact Arun Neupane about the Stack Visualizer.",
+      "description": "Contact Arun Neupane about the EasyStack Stack Visualizer.",
       "mainEntity": {
         "@type": "Person",
         "name": "Arun Neupane",
@@ -40,28 +50,47 @@
         "url": "https://arunneupane.netlify.app/",
         "sameAs": [
           "https://github.com/arundada9000",
-          "https://www.youtube.com/@arundada9000",
+          "https://www.youtube.com/@code_with_ease",
           "https://www.facebook.com/arundada9000",
           "https://www.instagram.com/arundada9000"
         ]
       }
     }
     </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://easystack.netlify.app/contact" }
+      ]
+    }
+    </script>
 </head>
 
 <body>
-    <header class="header">
-        <img src="./images/stack.gif" alt="Stack Data structure">
-        <h1>Contact</h1>
-    </header>
+    <a href="#main" style="position:absolute;left:-1000px;top:0;z-index:100;background:#007AFF;color:#fff;padding:10px 16px;border-radius:0 0 12px 0;text-decoration:none" onfocus="this.style.left='0'" onblur="this.style.left='-1000px'">Skip to content</a>
 
-    <div class="page-wrap">
+    <nav class="topbar" style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.88);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(60,60,67,0.29)">
+        <div style="display:flex;align-items:center;gap:20px;height:56px;max-width:1120px;margin:0 auto;padding:0 20px">
+            <a href="./" style="display:flex;align-items:center;gap:10px;color:#000;font-weight:700;text-decoration:none;font-family:Inter,-apple-system,sans-serif"><img src="./images/stack.gif" alt="" width="30" height="30" style="border-radius:9px"> EasyStack</a>
+            <ul style="display:flex;align-items:center;gap:4px;margin-left:auto;list-style:none;padding:0;font-family:Inter,-apple-system,sans-serif">
+                <li><a href="./" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Visualizer</a></li>
+                <li><a href="./guides" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Guides</a></li>
+                <li><a href="./stack-visualizer" style="display:block;padding:7px 13px;border-radius:10px;color:rgba(60,60,67,0.6);font-size:15px;font-weight:500;text-decoration:none">Tool</a></li>
+                <li><a href="./contact" style="display:block;padding:7px 13px;border-radius:10px;color:#007AFF;font-size:15px;font-weight:600;text-decoration:none">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-wrap" id="main">
         <div class="info-container">
             <section>
                 <h2>Get in Touch</h2>
-                <p>The Stack Visualizer is built and maintained by <strong>Arun Neupane</strong>, a Computer Science
-                    (CSIT) student and web developer from Parbat, Nepal. If you found a bug, want a new feature (a
-                    queue visualizer, step-by-step animation speed, more languages in the code panel), or have a
+                <p>The EasyStack Stack Visualizer is built and maintained by <strong>Arun Neupane</strong>, a Computer Science
+                    (CSIT) student and web developer from Parbat, Nepal. If you found a bug, want a new feature (more languages, step-by-step animation speed, a queue visualizer), or have a
                     question about how any of it works, I would genuinely like to hear from you. I read and reply to
                     every message myself.</p>
             </section>
@@ -79,7 +108,7 @@
                         with my other projects and background</li>
                     <li><a href="https://github.com/arundada9000" target="_blank" rel="noopener">GitHub</a>, where
                         the source code for this tool lives</li>
-                    <li><a href="https://www.youtube.com/@arundada9000" target="_blank" rel="noopener">YouTube</a></li>
+                    <li><a href="https://www.youtube.com/@code_with_ease" target="_blank" rel="noopener">YouTube</a></li>
                     <li><a href="https://www.facebook.com/arundada9000" target="_blank" rel="noopener">Facebook</a></li>
                     <li><a href="https://www.instagram.com/arundada9000" target="_blank" rel="noopener">Instagram</a></li>
                 </ul>
@@ -91,14 +120,14 @@
                     fix it quickly. You can also open an issue on the
                     <a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">GitHub
                     repository</a>. For how your data is handled, see the
-                    <a href="./privacy.html">Privacy Policy</a>.</p>
+                    <a href="./privacy">Privacy Policy</a>.</p>
             </section>
 
             <footer class="site-footer">
                 <p class="footer-links">
-                    <a href="./index.html">Home</a> |
-                    <a href="./privacy.html">Privacy Policy</a> |
-                    <a href="./contact.html">Contact</a>
+                    <a href="./">Home</a> |
+                    <a href="./privacy">Privacy Policy</a> |
+                    <a href="./contact">Contact</a>
                 </p>
                 <p class="footer-credit">&copy; <span id="year">2026</span>
                     <a href="https://arunneupane.netlify.app/" target="_blank" rel="noopener">Arun Neupane</a>.

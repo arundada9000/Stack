@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack vs Queue: When to Use Which Data Structure | EasyStack</title>
+    <meta name="description" content="Compare stacks and queues side by side. Understand LIFO vs FIFO, when to use each, and how to implement a queue using two stacks." />
+    <meta name="keywords" content="stack vs queue, LIFO vs FIFO, queue using stacks, deque data structure, when to use stack or queue, data structure comparison" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/stacks-vs-queues" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack vs Queue: When to Use Which Data Structure" />
+    <meta property="og:description" content="Compare stacks and queues side by side. Understand LIFO vs FIFO, when to use each, and how to implement a queue using two stacks." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/stacks-vs-queues" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack vs Queue: When to Use Which Data Structure" />
+    <meta name="twitter:description" content="Compare stacks and queues side by side. Understand LIFO vs FIFO, when to use each, and how to implement a queue using two stacks." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack vs Queue: When to Use Which Data Structure",
+        "description": "Compare stacks and queues side by side. Understand LIFO vs FIFO, when to use each, and how to implement a queue using two stacks.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/stacks-vs-queues"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Stack vs Queue", "item": "https://easystack.netlify.app/stacks-vs-queues"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the main difference between a stack and a queue?",
+                "acceptedAnswer": {"@type": "Answer", "text": "A stack follows LIFO (Last In, First Out) where the most recently added element is removed first. A queue follows FIFO (First In, First Out) where the earliest added element is removed first. Stacks use one end; queues use two ends."}
+            },
+            {
+                "@type": "Question",
+                "name": "Can you implement a queue using stacks?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use two stacks: one for enqueue operations and one for dequeue operations. When the dequeue stack is empty, transfer all elements from the enqueue stack. Each element is moved at most twice, giving amortized O(1) per operation."}
+            },
+            {
+                "@type": "Question",
+                "name": "What is a deque?",
+                "acceptedAnswer": {"@type": "Answer", "text": "A deque (double-ended queue) allows adding and removing elements from both the front and back in O(1) time. It combines the capabilities of both stacks and queues. Most languages provide a deque in their standard library."}
+            },
+            {
+                "@type": "Question",
+                "name": "When should I use a stack over a queue?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Use a stack when you need to process items in reverse order of arrival, implement undo/redo, parse nested structures, or track function calls. Use a queue when you need to process items in order of arrival, like BFS, task scheduling, or print queues."}
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar"><div class="shell topbar__inner">
+        <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+        <nav aria-label="Primary"><ul class="nav-links desktop-links">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+        </ul></nav>
+        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+        <ul class="nav-links nav-mobile" id="navLinks">
+            <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+        </ul>
+    </div></header>
+
+    <main id="main">
+        <section class="hero hero--guide">
+            <div class="shell">
+                <nav class="breadcrumb" aria-label="Breadcrumb"><ol>
+                    <li><a href="./">Home</a></li>
+                    <li aria-current="page">Stack vs Queue</li>
+                </ol></nav>
+                <h1>Comparison</h1>
+                <p class="hero__sub">Stacks and queues are the two fundamental linear data structures. They differ in one key way: the order in which elements are removed. This guide helps you choose the right one.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell guide-layout">
+                <aside class="guide-sidebar" aria-label="On this page">
+                    <nav class="toc">
+                        <h2>On this page</h2>
+                        <ul>
+                            <li><a href="#definitions">LIFO vs FIFO</a></li>
+                            <li><a href="#comparison-table">Side-by-Side Comparison</a></li>
+                            <li><a href="#when-stack">When to Use a Stack</a></li>
+                            <li><a href="#when-queue">When to Use a Queue</a></li>
+                            <li><a href="#when-both">When to Use Both (Deque)</a></li>
+                            <li><a href="#queue-using-stacks">Queue Using Two Stacks</a></li>
+                            <li><a href="#stack-using-queues">Stack Using Two Queues</a></li>
+                            <li><a href="#deque">Deque: Best of Both Worlds</a></li>
+                            <li><a href="#decision">Decision Flowchart</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <article class="guide-article">
+                    <section id="definitions">
+                        <h2>Stack (LIFO) vs Queue (FIFO) Definition</h2>
+                        <p>A <strong>stack</strong> follows the Last In, First Out (LIFO) principle. The most recently pushed element is the first one to be popped. Think of a stack of plates: you add and remove from the top.</p>
+                        <p>A <strong>queue</strong> follows the First In, First Out (FIFO) principle. The first element added is the first one to be removed. Think of a line at a grocery store: the first person in line gets served first.</p>
+                    </section>
+
+                    <section id="comparison-table">
+                        <h2>Side-by-Side Comparison</h2>
+                        <table class="table table--hig">
+                            <thead>
+                                <tr>
+                                    <th>Aspect</th>
+                                    <th>Stack</th>
+                                    <th>Queue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Order</td>
+                                    <td>LIFO (Last In, First Out)</td>
+                                    <td>FIFO (First In, First Out)</td>
+                                </tr>
+                                <tr>
+                                    <td>Operations</td>
+                                    <td>push, pop, peek</td>
+                                    <td>enqueue, dequeue, peek</td>
+                                </tr>
+                                <tr>
+                                    <td>Ends Used</td>
+                                    <td>One end (top)</td>
+                                    <td>Two ends (front and back)</td>
+                                </tr>
+                                <tr>
+                                    <td>Real-World Analogy</td>
+                                    <td>Stack of plates, browser back button</td>
+                                    <td>Print queue, grocery store line</td>
+                                </tr>
+                                <tr>
+                                    <td>Typical Uses</td>
+                                    <td>Undo/redo, recursion, parsing, DFS</td>
+                                    <td>BFS, task scheduling, print queue, buffers</td>
+                                </tr>
+                                <tr>
+                                    <td>Access Pattern</td>
+                                    <td>Only top element accessible</td>
+                                    <td>Front element accessible for dequeue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section id="when-stack">
+                        <h2>When to Use a Stack</h2>
+                        <ul>
+                            <li><strong>Undo/redo systems:</strong> Text editors push each action onto a stack and pop to undo.</li>
+                            <li><strong>Function call management:</strong> The call stack tracks nested function calls and returns.</li>
+                            <li><strong>Expression parsing:</strong> Converting infix to postfix notation uses operator stacks.</li>
+                            <li><strong>Depth-first search:</strong> DFS explores as deep as possible before backtracking, which is natural for a stack.</li>
+                            <li><strong>Browser history (back button):</strong> Visited pages are pushed onto a stack.</li>
+                            <li><strong>Matching nested structures:</strong> Validating balanced parentheses requires LIFO matching.</li>
+                        </ul>
+                    </section>
+
+                    <section id="when-queue">
+                        <h2>When to Use a Queue</h2>
+                        <ul>
+                            <li><strong>Breadth-first search:</strong> BFS explores all neighbors before going deeper, which requires FIFO ordering.</li>
+                            <li><strong>Task scheduling:</strong> CPU scheduling, print spoolers, and message queues process tasks in order.</li>
+                            <li><strong>Buffering:</strong> Keyboard input buffering, streaming data buffers, and network packet queues.</li>
+                            <li><strong>Producer-consumer systems:</strong> One thread produces data, another consumes it in order.</li>
+                            <li><strong>Rate limiting:</strong> Track requests with timestamps in a queue and evict old ones.</li>
+                        </ul>
+                    </section>
+
+                    <section id="when-both">
+                        <h2>When to Use Both (Deque)</h2>
+                        <p>Sometimes you need to add or remove from either end. A deque (double-ended queue) supports push_front, push_back, pop_front, and pop_back, all in O(1) time. Use a deque when the access pattern is not strictly LIFO or FIFO, or when you need a sliding window.</p>
+                    </section>
+
+                    <section id="queue-using-stacks">
+                        <h2>Implementing a Queue Using Two Stacks</h2>
+                        <p>This is a classic interview problem. The idea is to use one stack for enqueue and another for dequeue. When you dequeue and the output stack is empty, reverse the input stack into the output stack.</p>
+                        <div class="code-block">
+<pre><code>class QueueFromStacks:
+    def __init__(self):
+        self.inbox = []
+        self.outbox = []
+
+    def enqueue(self, x):
+        self.inbox.append(x)
+
+    def dequeue(self):
+        self._shift()
+        return self.outbox.pop()
+
+    def peek(self):
+        self._shift()
+        return self.outbox[-1]
+
+    def is_empty(self):
+        return not self.inbox and not self.outbox
+
+    def _shift(self):
+        if not self.outbox:
+            while self.inbox:
+                self.outbox.append(self.inbox.pop())</code></pre>
+                        </div>
+                        <p>Each element is pushed and popped from each stack at most once, giving amortized O(1) time per operation.</p>
+                    </section>
+
+                    <section id="stack-using-queues">
+                        <h2>Implementing a Stack Using Two Queues</h2>
+                        <p>This is less common but useful to know. The idea: enqueue the new element into an empty queue, then dequeue all elements from the other queue and enqueue them into the new queue. This makes the new element the front of the queue, effectively making it the "top" of the stack.</p>
+                        <p>This approach has O(n) time per push because you must transfer all elements. There is no known O(1) amortized solution using two queues for stack operations.</p>
+                    </section>
+
+                    <section id="deque">
+                        <h2>Deque: The Best of Both Worlds</h2>
+                        <p>A deque (pronounced "deck") is a double-ended queue. It allows insertion and deletion at both ends in O(1) time. In Python, use <code>collections.deque</code>. In JavaScript, arrays can simulate a deque (but <code>shift()</code> is O(n) due to reindexing).</p>
+                        <p>Use a deque when you need a sliding window, when both ends of the data are active, or when you are not sure whether LIFO or FIFO is the right pattern and want flexibility.</p>
+                    </section>
+
+                    <section id="decision">
+                        <h2>Decision Flowchart</h2>
+                        <p>Ask yourself these questions in order:</p>
+                        <ol>
+                            <li><strong>Do you need to process items in reverse order of arrival?</strong> If yes, use a stack.</li>
+                            <li><strong>Do you need to process items in order of arrival?</strong> If yes, use a queue.</li>
+                            <li><strong>Do you need to add and remove from both ends?</strong> If yes, use a deque.</li>
+                            <li><strong>Do you need to search or access elements in the middle?</strong> If yes, consider a list, set, or hash table instead.</li>
+                        </ol>
+                        <p>When in doubt, start with the simplest structure that fits. You can always upgrade to a deque if you need more flexibility.</p>
+                    </section>
+
+                    <section id="faq" class="faq-section">
+                        <h2>Frequently Asked Questions</h2>
+                        <div class="faq-item">
+                            <h3>What is the main difference between a stack and a queue?</h3>
+                            <p>A stack follows LIFO (Last In, First Out) where the most recently added element is removed first. A queue follows FIFO (First In, First Out) where the earliest added element is removed first. Stacks use one end; queues use two ends.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Can you implement a queue using stacks?</h3>
+                            <p>Yes. Use two stacks: one for enqueue operations and one for dequeue operations. When the dequeue stack is empty, transfer all elements from the enqueue stack. Each element is moved at most twice, giving amortized O(1) per operation.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>What is a deque?</h3>
+                            <p>A deque (double-ended queue) allows adding and removing elements from both the front and back in O(1) time. It combines the capabilities of both stacks and queues. Most languages provide a deque in their standard library.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>When should I use a stack over a queue?</h3>
+                            <p>Use a stack when you need to process items in reverse order of arrival, implement undo/redo, parse nested structures, or track function calls. Use a queue when you need to process items in order of arrival, like BFS, task scheduling, or print queues.</p>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

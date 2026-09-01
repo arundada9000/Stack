@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Interview Questions: 15 Problems Every Developer Should Know | EasyStack</title>
+    <meta name="description" content="Ace your coding interview with these 15 stack problems: valid parentheses, min stack, largest rectangle, daily temperatures, and more. With solutions and time complexity." />
+    <meta name="keywords" content="stack interview questions, stack coding problems, valid parentheses, min stack, largest rectangle in histogram, daily temperatures, next greater element, monotonic stack, reverse polish notation, trapping rain water" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/stack-interview" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack Interview Questions: 15 Problems Every Developer Should Know" />
+    <meta property="og:description" content="Ace your coding interview with these 15 stack problems: valid parentheses, min stack, largest rectangle, daily temperatures, and more. With solutions and time complexity." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/stack-interview" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack Interview Questions: 15 Problems Every Developer Should Know" />
+    <meta name="twitter:description" content="Ace your coding interview with these 15 stack problems: valid parentheses, min stack, largest rectangle, daily temperatures, and more. With solutions and time complexity." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack Interview Questions: 15 Problems Every Developer Should Know",
+        "description": "Ace your coding interview with these 15 stack problems: valid parentheses, min stack, largest rectangle, daily temperatures, and more. With solutions and time complexity.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/stack-interview"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Why do interviewers love stack questions?", "acceptedAnswer": {"@type": "Answer", "text": "Stacks encode a simple but powerful constraint, LIFO, that solves many real problems elegantly. They test your ability to recognize when a last-in, first-out order is the natural fit for a problem, and they pair well with topics like matching, history, and monotonic ordering. A stack problem is compact, easy to describe, and exposes your reasoning clearly."}},
+            {"@type": "Question", "name": "When should I use a monotonic stack?", "acceptedAnswer": {"@type": "Answer", "text": "Use a monotonic stack when you need to find the next or previous greater or smaller element for each item in an array. It keeps the stack sorted in a chosen order and processes each element once, giving O(n) time. Classic uses include daily temperatures, next greater element, largest rectangle in a histogram, and trapping rain water."}},
+            {"@type": "Question", "name": "How do I recognize that a problem needs a stack?", "acceptedAnswer": {"@type": "Answer", "text": "Look for a pattern of cancellation or nesting: matching parentheses, undo history, balanced brackets, or backspaces. Also look for next greater element patterns and expression evaluation with precedence. If the solution requires processing elements in reverse order of arrival, LIFO, a stack is the natural data structure."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack Interview Questions", "item": "https://easystack.netlify.app/stack-interview"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>Interview Prep</h1>
+                <p>Master the 15 stack problems that show up again and again in technical interviews, with clear solutions and complexity analysis.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>Why Interviewers Love Stack Questions</h2>
+                <p>Stack problems are short to state, easy to visualize, and beautiful when you find the trick. They test whether you recognize a last-in, first-out ordering where it is not obvious. A stack encodes the elegant constraint that you can only access the most recently added element.</p>
+                <p>Because the operations are simple, the hard part is the reasoning: when do you push, when do you pop, and what does the stack actually represent? This reasoning skill transfers across languages and frameworks, which is why interviewers genuinely love them.</p>
+                <p>Most stack questions reduce to a few recurring patterns: matching, history tracking, monotonic ordering, and expression evaluation. Learn these four patterns and you will recognize the shape of nearly every stack problem. <a href="./stack-operations">Review the core stack operations</a></p>
+
+                <h2>Problem List</h2>
+                <div style="overflow-x:auto;">
+                <table class="hig">
+                    <caption>15 essential stack interview problems with difficulty and the key technique they teach.</caption>
+                    <thead>
+                        <tr><th>Problem</th><th>Difficulty</th><th>Key Technique</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Valid Parentheses</td><td>Easy</td><td>Matching pairs with a stack</td></tr>
+                        <tr><td>Min Stack</td><td>Easy</td><td>Two-stack design</td></tr>
+                        <tr><td>Implement Queue Using Stacks</td><td>Easy</td><td>Two-stack reversal</td></tr>
+                        <tr><td>Evaluate Reverse Polish Notation</td><td>Medium</td><td>Expression evaluation</td></tr>
+                        <tr><td>Daily Temperatures</td><td>Medium</td><td>Monotonic stack</td></tr>
+                        <tr><td>Asteroid Collision</td><td>Medium</td><td>Simulation with a stack</td></tr>
+                        <tr><td>Remove Stars From a String</td><td>Medium</td><td>Simple push/pop filtering</td></tr>
+                        <tr><td>Decode String</td><td>Medium</td><td>Nested structure with two stacks</td></tr>
+                        <tr><td>Next Greater Element</td><td>Medium</td><td>Monotonic stack</td></tr>
+                        <tr><td>Basic Calculator</td><td>Hard</td><td>Expression evaluation with precedence</td></tr>
+                        <tr><td>Largest Rectangle in Histogram</td><td>Hard</td><td>Monotonic stack with indices</td></tr>
+                        <tr><td>Trapping Rain Water</td><td>Hard</td><td>Monotonic stack tracking height</td></tr>
+                        <tr><td>Stack with getMin</td><td>Medium</td><td>Design problem</td></tr>
+                        <tr><td>Backspace String Compare</td><td>Easy</td><td>Stack cancellation</td></tr>
+                        <tr><td>Remove Duplicate Letters</td><td>Hard</td><td>Greedy + monotonic stack</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <p><a href="./stack-complexity">Understand why these are usually O(n)</a></p>
+
+                <h2>Valid Parentheses</h2>
+                <p>Given a string with the characters <code>(</code>, <code>)</code>, <code>{</code>, <code>}</code>, <code>[</code>, and <code>]</code>, determine if the input string is valid. It is valid if brackets close in the correct order, like <code>()[]{}</code> and <code>([{}])</code>, but not <code>(]</code> or <code>([)]</code>.</p>
+                <p>The stack is the perfect fit. Push each opening bracket. When you see a closing bracket, pop the top opening bracket and verify it matches. If the stack is empty when a closer appears, or if the top does not match, the string is invalid. At the end, the stack must be empty.</p>
+                <pre><code>def isValid(s):
+    stack = []
+    mapping = {")": "(", "]": "[", "}": "{"}
+    for ch in s:
+        if ch in mapping:
+            if not stack or stack.pop() != mapping[ch]:
+                return False
+        else:
+            stack.append(ch)
+    return not stack</code></pre>
+                <p>Time: O(n). Space: O(n) for the stack. <a href="./stack-operations">Why LIFO guarantees correctness</a></p>
+
+                <h2>Min Stack</h2>
+                <p>Design a stack that supports <code>push</code>, <code>pop</code>, <code>top</code>, and retrieving the minimum element in constant time. The challenge is that popping can remove the current minimum, so you must remember previous minimums.</p>
+                <p>The standard trick is to maintain two stacks: the data stack and a separate min stack. When pushing a value, also push onto the min stack the smaller of the new value and the current top of the min stack. Popping from the data stack pops from the min stack too, so the min stays consistent.</p>
+                <pre><code>class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val):
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self):
+        if self.stack:
+            val = self.stack.pop()
+            if val == self.min_stack[-1]:
+                self.min_stack.pop()
+            return val
+
+    def top(self):
+        return self.stack[-1] if self.stack else None
+
+    def getMin(self):
+        return self.min_stack[-1] if self.min_stack else None</code></pre>
+                <p>All operations run in O(1) time. Space is O(n) for the auxiliary min stack.</p>
+
+                <h2>Implement Queue Using Stacks</h2>
+                <p>Implement a first-in, first-out queue using only two stacks. A stack is LIFO, so to get FIFO order you must reverse the elements.</p>
+                <p>Keep one stack for incoming elements and one for outgoing. When you need to pop or peek, if the outgoing stack is empty, transfer all elements from the incoming stack into it, which reverses their order. The top of the outgoing stack is then the front of the queue.</p>
+                <pre><code>class MyQueue:
+    def __init__(self):
+        self.input = []
+        self.output = []
+
+    def push(self, x):
+        self.input.append(x)
+
+    def pop(self):
+        self._move()
+        return self.output.pop()
+
+    def peek(self):
+        self._move()
+        return self.output[-1]
+
+    def empty(self):
+        return not self.input and not self.output
+
+    def _move(self):
+        if not self.output:
+            while self.input:
+                self.output.append(self.input.pop())</code></pre>
+                <p>Each element is moved at most once, so the amortized time per operation is O(1).</p>
+
+                <h2>Evaluate Reverse Polish Notation</h2>
+                <p>Given an array of tokens in Reverse Polish Notation, evaluate it. Operators like <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code> apply to the two most recent operands.</p>
+                <p>Scan the tokens. When you see a number, push it onto the stack. When you see an operator, pop the two top numbers, apply the operator, and push the result back. When the scan ends, the stack holds exactly one value, the answer.</p>
+                <pre><code>def evalRPN(tokens):
+    stack = []
+    for t in tokens:
+        if t in "+-*/":
+            b = stack.pop()
+            a = stack.pop()
+            if t == "+": stack.append(a + b)
+            elif t == "-": stack.append(a - b)
+            elif t == "*": stack.append(a * b)
+            else: stack.append(int(a / b))
+        else:
+            stack.append(int(t))
+    return stack[0]</code></pre>
+                <p>Time: O(n). Space: O(n) in the worst case.</p>
+
+                <h2>Daily Temperatures</h2>
+                <p>Given an array of daily temperatures, return an array where each answer tells how many days you have to wait for a warmer temperature. If none, the answer is 0.</p>
+                <p>The monotonic stack is the classic solution. The stack holds indices whose temperature is still waiting for a warmer day. As you scan left to right, while the current temperature is warmer than the temperature at the index on top of the stack, pop that index and record the difference.</p>
+                <pre><code>def dailyTemperatures(temperatures):
+    n = len(temperatures)
+    answer = [0] * n
+    stack = []
+    for i, t in enumerate(temperatures):
+        while stack and temperatures[stack[-1]] < t:
+            j = stack.pop()
+            answer[j] = i - j
+        stack.append(i)
+    return answer</code></pre>
+                <p>Time: O(n) because each index is pushed and popped at most once. Space: O(n).</p>
+
+                <h2>Largest Rectangle in Histogram</h2>
+                <p>Given an array of bar heights, find the largest rectangle that can fit under the histogram. This is the hardest classic stack problem.</p>
+                <p>Use a monotonic stack of indices that maintains increasing heights. When a new height is smaller than the height at the top, the bar at the top cannot extend any further to the right, so you pop it and compute the rectangle it forms: its height times the width between the popped index and the new stack top.</p>
+                <pre><code>def largestRectangleArea(heights):
+    stack = []
+    heights.append(0)
+    max_area = 0
+    for i, h in enumerate(heights):
+        while stack and heights[stack[-1]] > h:
+            height = heights[stack.pop()]
+            width = i if not stack else i - stack[-1] - 1
+            max_area = max(max_area, height * width)
+        stack.append(i)
+    return max_area</code></pre>
+                <p>Time: O(n). Space: O(n). Each bar is pushed and popped once.</p>
+
+                <h2>Trapping Rain Water</h2>
+                <p>Given elevation heights, compute how much water can be trapped between bars after it rains. A bar traps water if taller bars exist on both sides.</p>
+                <p>The monotonic stack tracks indices of bars in decreasing height order. When the current bar is taller than the top of the stack, a depression exists between two taller bars, so pop and compute the trapped water using the height difference and the horizontal distance.</p>
+                <pre><code>def trap(height):
+    stack = []
+    water = 0
+    for i, h in enumerate(height):
+        while stack and height[stack[-1]] < h:
+            bottom = stack.pop()
+            if not stack:
+                break
+            left = stack[-1]
+            depth = min(height[left], h) - height[bottom]
+            water += depth * (i - left - 1)
+        stack.append(i)
+    return water</code></pre>
+                <p>Time: O(n). Space: O(n).</p>
+
+                <h2>Next Greater Element</h2>
+                <p>For each element in an array, find the next element to its right that is greater, or -1 if none exists.</p>
+                <p>Scan the array left to right with a monotonic stack of indices. While the current element is greater than the element at the top of the stack, pop and record the current element as the next greater for the popped index.</p>
+                <pre><code>def nextGreaterElements(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []
+    for i in range(2 * n):
+        idx = i % n
+        while stack and nums[stack[-1]] < nums[idx]:
+            result[stack.pop()] = nums[idx]
+        if i < n:
+            stack.append(i)
+    return result</code></pre>
+                <p>This version handles circular arrays by scanning twice. Time: O(n). Space: O(n).</p>
+
+                <h2>Decode String</h2>
+                <p>Given an encoded string like <code>3[a2[c]]</code>, decode it to <code>accaccacc</code>. The rule repeats a substring a given number of times, and the encoding can be nested.</p>
+                <p>Use two stacks: one for repetition counts and one for the strings built so far. When you see a digit, build the number. When you see <code>[</code>, push the current count and string, then reset. When you see <code>]</code>, pop and append the repeated substring.</p>
+                <pre><code>def decodeString(s):
+    stack = []
+    cur_string = ""
+    cur_num = 0
+    for ch in s:
+        if ch.isdigit():
+            cur_num = cur_num * 10 + int(ch)
+        elif ch == "[":
+            stack.append((cur_string, cur_num))
+            cur_string = ""
+            cur_num = 0
+        elif ch == "]":
+            prev_string, num = stack.pop()
+            cur_string = prev_string + cur_string * num
+        else:
+            cur_string += ch
+    return cur_string</code></pre>
+                <p>Time: O(n) where n is the length of the decoded output. Space: O(n).</p>
+
+                <h2>Basic Calculator</h2>
+                <p>Implement a calculator that evaluates a string with <code>+</code>, <code>-</code>, and parentheses, e.g. <code>(1+(4+5+2)-3)+(6+8)</code>.</p>
+                <p>Use a stack to remember the running sign and total when entering parentheses. Push the current result and sign before each <code>(</code>, reset, and restore them when you hit <code>)</code>.</p>
+                <pre><code>def calculate(s):
+    stack = []
+    result = 0
+    sign = 1
+    num = 0
+    for ch in s:
+        if ch.isdigit():
+            num = num * 10 + int(ch)
+        elif ch == "+" or ch == "-":
+            result += sign * num
+            num = 0
+            sign = 1 if ch == "+" else -1
+        elif ch == "(":
+            stack.append((result, sign))
+            result = 0
+            sign = 1
+        elif ch == ")":
+            result += sign * num
+            num = 0
+            prev_result, prev_sign = stack.pop()
+            result = prev_result + prev_sign * result
+    result += sign * num
+    return result</code></pre>
+                <p>Time: O(n). Space: O(n) for the stack of saved parentheses contexts.</p>
+
+                <h2>Asteroid Collision</h2>
+                <p>Given an array of asteroids, where a positive value moves right and a negative value moves left, determine the state after all collisions. When two asteroids meet, the bigger one survives, and equal sizes destroy both.</p>
+                <p>Process asteroids with a stack. A collision only happens when the current asteroid moves left and the top of the stack moves right. Resolve each collision by comparing absolute sizes.</p>
+                <pre><code>def asteroidCollision(asteroids):
+    stack = []
+    for a in asteroids:
+        while stack and a < 0 < stack[-1]:
+            if stack[-1] < -a:
+                stack.pop()
+                continue
+            elif stack[-1] == -a:
+                stack.pop()
+            break
+        else:
+            stack.append(a)
+    return stack</code></pre>
+                <p>Time: O(n). Each asteroid is pushed and popped at most once. Space: O(n).</p>
+
+                <h2>Remove Stars From a String</h2>
+                <p>Given a string where a <code>*</code> removes the nearest character to its left, return the final string.</p>
+                <p>Push every regular character onto a stack. When you see a <code>*</code>, pop the top character to remove the nearest left neighbor. This is a clean cancellation pattern.</p>
+                <pre><code>def removeStars(s):
+    stack = []
+    for ch in s:
+        if ch == "*":
+            if stack:
+                stack.pop()
+        else:
+            stack.append(ch)
+    return "".join(stack)</code></pre>
+                <p>Time: O(n). Space: O(n).</p>
+
+                <section class="callout">
+                    <h2>Summary of Techniques</h2>
+                    <p>Every stack interview problem uses one of a few patterns. Matching problems like valid parentheses resolve on pop. Design problems like Min Stack or Queue Using Stacks use an auxiliary stack. History problems like backspace and undo push and pop as events happen. Expression problems evaluate by pushing operands and popping on operators. And the powerful monotonic stack solves next-greater, daily-temperatures, largest-rectangle, and rain-water problems in linear time.</p>
+                    <p>If you can spot which pattern a problem needs, half the work is done. <a href="./monotonic-stack">Master the monotonic stack pattern</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Why do interviewers love stack questions?</h3>
+                    <p>Stacks encode a simple but powerful constraint, LIFO, that solves many real problems elegantly. They test your ability to recognize when a last-in, first-out order is the natural fit for a problem, and they pair well with topics like matching, history, and monotonic ordering. A stack problem is compact, easy to describe, and exposes your reasoning clearly.</p>
+
+                    <h3>When should I use a monotonic stack?</h3>
+                    <p>Use a monotonic stack when you need to find the next or previous greater or smaller element for each item in an array. It keeps the stack sorted in a chosen order and processes each element once, giving O(n) time. Classic uses include daily temperatures, next greater element, largest rectangle in a histogram, and trapping rain water.</p>
+
+                    <h3>How do I recognize that a problem needs a stack?</h3>
+                    <p>Look for a pattern of cancellation or nesting: matching parentheses, undo history, balanced brackets, or backspaces. Also look for next greater element patterns and expression evaluation with precedence. If the solution requires processing elements in reverse order of arrival, LIFO, a stack is the natural data structure.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

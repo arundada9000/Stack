@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack in Java: From java.util.Stack to Deque | EasyStack</title>
+    <meta name="description" content="Use stacks in Java with the Stack class and the modern Deque interface. Learn why Deque is preferred, see code examples, and understand the JVM call stack." />
+    <meta name="keywords" content="java stack, java.util.Stack, ArrayDeque stack, Deque stack java, JVM call stack, java stack frames, thread stacks java" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/java-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack in Java: From java.util.Stack to Deque" />
+    <meta property="og:description" content="Use stacks in Java with the Stack class and the modern Deque interface. Learn why Deque is preferred, see code examples, and understand the JVM call stack." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/java-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack in Java: From java.util.Stack to Deque" />
+    <meta name="twitter:description" content="Use stacks in Java with the Stack class and the modern Deque interface. Learn why Deque is preferred, see code examples, and understand the JVM call stack." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack in Java: From java.util.Stack to Deque",
+        "description": "Use stacks in Java with the Stack class and the modern Deque interface. Learn why Deque is preferred, see code examples, and understand the JVM call stack.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/java-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Why is ArrayDeque preferred over java.util.Stack?", "acceptedAnswer": {"@type": "Answer", "text": "java.util.Stack extends Vector, so every method is synchronized, adding overhead for single-threaded use. Its API also exposes non-stack methods like get() and set() that let callers violate LIFO order. ArrayDeque is unsynchronized, faster, and designed specifically for queue and stack use cases through the Deque interface."}},
+            {"@type": "Question", "name": "How is Stack different from ArrayDeque in Java?", "acceptedAnswer": {"@type": "Answer", "text": "Stack is a synchronized class that extends Vector and historically contains LIFO behavior mixed with random access methods. ArrayDeque is an unsynchronized, resizable array-backed implementation of the Deque interface, which uses addLast, removeLast, peekLast (or the equivalent push, pop, peek names) and is the recommended modern choice for a stack."}},
+            {"@type": "Question", "name": "What is the JVM call stack and StackOverflowError?", "acceptedAnswer": {"@type": "Answer", "text": "Each Java thread runs on its own JVM call stack, which holds a stack frame for every method invocation. Each frame stores local variables, the operand stack, and the return address. When a thread exceeds its stack limit, usually from unbounded recursion, the JVM throws StackOverflowError."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack in Java", "item": "https://easystack.netlify.app/java-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>Java</h1>
+                <p>Use stacks in Java with the legacy Stack class and the modern Deque interface, and understand the JVM call stack that runs every method.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>java.util.Stack Class</h2>
+                <p>The original way to make a stack in Java is the <code>java.util.Stack</code> class. It provides the classic methods <code>push</code>, <code>pop</code>, <code>peek</code>, <code>empty</code>, and <code>search</code>, which are easy to read and remember.</p>
+                <pre><code>import java.util.Stack;
+
+Stack&lt;String&gt; stack = new Stack&lt;&gt;();
+
+stack.push("first");
+stack.push("second");
+stack.push("third");
+
+String top = stack.peek();  // "third"
+String out = stack.pop();   // "third"
+boolean empty = stack.empty(); // false</code></pre>
+                <p>However, <code>Stack</code> extends <code>Vector</code>, which brings two problems. First, every method is synchronized, adding unnecessary overhead for single-threaded code. Second, because it inherits <code>Vector</code> methods like <code>get()</code>, <code>set()</code>, and <code>add(index, element)</code>, callers can mutate the stack in the middle, breaking LIFO guarantees.</p>
+                <p><a href="./stack-operations">The stack operations in detail</a></p>
+
+                <h2>The Modern Approach: ArrayDeque as a Stack</h2>
+                <p>The recommended way to implement a stack in modern Java is to use the <code>Deque</code> interface with an <code>ArrayDeque</code> implementation. The <code>Deque</code> interface provides <code>push</code>, <code>pop</code>, and <code>peek</code> methods that mirror stack semantics.</p>
+                <pre><code>import java.util.ArrayDeque;
+import java.util.Deque;
+
+Deque&lt;String&gt; stack = new ArrayDeque&lt;&gt;();
+
+stack.push("first");
+stack.push("second");
+stack.push("third");
+
+String top = stack.peek();  // "third"
+String out = stack.pop();   // "third"</code></pre>
+                <p><code>ArrayDeque</code> is a resizable array without synchronization, so it is faster in single-threaded programs and does not expose methods that accidentally break LIFO order. It is the idiomatic stack in Java code written today.</p>
+                <p><a href="./array-stack">How a resizable array-backed stack works</a></p>
+
+                <h2>Stack vs Deque Comparison</h2>
+                <div style="overflow-x:auto;">
+                <table class="hig">
+                    <caption>Comparing java.util.Stack with the modern ArrayDeque-backed Deque approach.</caption>
+                    <thead>
+                        <tr><th>Aspect</th><th>java.util.Stack</th><th>ArrayDeque (Deque)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Supertype</td><td>Extends Vector</td><td>Implements Deque</td></tr>
+                        <tr><td>Synchronized</td><td>Yes (from Vector)</td><td>No</td></tr>
+                        <tr><td>Random access</td><td>Exposed via Vector</td><td>Not exposed</td></tr>
+                        <tr><td>LIFO guarantee</td><td>Can be violated</td><td>Enforced</td></tr>
+                        <tr><td>Performance</td><td>Slower</td><td>Faster</td></tr>
+                        <tr><td>Modern preference</td><td>Legacy</td><td>Recommended</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <p><a href="./java-stack">Java stack implementation details</a></p>
+
+                <h2>JVM Call Stack and Stack Frames</h2>
+                <p>Every Java thread has its own JVM call stack. When a method is invoked, the JVM pushes a new stack frame onto that stack. When the method returns, the frame is popped.</p>
+                <p>Each stack frame stores the method's local variables, the operand stack used to compute intermediate values, and a reference to the runtime constant pool of the method's class. Together these let the JVM track exactly where execution is and how to resume when a method completes.</p>
+                <p>If a thread calls methods more deeply than its stack allows, usually from unbounded recursion, the JVM throws <code>StackOverflowError</code>. The default stack size is platform dependent but often configurable with the <code>-Xss</code> JVM flag, such as <code>-Xss1m</code> for a 1 MB thread stack.</p>
+                <p><a href="./call-stack">How call stacks manage function execution</a></p>
+
+                <h2>Thread Stacks in Java</h2>
+                <p>Each thread in a Java program gets its own call stack, so the stacks of different threads never interfere. This is what makes concurrent execution safe at the level of method-local state: local variables live on the private stack of the thread that called the method.</p>
+                <p>When you call <code>new Thread().start()</code>, the Java Virtual Machine allocates a fresh stack for that thread with its own stack size limit. Deep recursion in one thread throws <code>StackOverflowError</code> in that thread alone, without crashing other threads.</p>
+                <p>For worker threads you can configure the stack size with the <code>Thread(Runnable, String, long stackSize)</code> constructor, though the actual size is still dependent on the platform. <a href="./os-stack">How the OS manages per-thread stacks</a></p>
+
+                <h2>Complete Java Stack Examples</h2>
+                <h3>Legacy Stack approach</h3>
+                <pre><code>import java.util.Stack;
+
+public class StackExample {
+    public static void main(String[] args) {
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        while (!stack.empty()) {
+            System.out.println(stack.pop()); // 3, 2, 1
+        }
+    }
+}</code></pre>
+
+                <h3>Modern Deque approach with generics</h3>
+                <pre><code>import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class DequeStackExample {
+    public static void main(String[] args) {
+        Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        while (!stack.isEmpty()) {
+            System.out.println(stack.pop()); // 3, 2, 1
+        }
+    }
+}</code></pre>
+
+                <h3>Using ArrayDeque for a balanced-parentheses check</h3>
+                <pre><code>import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Map;
+
+public class Balanced {
+    private static final Map&lt;Character, Character&gt; PAIRS =
+        Map.of(')', '(', ']', '[', '}', '{');
+
+    static boolean isValid(String s) {
+        Deque&lt;Character&gt; stack = new ArrayDeque&lt;&gt;();
+        for (char c : s.toCharArray()) {
+            if (PAIRS.containsKey(c)) {
+                if (stack.isEmpty() || stack.pop() != PAIRS.get(c)) {
+                    return false;
+                }
+            } else {
+                stack.push(c);
+            }
+        }
+        return stack.isEmpty();
+    }
+}</code></pre>
+                <p><a href="./stack-interview">More stack problems with full solutions</a></p>
+
+                <h2>When to Use Each</h2>
+                <p>Use <code>ArrayDeque</code> for nearly all new stack code: it is faster, type-safe, enforces LIFO, and works with the standard <code>Deque</code> interface that many libraries accept.</p>
+                <p>Use <code>java.util.Stack</code> only when you need its historical thread-safety through synchronization, or when you are working with legacy code that already depends on it. Even then, the <code>Deque</code> interface offers <code>Collections.synchronizedDeque()</code> as a modern way to get a synchronized stack without the <code>Vector</code> legacy.</p>
+                <p><a href="./guides">Compare with other language implementations</a></p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p>Prefer <code>ArrayDeque</code> over <code>java.util.Stack</code>. It is faster, safer, enforces LIFO, and is the modern idiom. And remember that every thread already runs on a JVM call stack, so deep recursion throws StackOverflowError before it can corrupt memory.</p>
+                    <p><a href="./guides">Explore all EasyStack guides</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Why is ArrayDeque preferred over java.util.Stack?</h3>
+                    <p>java.util.Stack extends Vector, so every method is synchronized, adding overhead for single-threaded use. Its API also exposes non-stack methods like get() and set() that let callers violate LIFO order. ArrayDeque is unsynchronized, faster, and designed specifically for queue and stack use cases through the Deque interface.</p>
+
+                    <h3>How is Stack different from ArrayDeque in Java?</h3>
+                    <p>Stack is a synchronized class that extends Vector and historically contains LIFO behavior mixed with random access methods. ArrayDeque is an unsynchronized, resizable array-backed implementation of the Deque interface, which uses addLast, removeLast, peekLast (or the equivalent push, pop, peek names) and is the recommended modern choice for a stack.</p>
+
+                    <h3>What is the JVM call stack and StackOverflowError?</h3>
+                    <p>Each Java thread runs on its own JVM call stack, which holds a stack frame for every method invocation. Each frame stores local variables, the operand stack, and the return address. When a thread exceeds its stack limit, usually from unbounded recursion, the JVM throws StackOverflowError.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

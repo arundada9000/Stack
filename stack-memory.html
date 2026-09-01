@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Memory vs Heap Memory: Where Your Data Lives | EasyStack</title>
+    <meta name="description" content="Understand the difference between stack memory and heap memory in programming. Learn how local variables, function calls, and dynamic allocation use each region." />
+    <meta name="keywords" content="stack memory, heap memory, stack vs heap, memory allocation, local variables stack, dynamic allocation heap, stack overflow memory" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/stack-memory" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack Memory vs Heap Memory: Where Your Data Lives" />
+    <meta property="og:description" content="Understand the difference between stack memory and heap memory in programming. Learn how local variables, function calls, and dynamic allocation use each region." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/stack-memory" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack Memory vs Heap Memory: Where Your Data Lives" />
+    <meta name="twitter:description" content="Understand the difference between stack memory and heap memory in programming. Learn how local variables, function calls, and dynamic allocation use each region." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack Memory vs Heap Memory: Where Your Data Lives",
+        "description": "Understand the difference between stack memory and heap memory in programming. Learn how local variables, function calls, and dynamic allocation use each region.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/stack-memory"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Why is stack memory faster than heap memory?", "acceptedAnswer": {"@type": "Answer", "text": "Stack memory is faster because it uses a simple pointer-based allocation scheme. When a function is called, the stack pointer simply moves forward to reserve space. No search is needed. Heap allocation requires finding a free block of the right size, which involves more complex algorithms and potential locking in multi-threaded programs."}},
+            {"@type": "Question", "name": "What is the difference between stack overflow and heap overflow?", "acceptedAnswer": {"@type": "Answer", "text": "A stack overflow occurs when too many function calls or large local variables exhaust the fixed stack space, typically 1-8 MB. A heap overflow (or out-of-memory error) occurs when the program requests more heap memory than the operating system can provide. Stack overflow is usually caused by logic errors like infinite recursion, while heap overflow is caused by allocating too much data."}},
+            {"@type": "Question", "name": "Do garbage-collected languages like Python and JavaScript use stack memory?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Even in garbage-collected languages, the call stack uses stack memory for function frames and local primitive variables. Objects, arrays, and strings are allocated on the heap. The garbage collector manages heap memory but does not touch stack memory, which is automatically managed by the function call mechanism."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack Memory", "item": "https://easystack.netlify.app/stack-memory"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>Stack Memory</h1>
+                <p>Where does your data live when your program runs? Understanding stack memory vs heap memory is fundamental to writing efficient, bug-free code.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>What Is Stack Memory?</h2>
+                <p>Stack memory is a region of memory used for static memory allocation. It stores local variables, function parameters, and return addresses. It follows LIFO (Last In, First Out) behavior, which is why it is called a "stack."</p>
+                <p>When a function is called, the system allocates a block of memory on the stack for that function's local data. When the function returns, that block is automatically freed. No manual management is needed. This makes stack allocation extremely fast, typically just moving a pointer forward or backward by a few bytes.</p>
+                <p>Stack memory has a fixed size set by the operating system, usually between 1 MB and 8 MB. If you try to use more, you get a stack overflow error.</p>
+                <p><a href="./call-stack">Learn how the call stack uses this memory</a></p>
+
+                <h2>What Is Heap Memory?</h2>
+                <p>Heap memory is a region used for dynamic memory allocation. When you create an object, array, or allocate memory at runtime (using <code>new</code> in C++, <code>malloc</code> in C, or object literals in JavaScript/Python), the memory comes from the heap.</p>
+                <p>The heap is much larger than the stack, limited only by available system RAM. However, heap allocation is slower because the system must find a free block of the right size and keep track of it. In garbage-collected languages, the heap is managed by the garbage collector, which periodically reclaims unused memory.</p>
+                <p><a href="./stack-analogies">Stack analogies for understanding allocation patterns</a></p>
+
+                <h2>Stack vs Heap Comparison</h2>
+                <table class="hig">
+                    <thead>
+                        <tr><th>Feature</th><th>Stack Memory</th><th>Heap Memory</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Speed</td><td>Very fast (pointer arithmetic)</td><td>Slower (allocation algorithm)</td></tr>
+                        <tr><td>Size</td><td>Small (1-8 MB typical)</td><td>Limited by available RAM</td></tr>
+                        <tr><td>Allocation</td><td>Automatic (compiler/OS)</td><td>Manual or garbage-collected</td></tr>
+                        <tr><td>Lifetime</td><td>Scope of the function</td><td>Until explicitly freed or GC'd</td></tr>
+                        <tr><td>Fragmentation</td><td>None (contiguous)</td><td>Possible over time</td></tr>
+                        <tr><td>Access</td><td>Direct (fast CPU cache)</td><td>Indirect (pointer/reference)</td></tr>
+                        <tr><td>Thread safety</td><td>Each thread has its own stack</td><td>Shared, requires synchronization</td></tr>
+                    </tbody>
+                </table>
+
+                <h2>How Local Variables Use Stack Memory</h2>
+                <p>When you declare a variable inside a function, it is stored on the stack. This includes integers, floats, booleans, characters, and pointers. The memory is allocated when the function is entered and freed when it returns.</p>
+                <pre><code>void example() {
+    int x = 10;          // stored on the stack
+    double y = 3.14;     // stored on the stack
+    char c = 'A';        // stored on the stack
+    int *ptr = &x;       // pointer on the stack, points to stack memory
+}</code></pre>
+                <p>In higher-level languages like JavaScript and Python, primitive values (numbers, strings, booleans) are stored on the stack (or in stack frames), while objects and arrays are allocated on the heap with a reference on the stack.</p>
+                <p><a href="./javascript-stack">Stack implementation in JavaScript</a></p>
+
+                <h2>How Dynamic Allocation Uses Heap Memory</h2>
+                <p>When you need memory whose size is not known at compile time, or whose lifetime extends beyond the current function, you allocate it on the heap.</p>
+                <pre><code>// C: malloc allocates on the heap
+int *arr = malloc(100 * sizeof(int));
+free(arr);  // must free manually
+
+// C++: new allocates on the heap
+int *arr = new int[100];
+delete[] arr;
+
+// JavaScript: objects are allocated on the heap automatically
+const obj = { name: "hello", values: [1, 2, 3] };
+// garbage collector frees it when no longer referenced
+
+// Python: everything is an object on the heap
+data = [1, 2, 3]  # heap allocated, reference counted</code></pre>
+
+                <h2>Stack Memory Limits and Overflow</h2>
+                <p>Stack memory has a fixed, relatively small size. Common causes of stack overflow include:</p>
+                <ul>
+                    <li><strong>Infinite recursion:</strong> A function calling itself without a base case exhausts the stack.</li>
+                    <li><strong>Very large local arrays:</strong> Declaring <code>int arr[1000000]</code> inside a function tries to allocate millions of bytes on the stack.</li>
+                    <li><strong>Deep but finite recursion:</strong> Even valid recursion can overflow if the depth exceeds the stack limit.</li>
+                </ul>
+                <p>Solutions include increasing the stack size (OS/compiler settings), converting recursion to iteration, or moving large data to the heap using dynamic allocation.</p>
+                <p><a href="./stack-complexity">Stack complexity and limits</a></p>
+
+                <h2>Memory Layout in a Running Program</h2>
+                <p>When a program is loaded into memory, it is divided into several regions:</p>
+                <ul>
+                    <li><strong>Text segment:</strong> Contains the compiled machine code (read-only).</li>
+                    <li><strong>Data segment:</strong> Contains global and static variables.</li>
+                    <li><strong>Heap:</strong> Grows upward from the data segment. Used for dynamic allocation.</li>
+                    <li><strong>Stack:</strong> Grows downward from the top of the address space. Used for function calls and local variables.</li>
+                </ul>
+                <p>The heap and stack grow toward each other. If they meet, a stack overflow or out-of-memory condition occurs. The gap between them is the free space available for dynamic allocation.</p>
+
+                <h2>Stack Memory in C</h2>
+                <p>In C, all local variables are automatically allocated on the stack. This is called automatic storage duration. The compiler knows the exact size needed at compile time and adjusts the stack pointer accordingly.</p>
+                <pre><code>void compute() {
+    int a = 5;        // 4 bytes on stack
+    double b = 2.7;   // 8 bytes on stack
+    char name[20];    // 20 bytes on stack
+    // all freed when function returns
+}</code></pre>
+                <p>C gives you direct control: you can use <code>alloca()</code> for stack allocation and <code>malloc()</code>/<code>free()</code> for heap allocation. This power comes with responsibility: forgetting to free heap memory causes leaks, and writing past stack buffers causes undefined behavior.</p>
+
+                <h2>Stack Memory in Java, Python, and JavaScript</h2>
+                <p>In managed languages, you do not directly control stack and heap allocation, but the same principles apply:</p>
+                <ul>
+                    <li><strong>Java:</strong> Local primitives and references live on the stack. Objects live on the heap. The JVM manages both. Stack size can be configured with <code>-Xss</code>.</li>
+                    <li><strong>Python:</strong> Everything is an object on the heap, even integers. Function frames are on the call stack but reference heap objects. The reference limit is set by <code>sys.getrecursionlimit()</code>.</li>
+                    <li><strong>JavaScript:</strong> The V8 engine stores primitive values in stack frames and objects/arrays on the heap. The garbage collector handles heap cleanup. The call stack limit is enforced by the engine.</li>
+                </ul>
+                <p>Understanding this distinction helps you write code that avoids unnecessary heap allocations (for performance) and avoids deep recursion (to prevent stack overflow).</p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p>Stack memory is fast, automatic, and small. Heap memory is flexible, large, but slower. Know when your data lives on each one, and you will write faster, more reliable code. Avoid putting large data or deep recursion on the stack, and always free or let the garbage collector handle heap data.</p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Why is stack memory faster than heap memory?</h3>
+                    <p>Stack memory is faster because it uses a simple pointer-based allocation scheme. When a function is called, the stack pointer simply moves forward to reserve space. No search is needed. Heap allocation requires finding a free block of the right size, which involves more complex algorithms and potential locking in multi-threaded programs.</p>
+
+                    <h3>What is the difference between stack overflow and heap overflow?</h3>
+                    <p>A stack overflow occurs when too many function calls or large local variables exhaust the fixed stack space, typically 1-8 MB. A heap overflow (or out-of-memory error) occurs when the program requests more heap memory than the operating system can provide. Stack overflow is usually caused by logic errors like infinite recursion, while heap overflow is caused by allocating too much data.</p>
+
+                    <h3>Do garbage-collected languages like Python and JavaScript use stack memory?</h3>
+                    <p>Yes. Even in garbage-collected languages, the call stack uses stack memory for function frames and local primitive variables. Objects, arrays, and strings are allocated on the heap. The garbage collector manages heap memory but does not touch stack memory, which is automatically managed by the function call mechanism.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

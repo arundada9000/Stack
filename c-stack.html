@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack in C: Static and Dynamic Array Implementation | EasyStack</title>
+    <meta name="description" content="Build a stack in C using static arrays and dynamically allocated memory. Learn manual memory management, pointer-based stack design, and memory safety." />
+    <meta name="keywords" content="c stack, stack in c, static array stack, dynamic array stack, linked list stack c, malloc free stack, memory management c, stack overflow underflow" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/c-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Stack in C: Static and Dynamic Array Implementation" />
+    <meta property="og:description" content="Build a stack in C using static arrays and dynamically allocated memory. Learn manual memory management, pointer-based stack design, and memory safety." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/c-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Stack in C: Static and Dynamic Array Implementation" />
+    <meta name="twitter:description" content="Build a stack in C using static arrays and dynamically allocated memory. Learn manual memory management, pointer-based stack design, and memory safety." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stack in C: Static and Dynamic Array Implementation",
+        "description": "Build a stack in C using static arrays and dynamically allocated memory. Learn manual memory management, pointer-based stack design, and memory safety.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/c-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "Should I use a fixed array or dynamic memory for a C stack?", "acceptedAnswer": {"@type": "Answer", "text": "Use a fixed array when the maximum stack size is known in advance and stays small, because it is simple, fast, and needs no allocation. Use dynamic memory with realloc when the stack must grow unpredictably, because that lets it scale without wasting memory in advance."}},
+            {"@type": "Question", "name": "What is stack overflow and underflow in a C stack?", "acceptedAnswer": {"@type": "Answer", "text": "Stack overflow happens when you push onto a full stack: the top index reaches the capacity. Stack underflow happens when you pop from an empty stack: the top index is below zero. Both must be checked explicitly in C, because C does not throw exceptions or bounds-check arrays."}},
+            {"@type": "Question", "name": "How do I avoid memory leaks in a dynamic C stack?", "acceptedAnswer": {"@type": "Answer", "text": "Free every block you malloc. For a dynamic array stack, call free() on the array in a destroy function. For a linked list stack, pop nodes and free each one until the list is empty. Use a tool like valgrind or AddressSanitizer to verify there are no leaks or invalid frees."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Stack in C", "item": "https://easystack.netlify.app/c-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>C</h1>
+                <p>Build a stack in C from scratch with static arrays and dynamic memory, and learn the manual memory management that every C program requires.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>Static Array Stack</h2>
+                <p>The simplest C stack uses a fixed-size array plus a top index. The <code>struct</code> holds the array and the current top position, and push and pop manipulate that index.</p>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define MAX 100
+
+typedef struct {
+    int data[MAX];
+    int top;
+} Stack;
+
+void init(Stack *s) { s-&gt;top = -1; }
+
+bool push(Stack *s, int value) {
+    if (s-&gt;top &gt;= MAX - 1) return false;  // overflow
+    s-&gt;data[++s-&gt;top] = value;
+    return true;
+}
+
+bool pop(Stack *s, int *value) {
+    if (s-&gt;top &lt; 0) return false;          // underflow
+    *value = s-&gt;data[s-&gt;top--];
+    return true;
+}
+
+bool peek(const Stack *s, int *value) {
+    if (s-&gt;top &lt; 0) return false;
+    *value = s-&gt;data[s-&gt;top];
+    return true;
+}
+
+bool empty(const Stack *s) { return s-&gt;top &lt; 0; }</code></pre>
+                <p>The top starts at -1, meaning an empty stack. Pushing increments it, popping decrements it. C does no bounds checking, so you must verify overflow and underflow yourself before every push and pop.</p>
+
+                <h2>Dynamic Array Stack</h2>
+                <p>When you do not know the maximum size in advance, allocate the array on the heap and grow it with <code>realloc</code>. The struct stores a pointer, the current top, and the current capacity.</p>
+                <pre><code>#include &lt;stdlib.h&gt;
+
+typedef struct {
+    int *data;
+    int top;
+    int capacity;
+} DynStack;
+
+void init_dyn(DynStack *s, int cap) {
+    s-&gt;data = malloc(cap * sizeof(int));
+    s-&gt;top = -1;
+    s-&gt;capacity = cap;
+}
+
+bool push_dyn(DynStack *s, int value) {
+    if (s-&gt;top + 1 &gt;= s-&gt;capacity) {      // grow
+        int new_cap = s-&gt;capacity * 2;
+        int *grown = realloc(s-&gt;data, new_cap * sizeof(int));
+        if (!grown) return false;
+        s-&gt;data = grown;
+        s-&gt;capacity = new_cap;
+    }
+    s-&gt;data[++s-&gt;top] = value;
+    return true;
+}
+
+void destroy_dyn(DynStack *s) {
+    free(s-&gt;data);
+    s-&gt;data = NULL;
+    s-&gt;top = -1;
+    s-&gt;capacity = 0;
+}</code></pre>
+                <p>Doubling the capacity when full gives O(1) amortized push time. Remember that every <code>malloc</code> must be matched by a <code>free</code>, and keep a destroy function so callers can release the memory. <a href="./array-stack">Array-backed stack design</a></p>
+
+                <h2>Linked List Stack in C</h2>
+                <p>To avoid resizing altogether, build the stack from nodes. Each node stores a value and a pointer to the next node, and the top of the stack is the head of the list.</p>
+                <pre><code>typedef struct Node {
+    int value;
+    struct Node *next;
+} Node;
+
+typedef struct {
+    Node *top;
+} ListStack;
+
+void init_list(ListStack *s) { s-&gt;top = NULL; }
+
+bool push_list(ListStack *s, int value) {
+    Node *node = malloc(sizeof(Node));
+    if (!node) return false;
+    node-&gt;value = value;
+    node-&gt;next = s-&gt;top;
+    s-&gt;top = node;
+    return true;
+}
+
+bool pop_list(ListStack *s, int *value) {
+    if (!s-&gt;top) return false;
+    Node *old = s-&gt;top;
+    *value = old-&gt;value;
+    s-&gt;top = old-&gt;next;
+    free(old);
+    return true;
+}</code></pre>
+                <p>Every push and pop is O(1) with no reallocation, but each node is a separate allocation with poorer cache locality. <a href="./linked-list-stack">Full linked list guide</a></p>
+
+                <h2>Memory Management</h2>
+                <p>C gives you full control of memory, which is powerful and also the source of most bugs. Follow these rules for a stack:</p>
+                <ul>
+                    <li>Every <code>malloc</code> must eventually have a matching <code>free</code>.</li>
+                    <li>Check the return value of <code>malloc</code> and <code>realloc</code>; they return NULL when they fail.</li>
+                    <li>Free the stack's array in a destroy function before the program ends.</li>
+                    <li>For linked stacks, free every node when destroying, not just the head.</li>
+                    <li>Set freed pointers to NULL to avoid use after free.</li>
+                </ul>
+                <pre><code>void destroy_list(ListStack *s) {
+    Node *cur = s-&gt;top;
+    while (cur) {
+        Node *next = cur-&gt;next;
+        free(cur);
+        cur = next;
+    }
+    s-&gt;top = NULL;
+}</code></pre>
+                <p><a href="./stack-memory">How stack memory is organized</a></p>
+
+                <h2>Complete C Stack Implementation</h2>
+                <p>Here is a full, compilable dynamic array stack program:</p>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef struct {
+    int *data;
+    int top;
+    int capacity;
+} Stack;
+
+void init(Stack *s, int cap) {
+    s-&gt;data = malloc(cap * sizeof(int));
+    s-&gt;top = -1;
+    s-&gt;capacity = cap;
+}
+
+bool push(Stack *s, int value) {
+    if (s-&gt;top + 1 &gt;= s-&gt;capacity) {
+        s-&gt;capacity *= 2;
+        int *bigger = realloc(s-&gt;data, s-&gt;capacity * sizeof(int));
+        if (!bigger) return false;
+        s-&gt;data = bigger;
+    }
+    s-&gt;data[++s-&gt;top] = value;
+    return true;
+}
+
+bool pop(Stack *s, int *value) {
+    if (s-&gt;top &lt; 0) return false;
+    *value = s-&gt;data[s-&gt;top--];
+    return true;
+}
+
+bool peek(const Stack *s, int *value) {
+    if (s-&gt;top &lt; 0) return false;
+    *value = s-&gt;data[s-&gt;top];
+    return true;
+}
+
+void destroy(Stack *s) {
+    free(s-&gt;data);
+    s-&gt;data = NULL;
+    s-&gt;top = -1;
+    s-&gt;capacity = 0;
+}
+
+int main(void) {
+    Stack s;
+    init(&amp;s, 4);
+    push(&amp;s, 10);
+    push(&amp;s, 20);
+    push(&amp;s, 30);
+
+    int v;
+    while (pop(&amp;s, &amp;v)) {
+        printf("%d\n", v);   // 30 20 10
+    }
+
+    destroy(&amp;s);
+    return 0;
+}</code></pre>
+                <p><a href="./guides">Explore more of the stack data structure</a></p>
+
+                <h2>Stack Overflow and Underflow Handling</h2>
+                <p>In C, overflow and underflow are not exceptions; they are silent bugs unless you handle them. If you push past the end of a fixed array, you overwrite adjacent memory. If you pop below the bottom, you read memory that does not belong to your stack.</p>
+                <p>The safe pattern is to have every push and pop return a boolean that reports success, and to check it in the calling code. This turns a memory corruption bug into a handleable failure, which is what production C code does.</p>
+                <p>Whether you check <code>top + 1 &gt;= capacity</code> before push or let <code>realloc</code> grow the array, the goal is the same: never read or write outside the owned region. See the <a href="./">main visualizer</a> for stack code in five languages.</p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p>C gives you fine-grained control over a stack: a fixed array for known sizes, dynamic memory with realloc for growth, or a linked list when you never want to reallocate. Whatever you choose, manual memory management means you must free what you allocate and check overflow and underflow yourself.</p>
+                    <p><a href="./guides">Explore all EasyStack guides</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>Should I use a fixed array or dynamic memory for a C stack?</h3>
+                    <p>Use a fixed array when the maximum stack size is known in advance and stays small, because it is simple, fast, and needs no allocation. Use dynamic memory with realloc when the stack must grow unpredictably, because that lets it scale without wasting memory in advance.</p>
+
+                    <h3>What is stack overflow and underflow in a C stack?</h3>
+                    <p>Stack overflow happens when you push onto a full stack: the top index reaches the capacity. Stack underflow happens when you pop from an empty stack: the top index is below zero. Both must be checked explicitly in C, because C does not throw exceptions or bounds-check arrays.</p>
+
+                    <h3>How do I avoid memory leaks in a dynamic C stack?</h3>
+                    <p>Free every block you malloc. For a dynamic array stack, call free() on the array in a destroy function. For a linked list stack, pop nodes and free each one until the list is empty. Use a tool like valgrind or AddressSanitizer to verify there are no leaks or invalid frees.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating System Stack: How OS Uses Stacks for Processes | EasyStack</title>
+    <meta name="description" content="Learn how operating systems use stacks for process management, interrupt handling, system calls, and thread-local storage. Understand the kernel stack and user stack." />
+    <meta name="keywords" content="operating system stack, kernel stack, user stack, system calls stack, interrupt handling stack, thread local storage, stack guard pages, stack canaries, ASLR, context switching" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/os-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Operating System Stack: How OS Uses Stacks for Processes" />
+    <meta property="og:description" content="Learn how operating systems use stacks for process management, interrupt handling, system calls, and thread-local storage. Understand the kernel stack and user stack." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/os-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Operating System Stack: How OS Uses Stacks for Processes" />
+    <meta name="twitter:description" content="Learn how operating systems use stacks for process management, interrupt handling, system calls, and thread-local storage. Understand the kernel stack and user stack." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Operating System Stack: How OS Uses Stacks for Processes",
+        "description": "Learn how operating systems use stacks for process management, interrupt handling, system calls, and thread-local storage. Understand the kernel stack and user stack.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/os-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "What is the difference between the user stack and the kernel stack?", "acceptedAnswer": {"@type": "Answer", "text": "The user stack lives in the process user space and holds local variables and return addresses for user-mode code. The kernel stack lives in kernel space, is assigned per process, and holds frames for kernel-mode code such as system call handlers and interrupt routines. They are separate regions and the CPU switches between them during mode transitions."}},
+            {"@type": "Question", "name": "How is stack memory allocated and protected in an OS?", "acceptedAnswer": {"@type": "Answer", "text": "The OS maps a virtual memory region for the stack and places a guard page just below it. The stack grows downward, and when a thread touches the guard page, the OS catches the page fault, expands the stack mapping, or raises a stack overflow signal. Guard pages prevent a growing stack from silently corrupting adjacent heap data."}},
+            {"@type": "Question", "name": "What are stack canaries and how does ASLR protect the stack?", "acceptedAnswer": {"@type": "Answer", "text": "A stack canary is a random sentinel value placed between local data and the return address. Before a function returns, the canary is checked; if it changed, a buffer overflow was attempted and the program aborts. ASLR randomizes the base address of the stack on every run so attackers cannot reliably predict addresses, making stack-smashing exploits much harder."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Operating System Stack", "item": "https://easystack.netlify.app/os-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>OS Internals</h1>
+                <p>Understand how the operating system uses stacks everywhere: process management, system calls, interrupts, threads, and memory protection.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>User Stack vs Kernel Stack</h2>
+                <p>Every running process has not one but two stack regions associated with it: a user-mode stack and a kernel-mode stack. The user stack lives in the process address space and is used whenever your program executes user-mode code. The kernel stack lives in kernel memory and is used whenever the CPU executes kernel-mode code on behalf of that process.</p>
+                <p>The kernel stack is typically small, often just 8 KB to 16 KB, because kernel-mode code is expected to use stack space conservatively. The user stack, by contrast, can grow much larger and is limited by the virtual memory configuration of the system.</p>
+                <p>These two stacks are separate regions precisely so that a buggy user program cannot overwrite kernel state. The CPU's privilege level, determined by the code segment selector, dictates which stack is active at any moment.</p>
+                <p><a href="./stack-memory">How stack memory works in detail</a></p>
+
+                <h2>How System Calls Use the Stack</h2>
+                <p>When your program performs a system call such as <code>read()</code>, <code>write()</code>, or <code>open()</code>, the CPU transitions from user mode to kernel mode. This is the classic mode switch. The transition swaps to the kernel stack automatically.</p>
+                <p>On many architectures, the hardware saves the current user-mode state, including the stack pointer, instruction pointer, and flags, onto the kernel stack. The kernel then runs its own handler, which pushes its local variables and return addresses onto the kernel stack. When the system call completes, the saved user state is restored from the kernel stack and control returns to user mode, with the user stack pointer restored to exactly where it was before the call.</p>
+                <p>This is why syscall overhead includes a stack switch: the CPU must save and restore state across two different stack regions on every system call.</p>
+
+                <h2>Interrupt Handling and the Stack</h2>
+                <p>Interrupts are asynchronous events from hardware, such as a timer tick, a keyboard press, or a network packet arrival. Like system calls, they force a mode transition, but they can occur at almost any time, even while user code is running.</p>
+                <p>When an interrupt fires, the CPU saves the interrupted program's state onto the appropriate kernel stack. The interrupt handler then executes its own code on that stack. Because interrupts can be nested, many kernels use a dedicated interrupt stack separate from the normal kernel stack, preventing one deeply nested interrupt from overflowing the handler's space.</p>
+                <p>Critically, the interrupt handler must restore the interrupted program's state exactly when it finishes. Any mistake in the push/pop order on the stack will corrupt the program and crash the system. This is why interrupt handlers are written with extreme care about stack discipline.</p>
+                <p><a href="./call-stack">How call stacks and interrupts relate</a></p>
+
+                <h2>Thread-Local Storage</h2>
+                <p>Each thread in a multithreaded process gets its own independent user stack. Local variables declared inside functions are thread-local by virtue of living on that thread's stack. Two threads running the same code will push their local frames onto two different stacks and never interfere.</p>
+                <p>The OS allocates a stack region at thread creation and records its bounds in the thread control block. When a thread is scheduled, the CPU loads that thread's stack pointer. When a thread exits, its stack is reclaimed.</p>
+                <p>Beyond the main stack, threads may use thread-local storage (TLS) for globals that should be unique per thread. On many platforms, the thread's stack region also stores a pointer to a thread-local storage area, so each stack provides the anchor for that thread's TLS block.</p>
+
+                <h2>Stack Size Limits</h2>
+                <p>Operating systems impose a limit on stack size. On Linux, the default stack size for the main thread is typically 8 MB, configurable with <code>ulimit -s</code>. Secondary threads are often created with a smaller explicit size passed to <code>pthread_attr_setstacksize()</code>.</p>
+                <p>On Windows, the default reserved stack size for each thread is 1 MB, set through the linker's <code>/STACK</code> option or the <code>STACKSIZE</code> directive. On macOS, the main thread stack is limited to 8 MB by default, and the limit can be inspected with <code>ulimit -s</code>.</p>
+                <p>These limits matter in practice. Deep or unbounded recursion will eventually hit the limit and raise a stack overflow, crashing the program. You can inspect and raise the limit from the shell:</p>
+                <pre><code># Linux / macOS
+ulimit -s            # view stack size in KB
+ulimit -s unlimited  # remove the limit (not recommended)
+
+# Windows (PowerShell)
+wmic process get name, commandline   # inspect running processes</code></pre>
+                <p><a href="./stack-complexity">Why stack depth matters for recursion</a></p>
+
+                <h2>How the OS Allocates Stack Memory</h2>
+                <p>The user stack grows downward: the stack pointer starts high in the region and decreases as frames are pushed. To avoid pre-committing all of the stack's virtual memory at once, the OS maps the stack lazily.</p>
+                <p>A guard page sits just below the currently committed bottom of the stack. When the stack pointer crosses into the guard page, the CPU raises a page fault. The kernel's page fault handler decides what to do:</p>
+                <ul>
+                    <li>If the stack has more room to grow, the OS commits another page and moves the guard page down.</li>
+                    <li>If the stack has reached its configured limit, the OS raises a stack overflow signal (Linux <code>SIGSEGV</code>, Windows <code>STATUS_STACK_OVERFLOW</code>) and typically terminates the thread.</li>
+                </ul>
+                <p>This guard-page mechanism is what makes stack growth automatic while still catching runaway growth. It is also why stack overflow and heap corruption are detected separately: the guard page stops a stack from silently writing into the heap region that sits below it.</p>
+                <p><a href="./stack-memory">Detailed stack memory allocation guide</a></p>
+
+                <h2>Context Switching and Stack Saving</h2>
+                <p>When the OS switches from one thread to another, it performs a context switch. Part of that work is saving the outgoing thread's CPU state, including its stack pointer, and loading the incoming thread's saved state.</p>
+                <p>Each kernel thread has its own kernel stack, which holds the saved registers during the switch. The context switch routine pushes the current registers onto the old thread's kernel stack, then loads the new thread's stack pointer and pops those registers off the new thread's kernel stack.</p>
+                <p>This is a beautiful use of the stack: the scheduling data structure stores the base state, while the kernel stack itself temporarily holds the live register state during each switch. Both the user stack and the kernel stack are essential to making multitasking work.</p>
+
+                <h2>Security: Stack Canaries and ASLR</h2>
+                <p>Stacks store local variables next to return addresses, which makes them a target for buffer overflow attacks. An attacker who overflows a local buffer can overwrite the saved return address and redirect execution to malicious code.</p>
+                <p>To defend against this, compilers insert a stack canary, a random sentinel value placed between the local variables and the saved return address. Before a function returns, the canary is verified. If it changed, the program aborts before the corrupted return address can be used.</p>
+                <p>ASLR (Address Space Layout Randomization) is the second key defense. The OS randomizes the base address of the stack, heap, and libraries on each program launch. Because the runtime stack address is unpredictable, an attacker cannot hard-code the address to jump to, making reliable exploitation much harder.</p>
+                <p>On Linux the canary is enabled by default with <code>gcc -fstack-protector-all</code> or by the distro's hardening flags. On Windows, the <code>/GS</code> flag adds canaries, and modern 64-bit builds enable ASLR by default.</p>
+                <p><a href="./c-stack">Writing memory-safe stacks in C</a></p>
+
+                <section class="callout">
+                    <h2>Key Takeaway</h2>
+                    <p>The stack is not just a data structure you use in algorithms. It is the foundational runtime mechanism of every operating system: the user stack runs your program, the kernel stack runs system calls and interrupts, guard pages manage growth safely, and canaries plus ASLR keep the whole thing secure.</p>
+                    <p><a href="./guides">Explore all EasyStack guides</a></p>
+                </section>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>What is the difference between the user stack and the kernel stack?</h3>
+                    <p>The user stack lives in the process user space and holds local variables and return addresses for user-mode code. The kernel stack lives in kernel space, is assigned per process, and holds frames for kernel-mode code such as system call handlers and interrupt routines. They are separate regions and the CPU switches between them during mode transitions.</p>
+
+                    <h3>How is stack memory allocated and protected in an OS?</h3>
+                    <p>The OS maps a virtual memory region for the stack and places a guard page just below it. The stack grows downward, and when a thread touches the guard page, the OS catches the page fault, expands the stack mapping, or raises a stack overflow signal. Guard pages prevent a growing stack from silently corrupting adjacent heap data.</p>
+
+                    <h3>What are stack canaries and how does ASLR protect the stack?</h3>
+                    <p>A stack canary is a random sentinel value placed between local data and the return address. Before a function returns, the canary is checked; if it changed, a buffer overflow was attempted and the program aborts. ASLR randomizes the base address of the stack on every run so attackers cannot reliably predict addresses, making stack-smashing exploits much harder.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

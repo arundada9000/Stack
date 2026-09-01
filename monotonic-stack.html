@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monotonic Stack: The Powerful Pattern for Array Problems | EasyStack</title>
+    <meta name="description" content="Master the monotonic stack pattern for solving next greater element, largest rectangle in histogram, and other classic array problems with O(n) time complexity." />
+    <meta name="keywords" content="monotonic stack, next greater element, largest rectangle in histogram, daily temperatures, trapping rain water, stack pattern, O(n) array problems" />
+    <meta name="author" content="Arun Neupane" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://easystack.netlify.app/monotonic-stack" />
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="google-adsense-account" content="ca-pub-1708134460872611">
+    <meta property="og:title" content="Monotonic Stack: The Powerful Pattern for Array Problems" />
+    <meta property="og:description" content="Master the monotonic stack pattern for solving next greater element, largest rectangle in histogram, and other classic array problems with O(n) time complexity." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://easystack.netlify.app/monotonic-stack" />
+    <meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="EasyStack" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Monotonic Stack: The Powerful Pattern for Array Problems" />
+    <meta name="twitter:description" content="Master the monotonic stack pattern for solving next greater element, largest rectangle in histogram, and other classic array problems with O(n) time complexity." />
+    <link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./images/stack-fav.png">
+    <link rel="stylesheet" href="./hig.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Monotonic Stack: The Powerful Pattern for Array Problems",
+        "description": "Master the monotonic stack pattern for solving next greater element, largest rectangle in histogram, and other classic array problems with O(n) time complexity.",
+        "author": {"@type": "Person", "name": "Arun Neupane", "url": "https://arunneupane.netlify.app/"},
+        "publisher": {"@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app", "logo": {"@type": "ImageObject", "url": "https://easystack.netlify.app/images/stack-fav.png", "width": 512, "height": 512}},
+        "datePublished": "2026-09-01",
+        "dateModified": "2026-09-01",
+        "mainEntityOfPage": "https://easystack.netlify.app/monotonic-stack"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": "When should I use a monotonic stack?", "acceptedAnswer": {"@type": "Answer", "text": "Use a monotonic stack when you need to find the next greater or next smaller element for each position in an array, or when computing nearest larger/smaller neighbors. Common problem keywords include 'next greater element', 'largest rectangle', 'trapping rain water', and 'daily temperatures'."}},
+            {"@type": "Question", "name": "Why is a monotonic stack O(n)?", "acceptedAnswer": {"@type": "Answer", "text": "Each element is pushed onto the stack exactly once and popped at most once. Even though there is a while loop inside the for loop, the total number of push and pop operations across the entire algorithm is at most 2n, giving O(n) time complexity."}},
+            {"@type": "Question", "name": "What is the difference between a monotonic increasing and decreasing stack?", "acceptedAnswer": {"@type": "Answer", "text": "A monotonic decreasing stack keeps elements in decreasing order from bottom to top. It is used to find the next greater element. A monotonic increasing stack keeps elements in increasing order from bottom to top. It is used to find the next smaller element. The choice depends on what relationship you are looking for."}}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides"},
+            {"@type": "ListItem", "position": 3, "name": "Monotonic Stack", "item": "https://easystack.netlify.app/monotonic-stack"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary"><ul class="nav-links desktop-links">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">Guides</a></li><li><a href="./stack-visualizer">Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack</a></li><li><a href="./stack-interview">Interview</a></li>
+            </ul></nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li><li><a href="./guides">All Guides</a></li><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./stack-visualizer">Advanced Tool</a></li><li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li><li><a href="./stack-complexity">Complexity</a></li><li><a href="./stack-interview">Interview Problems</a></li><li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <div class="shell">
+                <h1>Advanced Pattern</h1>
+                <p>The monotonic stack is one of the most powerful patterns for solving array problems in O(n) time. Master it once, and dozens of interview problems become straightforward.</p>
+            </div>
+        </section>
+
+        <section class="guide-content">
+            <div class="shell">
+
+                <h2>What Is a Monotonic Stack?</h2>
+                <p>A monotonic stack is a stack whose elements are always in sorted order. Either strictly increasing or strictly decreasing from bottom to top. This property is maintained by popping elements that violate the order before pushing new ones.</p>
+                <p>There are two variants:</p>
+                <ul>
+                    <li><strong>Monotonic decreasing stack:</strong> Elements from bottom to top are in decreasing order. Used to find the <strong>next greater element</strong>.</li>
+                    <li><strong>Monotonic increasing stack:</strong> Elements from bottom to top are in increasing order. Used to find the <strong>next smaller element</strong>.</li>
+                </ul>
+                <p>The key insight is that when a new element violates the monotonic property, you pop elements from the stack and process them. The new element is the answer for all the popped elements. <a href="./stack-operations">Review basic stack operations</a></p>
+
+                <h2>The Next Greater Element Pattern</h2>
+                <p>Given an array, find the next greater element for each position. The next greater element is the first element to the right that is larger. If none exists, the answer is -1.</p>
+                <p>Example: For <code>[2, 1, 2, 4, 3]</code>, the next greater elements are <code>[4, 2, 4, -1, -1]</code>.</p>
+
+                <p>Step-by-step with a decreasing monotonic stack (store indices):</p>
+                <ol>
+                    <li><strong>Index 0, value 2:</strong> Stack is empty. Push index 0. Stack: [0]</li>
+                    <li><strong>Index 1, value 1:</strong> 1 < 2. Push index 1. Stack: [0, 1]</li>
+                    <li><strong>Index 2, value 2:</strong> 2 > 1. Pop index 1. Answer for index 1 is 2 (value at index 2). 2 is not > 2, so stop. Push index 2. Stack: [0, 2]</li>
+                    <li><strong>Index 3, value 4:</strong> 4 > 2. Pop index 2. Answer for index 2 is 4. 4 > 2. Pop index 0. Answer for index 0 is 4. Stack empty. Push index 3. Stack: [3]</li>
+                    <li><strong>Index 4, value 3:</strong> 3 < 4. Push index 4. Stack: [3, 4]</li>
+                    <li><strong>End of array:</strong> Remaining indices (3, 4) have no next greater element. Answer: -1.</li>
+                </ol>
+
+                <h2>Finding Next Smaller Element</h2>
+                <p>The mirror problem uses a monotonic increasing stack. For each element, find the first element to the right that is smaller.</p>
+                <p>For <code>[4, 5, 2, 10, 8]</code>, the next smaller elements are <code>[2, 2, -1, -1, -1]</code>.</p>
+                <p>Use the same algorithm but reverse the comparison: pop while the current element is smaller than the stack top instead of larger.</p>
+
+                <h2>Largest Rectangle in Histogram</h2>
+                <p>Given an array of histogram bar heights, find the area of the largest rectangle that can be formed. This classic problem uses a monotonic increasing stack to find, for each bar, how far it extends left and right while maintaining its height.</p>
+                <p>For heights <code>[2, 1, 5, 6, 2, 3]</code>, the answer is 10 (the rectangle formed by bars at indices 2 and 3, with height 5 and width 2).</p>
+                <p>Algorithm: Maintain an increasing stack of indices. When a shorter bar is encountered, pop taller bars and calculate their area using the current index as the right boundary and the new stack top as the left boundary. <a href="./stack-interview">Practice this and more interview problems</a></p>
+
+                <h2>Daily Temperatures</h2>
+                <p>Given daily temperatures, find how many days you must wait for a warmer temperature. If no warmer day exists, use 0.</p>
+                <p>For <code>[73, 74, 75, 71, 69, 72, 76, 73]</code>, the answer is <code>[1, 1, 4, 2, 1, 1, 0, 0]</code>.</p>
+                <p>Use a decreasing monotonic stack of indices. When you encounter a warmer day, pop all cooler days from the stack and compute the difference in indices. This is the number of days to wait.</p>
+
+                <h2>Trapping Rain Water</h2>
+                <p>Given an array of bar heights, compute how much water can be trapped between the bars after rain. A monotonic stack helps find, for each position, the left and right boundaries that hold water.</p>
+                <p>Use an increasing stack. When a bar taller than the stack top is found, pop the stack (this is the bottom of a potential water pocket). The width is the distance between the current index and the new stack top minus 1. The height is the minimum of the two boundaries minus the popped bar. <a href="./stack-analogies">Visual analogy: water filling between walls</a></p>
+
+                <h2>Why Monotonic Stacks Are O(n)</h2>
+                <p>At first glance, the nested while loop inside the for loop looks like O(n^2). But it is not. Each element is pushed onto the stack exactly once. Each element is popped at most once. The total number of push and pop operations across the entire algorithm is at most 2n. Dividing the total work by n elements gives O(n) time complexity.</p>
+                <table class="hig">
+                    <thead>
+                        <tr><th>Operation</th><th>Count</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Push operations</td><td>At most n (one per element)</td></tr>
+                        <tr><td>Pop operations</td><td>At most n (each element popped at most once)</td></tr>
+                        <tr><td>Total operations</td><td>At most 2n</td></tr>
+                        <tr><td>Time complexity</td><td>O(n)</td></tr>
+                    </tbody>
+                </table>
+                <p><a href="./stack-complexity">Learn about time complexity in detail</a></p>
+
+                <h2>Implementation Template</h2>
+                <p>This pseudocode works for most monotonic stack problems:</p>
+                <pre><code>function monotonicStack(arr):
+    stack = empty stack
+    result = array of -1s with length n
+
+    for i from 0 to n-1:
+        while stack is not empty AND arr[i] > arr[stack.top()]:
+            index = stack.pop()
+            result[index] = arr[i]   // or i, depending on the problem
+
+        stack.push(i)
+
+    return result</code></pre>
+                <p>To find next smaller elements, change the comparison to <code>arr[i] < arr[stack.top()]</code>. To store distances instead of values, adjust the result assignment accordingly.</p>
+
+                <h2>Code Example in Python</h2>
+                <pre><code>def next_greater_elements(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []
+
+    for i in range(n):
+        while stack and nums[i] > nums[stack[-1]]:
+            idx = stack.pop()
+            result[idx] = nums[i]
+        stack.append(i)
+
+    return result
+
+print(next_greater_elements([2, 1, 2, 4, 3]))
+# Output: [4, 2, 4, -1, -1]</code></pre>
+
+                <h2>When to Recognize This Pattern</h2>
+                <div class="callout">
+                    <h3>Look for these keywords in the problem:</h3>
+                    <ul>
+                        <li>"next greater element" or "next smaller element"</li>
+                        <li>"nearest larger" or "nearest smaller"</li>
+                        <li>"for each element, find the first element to the right/left that..."</li>
+                        <li>"largest rectangle in histogram"</li>
+                        <li>"trapping rain water"</li>
+                        <li>"daily temperatures" or "stock span"</li>
+                        <li>Any problem where you need to compare each element with its neighbors in a single pass</li>
+                    </ul>
+                    <p>If you see these patterns, a monotonic stack is likely the optimal approach. <a href="./stack-interview">Solve more interview problems</a></p>
+                </div>
+
+                <section class="faq" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+
+                    <h3>When should I use a monotonic stack?</h3>
+                    <p>Use a monotonic stack when you need to find the next greater or next smaller element for each position in an array, or when computing nearest larger/smaller neighbors. Common problem keywords include "next greater element", "largest rectangle", "trapping rain water", and "daily temperatures".</p>
+
+                    <h3>Why is a monotonic stack O(n)?</h3>
+                    <p>Each element is pushed onto the stack exactly once and popped at most once. Even though there is a while loop inside the for loop, the total number of push and pop operations across the entire algorithm is at most 2n, giving O(n) time complexity.</p>
+
+                    <h3>What is the difference between a monotonic increasing and decreasing stack?</h3>
+                    <p>A monotonic decreasing stack keeps elements in decreasing order from bottom to top. It is used to find the next greater element. A monotonic increasing stack keeps elements in increasing order from bottom to top. It is used to find the next smaller element. The choice depends on what relationship you are looking for.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell"><div class="footer__grid">
+        <div><div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div><p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p><div class="footer-social"><a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a></div></div>
+        <div><h4>Guides</h4><ul><li><a href="./stack-operations">Stack Operations</a></li><li><a href="./push-pop">Push and Pop</a></li><li><a href="./stack-complexity">Time Complexity</a></li><li><a href="./stack-analogies">Real-World Analogies</a></li><li><a href="./call-stack">The Call Stack</a></li></ul></div>
+        <div><h4>Learn</h4><ul><li><a href="./guides">All Guides</a></li><li><a href="./array-stack">Array Implementation</a></li><li><a href="./linked-list-stack">Linked List Stack</a></li><li><a href="./stack-memory">Stack Memory</a></li><li><a href="./monotonic-stack">Monotonic Stack</a></li></ul></div>
+        <div><h4>Site</h4><ul><li><a href="./about">About</a></li><li><a href="./contact">Contact</a></li><li><a href="./privacy">Privacy Policy</a></li><li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li></ul></div>
+    </div><div class="footer__bottom"><span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span><span>Free forever. No sign-up. Fully offline-ready PWA.</span></div></div></footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

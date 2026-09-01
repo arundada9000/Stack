@@ -1,0 +1,78 @@
+{
+  "name": "EasyStack - Stack Data Structure Visualizer",
+  "short_name": "EasyStack",
+  "description": "Visualize stack data structure operations: push, pop, peek with step-by-step animations, code in 5 languages, and comprehensive guides covering the call stack, memory, recursion, and interview problems.",
+  "id": "easystack",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#121212",
+  "theme_color": "#007AFF",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "productivity",
+    "developer"
+  ],
+  "icons": [
+    {
+      "src": "/images/stack-fav.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/stack-fav.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Stack Visualizer",
+      "url": "/",
+      "description": "Interactive push, pop, peek stack visualizer"
+    },
+    {
+      "name": "Stack Operations Guide",
+      "url": "/stack-operations",
+      "description": "Learn push, pop, peek, and LIFO"
+    },
+    {
+      "name": "Advanced Visualizer",
+      "url": "/stack-visualizer",
+      "description": "Animated stack with step log and keyboard shortcuts"
+    },
+    {
+      "name": "Call Stack Visualizer",
+      "url": "/stack-frame-visualizer",
+      "description": "See how the call stack works with function frames"
+    },
+    {
+      "name": "Stack Complexity",
+      "url": "/stack-complexity",
+      "description": "Time and space complexity of stack operations"
+    },
+    {
+      "name": "Stack Guide Hub",
+      "url": "/guides",
+      "description": "Browse all stack data structure guides"
+    },
+    {
+      "name": "Stack vs Queue",
+      "url": "/stacks-vs-queues",
+      "description": "Compare stacks and queues side by side"
+    },
+    {
+      "name": "Stack Interview Problems",
+      "url": "/stack-interview",
+      "description": "Classic stack problems for coding interviews"
+    }
+  ],
+  "prefer_related_applications": false,
+  "handle_links": "preferred"
+}

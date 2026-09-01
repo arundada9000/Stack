@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack Operations Explained: Push, Pop, Peek, and isEmpty | EasyStack</title>
+<meta name="description" content="Learn every core stack operation with clear explanations, time complexity, code examples, and real-world analogies. Covers push, pop, peek, isEmpty, size, and clear." />
+<meta name="keywords" content="stack operations, push pop stack, peek stack, isEmpty stack, stack size, stack clear, LIFO, stack fundamentals" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/stack-operations" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Stack Operations Explained: Push, Pop, Peek, and isEmpty" />
+<meta property="og:description" content="Learn every core stack operation with clear explanations, time complexity, code examples, and real-world analogies." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/stack-operations" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Stack Operations Explained: Push, Pop, Peek, and isEmpty" />
+<meta name="twitter:description" content="Learn every core stack operation with clear explanations and time complexity." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Stack Operations Explained: Push, Pop, Peek, and isEmpty",
+    "description": "Learn every core stack operation with clear explanations, time complexity, code examples, and real-world analogies.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/stack-operations",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/stack-operations" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" },
+        { "@type": "ListItem", "position": 3, "name": "Stack Operations", "item": "https://easystack.netlify.app/stack-operations" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "What is the difference between push and pop?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Push adds an element to the top of the stack. Pop removes the element at the top of the stack. Both operations only affect the top element and run in O(1) time." }
+        },
+        {
+            "@type": "Question",
+            "name": "What happens if you pop from an empty stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Popping from an empty stack causes a stack underflow error. In most languages this either throws an exception or returns a special value like null or undefined. Always check isEmpty before popping." }
+        },
+        {
+            "@type": "Question",
+            "name": "Is peek the same as pop?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Peek returns the top element without removing it from the stack. Pop removes the top element. Use peek when you need to inspect the top value without modifying the stack." }
+        },
+        {
+            "@type": "Question",
+            "name": "Why are stack operations O(1)?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Stack operations only modify or read one end of the data structure (the top). There is no need to shift elements or search through the structure, so each operation takes constant time regardless of stack size." }
+        },
+        {
+            "@type": "Question",
+            "name": "What does the clear operation do?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The clear operation removes all elements from the stack, resetting it to an empty state. In array-based implementations this means resetting the top pointer to -1. In linked list implementations you free each node." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides">All Guides</a></li>
+                <li><a href="./stack-operations" aria-current="page">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Fundamentals</span>
+                <h1>Stack Operations Explained</h1>
+                <p class="hero__sub">Every stack is defined by a small set of core operations. Understanding them is the first step to using stacks effectively in any program.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>What is a Stack?</h2>
+                <p>A stack is a linear data structure that follows the <strong>Last In, First Out (LIFO)</strong> principle. The last element added to the stack is the first one to be removed. Think of it like a stack of plates in a cafeteria: you always add a plate to the top and remove the topmost plate first.</p>
+                <p>Every stack, regardless of its underlying implementation, supports a common set of operations. These operations all interact with only one end of the structure, which is called the <strong>top</strong>.</p>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>The Push Operation</h2>
+                <div class="content-split">
+                    <div>
+                        <p>Push adds a new element to the top of the stack. This is the only way to insert data into a stack. After a push, the new element becomes the top.</p>
+                        <div class="callout callout--info">
+                            <strong>Step by step:</strong>
+                            <ol>
+                                <li>Check if the stack has room (relevant for fixed-size arrays).</li>
+                                <li>Place the new element at position <code>top + 1</code>.</li>
+                                <li>Update the top pointer to point to the new element.</li>
+                                <li>The stack now has one more element.</li>
+                            </ol>
+                        </div>
+                        <p><strong>Time complexity:</strong> O(1) - constant time, regardless of stack size.</p>
+                    </div>
+                    <div>
+                        <div class="visual-box">
+                            <p class="visual-box__label">Before Push(42)</p>
+                            <div class="stack-viz">
+                                <div class="stack-viz__item">10</div>
+                                <div class="stack-viz__item">20</div>
+                                <div class="stack-viz__item stack-viz__item--top">30 <span class="tag">top</span></div>
+                            </div>
+                            <p class="visual-box__label">After Push(42)</p>
+                            <div class="stack-viz">
+                                <div class="stack-viz__item">10</div>
+                                <div class="stack-viz__item">20</div>
+                                <div class="stack-viz__item">30</div>
+                                <div class="stack-viz__item stack-viz__item--top">42 <span class="tag">top</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>The Pop Operation</h2>
+                <div class="content-split">
+                    <div>
+                        <p>Pop removes the element at the top of the stack and returns it. After a pop, the element below it becomes the new top. Pop is the only way to remove data from a stack.</p>
+                        <div class="callout callout--info">
+                            <strong>Step by step:</strong>
+                            <ol>
+                                <li>Check if the stack is empty. If it is, handle the underflow.</li>
+                                <li>Read the element at position <code>top</code>.</li>
+                                <li>Update the top pointer to <code>top - 1</code>.</li>
+                                <li>Return the removed element.</li>
+                            </ol>
+                        </div>
+                        <p><strong>Time complexity:</strong> O(1) - constant time.</p>
+                    </div>
+                    <div>
+                        <div class="visual-box">
+                            <p class="visual-box__label">Before Pop()</p>
+                            <div class="stack-viz">
+                                <div class="stack-viz__item">10</div>
+                                <div class="stack-viz__item">20</div>
+                                <div class="stack-viz__item stack-viz__item--top">30 <span class="tag">top</span></div>
+                            </div>
+                            <p class="visual-box__label">After Pop() returns 30</p>
+                            <div class="stack-viz">
+                                <div class="stack-viz__item">10</div>
+                                <div class="stack-viz__item stack-viz__item--top">20 <span class="tag">top</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>The Peek Operation</h2>
+                <p>Peek (also called <code>top</code> or <code>peek</code>) returns the element at the top of the stack without removing it. This lets you inspect the most recently added element without changing the stack.</p>
+                <p>Peek is useful when you need to make a decision based on the current top value before deciding whether to pop or push. For example, in expression evaluation, you peek at the operator stack to check precedence before pushing a new operator.</p>
+                <div class="callout callout--info">
+                    <strong>Step by step:</strong>
+                    <ol>
+                        <li>Check if the stack is empty. If it is, there is nothing to peek.</li>
+                        <li>Return the element at position <code>top</code> without moving the pointer.</li>
+                    </ol>
+                </div>
+                <p><strong>Time complexity:</strong> O(1) - constant time. No element is moved or removed.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>isEmpty and Size</h2>
+                <p>Two utility operations help you query the state of a stack:</p>
+                <div class="content-split content-split--even">
+                    <div class="panel">
+                        <h3>isEmpty</h3>
+                        <p>Returns <code>true</code> if the stack contains zero elements, <code>false</code> otherwise. Use this before pop or peek to prevent underflow errors. In an array-based stack, isEmpty checks if <code>top == -1</code>. In a linked list stack, it checks if the head pointer is <code>null</code>.</p>
+                        <p><strong>Time:</strong> O(1)</p>
+                    </div>
+                    <div class="panel">
+                        <h3>size</h3>
+                        <p>Returns the number of elements currently in the stack. Some implementations track this with a counter variable that increments on push and decrements on pop. Others compute it from the top index. Both approaches are O(1).</p>
+                        <p><strong>Time:</strong> O(1)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Clearing a Stack</h2>
+                <p>The clear (or reset) operation removes all elements from the stack, returning it to an empty state. This is faster than popping every element individually because it can reset internal state in one step.</p>
+                <p>In an array-based stack, clear simply sets <code>top = -1</code>. In a linked list stack, clear traverses and frees each node. Some languages provide a built-in clear method. Others require you to pop in a loop until isEmpty returns true.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>When to Use Each Operation</h2>
+                <p>Choosing the right operation depends on what you need to accomplish. Here are common scenarios:</p>
+                <div class="scenario-grid">
+                    <div class="panel">
+                        <h3>Adding data</h3>
+                        <p>Use <strong>push</strong> when you receive new data that should be processed in reverse order later. Examples: undo systems, expression parsing, DFS traversal.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Removing the latest</h3>
+                        <p>Use <strong>pop</strong> when you need to process the most recently added item first. Examples: balanced parentheses checking, backtracking, function return.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Checking without removing</h3>
+                        <p>Use <strong>peek</strong> when you need to look ahead before deciding. Examples: operator precedence, next greater element, sliding window problems.</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Safety checks</h3>
+                        <p>Use <strong>isEmpty</strong> before pop or peek to prevent runtime errors. Use <strong>size</strong> when you need to know how many elements remain for conditional logic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Complete Operation Summary</h2>
+                <div class="table-wrap">
+                    <table class="hig">
+                        <thead>
+                            <tr>
+                                <th>Operation</th>
+                                <th>Time</th>
+                                <th>Space</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>push(x)</code></td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>Add element x to the top of the stack</td>
+                            </tr>
+                            <tr>
+                                <td><code>pop()</code></td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>Remove and return the top element from the stack</td>
+                            </tr>
+                            <tr>
+                                <td><code>peek()</code></td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>Return the top element without removing it</td>
+                            </tr>
+                            <tr>
+                                <td><code>isEmpty()</code></td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>Return true if the stack has no elements</td>
+                            </tr>
+                            <tr>
+                                <td><code>size()</code></td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>Return the number of elements in the stack</td>
+                            </tr>
+                            <tr>
+                                <td><code>clear()</code></td>
+                                <td>O(1)*</td>
+                                <td>O(1)</td>
+                                <td>Remove all elements and reset the stack</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="table-note">* O(1) for array-based stacks with a top pointer. O(n) for linked list stacks where each node must be freed.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>What is the difference between push and pop?</summary>
+                        <p>Push adds an element to the top of the stack. Pop removes the element at the top of the stack. Both operations only affect the top element and run in O(1) time.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What happens if you pop from an empty stack?</summary>
+                        <p>Popping from an empty stack causes a stack underflow error. In most languages this either throws an exception or returns a special value like null or undefined. Always check isEmpty before popping.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is peek the same as pop?</summary>
+                        <p>No. Peek returns the top element without removing it from the stack. Pop removes the top element. Use peek when you need to inspect the top value without modifying the stack.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Why are stack operations O(1)?</summary>
+                        <p>Stack operations only modify or read one end of the data structure (the top). There is no need to shift elements or search through the structure, so each operation takes constant time regardless of stack size.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What does the clear operation do?</summary>
+                        <p>The clear operation removes all elements from the stack, resetting it to an empty state. In array-based implementations this means resetting the top pointer to -1. In linked list implementations you free each node.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack Time and Space Complexity: Big O Analysis | EasyStack</title>
+<meta name="description" content="Understand the Big O time and space complexity of every stack operation. Compare array stacks, linked list stacks, and see why stacks are O(1) for push, pop, and peek." />
+<meta name="keywords" content="stack complexity, stack big O, stack time complexity, stack space complexity, O(1) stack, array vs linked list complexity, stack performance" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/stack-complexity" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Stack Time and Space Complexity: Big O Analysis" />
+<meta property="og:description" content="Understand the Big O time and space complexity of every stack operation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/stack-complexity" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Stack Time and Space Complexity: Big O Analysis" />
+<meta name="twitter:description" content="Understand the Big O time and space complexity of every stack operation." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Stack Time and Space Complexity: Big O Analysis",
+    "description": "Understand the Big O time and space complexity of every stack operation.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/stack-complexity",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/stack-complexity" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" },
+        { "@type": "ListItem", "position": 3, "name": "Stack Complexity", "item": "https://easystack.netlify.app/stack-complexity" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Why is push O(1) on a dynamic array stack if it sometimes resizes?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The resize (which costs O(n)) happens so rarely that its cost is spread across many pushes. On average, each push only does O(1) work. This is called amortized O(1) analysis." }
+        },
+        {
+            "@type": "Question",
+            "name": "Is search on a stack really O(n)?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes, because stacks do not allow random access. To find an element, you must pop each element one at a time until you find it or the stack is empty. In the worst case, every element must be checked." }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the space complexity of a stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The space complexity is O(n) where n is the number of elements. Each element takes constant space. Array stacks may waste some space on unused capacity. Linked list stacks add pointer overhead per node." }
+        },
+        {
+            "@type": "Question",
+            "name": "Why are stack operations faster than array insertions?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Stack operations only access one end (the top). Array insertions at arbitrary positions may require shifting all subsequent elements, which is O(n). Stacks avoid this by design because they only allow top operations." }
+        },
+        {
+            "@type": "Question",
+            "name": "Does the language choice affect stack complexity?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The Big O complexity is the same across all languages for the same implementation type. However, actual runtime performance differs due to memory management, garbage collection, and compiler optimizations." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides">All Guides</a></li>
+                <li><a href="./stack-operations">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity" aria-current="page">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Complexity</span>
+                <h1>Stack Time and Space Complexity</h1>
+                <p class="hero__sub">Every core stack operation runs in constant time. Understanding Big O helps you see why stacks are one of the fastest data structures available.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Why Stacks Are Fast</h2>
+                <p>The key insight is simple: a stack only allows operations at one end (the top). You never need to scan through elements, shift items, or search the structure. Every operation touches exactly one element.</p>
+                <p>This design constraint is what gives stacks their O(1) performance. Compare this to an array where inserting at index 0 requires shifting all n elements to the right (O(n)), or a linked list where finding the nth element requires traversing n nodes (O(n)).</p>
+                <p>Stacks trade flexibility for speed. You cannot access the middle or bottom directly, but you get the fastest possible performance for the operations you do perform.</p>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Time Complexity Table</h2>
+                <div class="table-wrap">
+                    <table class="hig">
+                        <thead>
+                            <tr>
+                                <th>Operation</th>
+                                <th>Time Complexity</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>push(x)</code></td>
+                                <td>O(1)</td>
+                                <td>Add element x to the top. One write operation regardless of stack size.</td>
+                            </tr>
+                            <tr>
+                                <td><code>pop()</code></td>
+                                <td>O(1)</td>
+                                <td>Remove the top element. One read and one pointer update.</td>
+                            </tr>
+                            <tr>
+                                <td><code>peek()</code></td>
+                                <td>O(1)</td>
+                                <td>Read the top element without removing it. One read operation.</td>
+                            </tr>
+                            <tr>
+                                <td><code>isEmpty()</code></td>
+                                <td>O(1)</td>
+                                <td>Check if the stack has no elements. One comparison.</td>
+                            </tr>
+                            <tr>
+                                <td><code>size()</code></td>
+                                <td>O(1)</td>
+                                <td>Return the element count. One variable read (if tracked).</td>
+                            </tr>
+                            <tr>
+                                <td><code>search(x)</code></td>
+                                <td>O(n)</td>
+                                <td>Find element x. Must pop or traverse each element in the worst case.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout callout--info">
+                    <strong>Note on search:</strong> Stacks are not designed for searching. If you need to search frequently, consider using a set, map, or hash table alongside your stack. Search is O(n) because stacks only expose the top element.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Space Complexity</h2>
+                <p>The space complexity of a stack is O(n), where n is the number of elements stored. Each element occupies a constant amount of memory.</p>
+                <div class="content-split content-split--even">
+                    <div class="panel">
+                        <h3>Array Stack Space</h3>
+                        <p>An array stack uses exactly n * sizeof(element) bytes for the data, plus a fixed overhead for the top pointer and capacity variable. If the dynamic array has unused capacity, the wasted space is at most n bytes (when capacity is double the size).</p>
+                        <p><strong>Total:</strong> O(n) data + O(1) overhead</p>
+                    </div>
+                    <div class="panel">
+                        <h3>Linked List Stack Space</h3>
+                        <p>A linked list stack uses n * (sizeof(element) + sizeof(pointer)) bytes. Each node includes the data and a next pointer. On a 64-bit system, the pointer adds 8 bytes per element.</p>
+                        <p><strong>Total:</strong> O(n) data + O(n) pointers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Array vs Linked List Complexity</h2>
+                <p>Both implementations have the same Big O for core operations, but there are practical differences.</p>
+                <div class="table-wrap">
+                    <table class="hig">
+                        <thead>
+                            <tr>
+                                <th>Operation</th>
+                                <th>Array Stack</th>
+                                <th>Linked List Stack</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Push</td>
+                                <td>O(1) amortized</td>
+                                <td>O(1) always</td>
+                            </tr>
+                            <tr>
+                                <td>Pop</td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                            </tr>
+                            <tr>
+                                <td>Peek</td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                            </tr>
+                            <tr>
+                                <td>isEmpty</td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                            </tr>
+                            <tr>
+                                <td>Size</td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                            </tr>
+                            <tr>
+                                <td>Search</td>
+                                <td>O(n)</td>
+                                <td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td>Space per element</td>
+                                <td>sizeof(element)</td>
+                                <td>sizeof(element) + sizeof(pointer)</td>
+                            </tr>
+                            <tr>
+                                <td>Cache performance</td>
+                                <td>Excellent</td>
+                                <td>Poor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Growth Rate Visualization</h2>
+                <p>This chart shows how O(1), O(log n), and O(n) grow as the number of elements increases. Stack push, pop, and peek stay flat at O(1) regardless of size.</p>
+                <div class="chart-box"><svg id="growthChart"></svg></div>
+                <div class="chart-legend">
+                    <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#34C759"></span> O(1) - Push/Pop/Peek</span>
+                    <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#FF9500"></span> O(log n)</span>
+                    <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#FF3B30"></span> O(n) - Search</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Real-World Performance</h2>
+                <p>Big O describes the theoretical growth rate, but real-world performance depends on additional factors.</p>
+                <h3>Cache Locality</h3>
+                <p>Array stacks benefit enormously from CPU cache locality. When you push or pop, the CPU accesses memory near the top pointer. The next access is likely in the same cache line (typically 64 bytes), so it loads instantly. A stack of 16-byte structs fits 4 elements per cache line.</p>
+                <p>Linked list stacks suffer from cache misses. Each node may live at a different memory address, so the CPU must fetch from main memory each time. Main memory is roughly 100x slower than L1 cache.</p>
+                <h3>Memory Allocation</h3>
+                <p>Array stacks allocate memory once (or once per resize). Linked list stacks call the allocator on every push and free on every pop. Heap allocation involves searching free lists or requesting memory from the OS, which adds microseconds of overhead per operation.</p>
+                <h3>Predictability</h3>
+                <p>Array stacks have occasional O(n) resize pauses. Linked list stacks have consistent O(1) every time. For real-time systems where predictable latency matters (audio processing, game loops), linked list stacks or pre-allocated array stacks avoid surprise delays.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>Why is push O(1) on a dynamic array stack if it sometimes resizes?</summary>
+                        <p>The resize (which costs O(n)) happens so rarely that its cost is spread across many pushes. On average, each push only does O(1) work. This is called amortized O(1) analysis.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is search on a stack really O(n)?</summary>
+                        <p>Yes, because stacks do not allow random access. To find an element, you must pop each element one at a time until you find it or the stack is empty. In the worst case, every element must be checked.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What is the space complexity of a stack?</summary>
+                        <p>The space complexity is O(n) where n is the number of elements. Each element takes constant space. Array stacks may waste some space on unused capacity. Linked list stacks add pointer overhead per node.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Why are stack operations faster than array insertions?</summary>
+                        <p>Stack operations only access one end (the top). Array insertions at arbitrary positions may require shifting all subsequent elements, which is O(n). Stacks avoid this by design because they only allow top operations.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Does the language choice affect stack complexity?</summary>
+                        <p>No. The Big O complexity is the same across all languages for the same implementation type. However, actual runtime performance differs due to memory management, garbage collection, and compiler optimizations.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+    <script>
+        (function() {
+            var svg = document.getElementById("growthChart");
+            if (svg && window.EasyStack && window.EasyStack.hig) {
+                window.EasyStack.hig.drawGrowthCurve(svg, [
+                    { label: "O(1) - Push/Pop/Peek", color: "#34C759", function: function(n) { return 1; } },
+                    { label: "O(log n)", color: "#FF9500", function: function(n) { return Math.log2(Math.max(1, n)); } },
+                    { label: "O(n) - Search", color: "#FF3B30", function: function(n) { return n; } }
+                ], { nMax: 100 });
+            }
+        })();
+    </script>
+</body>
+</html>

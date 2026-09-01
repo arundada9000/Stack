@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Array-Based Stack Implementation: The Complete Guide | EasyStack</title>
+<meta name="description" content="How to implement a stack using an array in any language. Covers fixed-size arrays, dynamic arrays, resizing strategies, and memory layout with code in C, C++, Java, Python, and JavaScript." />
+<meta name="keywords" content="array stack, stack implementation, array based stack, fixed size stack, dynamic array stack, stack resizing, stack top pointer" />
+<meta name="author" content="Arun Neupane" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://easystack.netlify.app/array-stack" />
+<meta name="theme-color" content="#F2F2F7">
+<meta name="google-adsense-account" content="ca-pub-1708134460872611">
+<meta property="og:title" content="Array-Based Stack Implementation: The Complete Guide" />
+<meta property="og:description" content="How to implement a stack using an array in any language with code in 5 languages." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://easystack.netlify.app/array-stack" />
+<meta property="og:image" content="https://easystack.netlify.app/images/social-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="EasyStack" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Array-Based Stack Implementation: The Complete Guide" />
+<meta name="twitter:description" content="Implement a stack using arrays with code in C, C++, Java, Python, and JavaScript." />
+<meta name="twitter:image" content="https://easystack.netlify.app/images/social-card.png" />
+<link rel="icon" href="./images/stack-fav.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="./images/stack-fav.png">
+<link rel="stylesheet" href="./hig.css">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Array-Based Stack Implementation: The Complete Guide",
+    "description": "How to implement a stack using an array in any language with code in 5 languages.",
+    "author": { "@type": "Person", "name": "Arun Neupane" },
+    "publisher": { "@type": "Organization", "name": "EasyStack", "url": "https://easystack.netlify.app" },
+    "url": "https://easystack.netlify.app/array-stack",
+    "image": "https://easystack.netlify.app/images/stack-fav.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://easystack.netlify.app/array-stack" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://easystack.netlify.app/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://easystack.netlify.app/guides" },
+        { "@type": "ListItem", "position": 3, "name": "Array Stack", "item": "https://easystack.netlify.app/array-stack" }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "What is the difference between a fixed-size array stack and a dynamic array stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A fixed-size array stack has a predetermined maximum capacity set at creation. A dynamic array stack starts with an initial capacity and doubles it when full, providing amortized O(1) push operations without a hard limit." }
+        },
+        {
+            "@type": "Question",
+            "name": "Why is the top pointer important in an array stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The top pointer tells you where the next push should go and where the next pop should read from. Without it you would need to scan the entire array to find the last element, making push and pop O(n) instead of O(1)." }
+        },
+        {
+            "@type": "Question",
+            "name": "What happens when a dynamic array stack resizes?",
+            "acceptedAnswer": { "@type": "Answer", "text": "When a dynamic array is full, a new array twice the size is allocated, all existing elements are copied to the new array, and the old array is freed. This copy costs O(n) but happens so rarely that the amortized cost per push is still O(1)." }
+        },
+        {
+            "@type": "Question",
+            "name": "Is an array stack better than a linked list stack?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Array stacks are generally better for performance because they use contiguous memory which is cache-friendly. Linked list stacks are better when you cannot predict the maximum size and want to avoid resizing overhead. For most applications, an array stack is the better default choice." }
+        },
+        {
+            "@type": "Question",
+            "name": "How do I implement an array stack in Python?",
+            "acceptedAnswer": { "@type": "Answer", "text": "In Python, a regular list works as an array stack. Use list.append() for push, list.pop() for pop, and list[-1] for peek. Python lists are dynamic arrays under the hood, so they handle resizing automatically." }
+        }
+    ]
+}
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar__inner">
+            <a class="brand" href="./"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="30" height="30"></span> EasyStack</a>
+            <nav aria-label="Primary">
+                <ul class="nav-links desktop-links">
+                    <li><a href="./">Visualizer</a></li>
+                    <li><a href="./guides">Guides</a></li>
+                    <li><a href="./stack-visualizer">Tool</a></li>
+                    <li><a href="./stack-frame-visualizer">Call Stack</a></li>
+                    <li><a href="./stack-interview">Interview</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" type="button" title="Toggle dark mode"></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+            <ul class="nav-links nav-mobile" id="navLinks">
+                <li><a href="./">Visualizer</a></li>
+                <li><a href="./guides">All Guides</a></li>
+                <li><a href="./stack-operations">Stack Operations</a></li>
+                <li><a href="./stack-visualizer">Advanced Tool</a></li>
+                <li><a href="./stack-frame-visualizer">Call Stack Visualizer</a></li>
+                <li><a href="./stack-complexity">Complexity</a></li>
+                <li><a href="./stack-interview">Interview Problems</a></li>
+                <li><a href="./about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero hero--compact" data-reveal>
+            <div class="shell">
+                <span class="hero__kicker">Implementation</span>
+                <h1>Array-Based Stack Implementation</h1>
+                <p class="hero__sub">The most common way to build a stack. An array stack uses a contiguous block of memory and a top pointer to track the current element in O(1) time.</p>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>How an Array Stack Works</h2>
+                <p>An array stack stores elements in a regular array. A variable called <code>top</code> tracks the index of the most recently pushed element. When the stack is empty, top is set to -1. When you push an element, top increments and the element is placed at that index. When you pop, the element at top is removed and top decrements.</p>
+                <div class="visual-box">
+                    <p class="visual-box__label">Array Stack: top = 2</p>
+                    <div class="array-viz">
+                        <div class="array-viz__cell">50</div>
+                        <div class="array-viz__cell">30</div>
+                        <div class="array-viz__cell array-viz__cell--active">70</div>
+                        <div class="array-viz__cell array-viz__cell--empty"></div>
+                        <div class="array-viz__cell array-viz__cell--empty"></div>
+                    </div>
+                    <p class="array-viz__indices">index: 0 &nbsp; 1 &nbsp; 2 &nbsp; 3 &nbsp; 4</p>
+                    <p class="array-viz__label" style="margin-top:0.5rem">Elements at indices 0 through 2 are active. The element at index 2 (70) is the top.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Fixed-Size vs Dynamic Arrays</h2>
+                <div class="content-split content-split--even">
+                    <div class="panel">
+                        <h3>Fixed-Size Array Stack</h3>
+                        <p>The array is allocated once with a fixed capacity (for example, 1000 elements). Push fails with a stack overflow when the array is full.</p>
+                        <ul>
+                            <li>Simple to implement</li>
+                            <li>No memory reallocation</li>
+                            <li>Risk of stack overflow</li>
+                            <li>Best when you know the maximum size</li>
+                        </ul>
+                    </div>
+                    <div class="panel">
+                        <h3>Dynamic Array Stack</h3>
+                        <p>The array starts with an initial capacity. When it fills up, a new array (usually double the size) is allocated and elements are copied over.</p>
+                        <ul>
+                            <li>Grows as needed</li>
+                            <li>No overflow risk (until memory runs out)</li>
+                            <li>Occasional O(n) resize cost</li>
+                            <li>Amortized O(1) per push</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>The Top Pointer</h2>
+                <p>The top pointer is the key to making array stack operations O(1). Without it, you would need to scan the entire array to find the last element.</p>
+                <p>In its simplest form, top is an integer index. It has three states:</p>
+                <ul>
+                    <li><strong>-1:</strong> The stack is empty. No elements have been pushed.</li>
+                    <li><strong>0 to capacity - 1:</strong> The stack has elements. The element at index <code>top</code> is the topmost element.</li>
+                    <li><strong>capacity:</strong> The stack is full (in a fixed-size implementation). This signals overflow.</li>
+                </ul>
+                <p>Some implementations track size separately instead of using -1 for empty. In that case, top points to the next available slot rather than the current top element. Both approaches are valid; they just shift the index by one.</p>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Push on an Array Stack</h2>
+                <p>Push adds an element at position <code>top + 1</code> and then increments top.</p>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div>Check if <code>top + 1 == capacity</code>. If true and the array is fixed-size, signal overflow.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div>For dynamic arrays, if full, allocate a new array of double the size and copy all elements.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div>Set <code>top = top + 1</code>.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div>Write the new element at <code>array[top]</code>.</div>
+                    </div>
+                </div>
+                <pre><code>// Push in C
+void push(int stack[], int *top, int capacity, int value) {
+    if (*top + 1 == capacity) return; // overflow
+    stack[++(*top)] = value;
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Pop from an Array Stack</h2>
+                <p>Pop reads the element at <code>array[top]</code>, decrements top, and returns the value.</p>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step__num">1</span>
+                        <div>Check if <code>top == -1</code>. If true, the stack is empty (underflow).</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">2</span>
+                        <div>Store <code>array[top]</code> in a temporary variable.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">3</span>
+                        <div>Set <code>top = top - 1</code>.</div>
+                    </div>
+                    <div class="step">
+                        <span class="step__num">4</span>
+                        <div>Return the stored value.</div>
+                    </div>
+                </div>
+                <pre><code>// Pop in C
+int pop(int stack[], int *top) {
+    if (*top == -1) return -1; // underflow
+    return stack[(*top)--];
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Peek and isEmpty</h2>
+                <p>Peek returns <code>array[top]</code> without modifying top. isEmpty checks if <code>top == -1</code>. Both are O(1) operations with no side effects.</p>
+                <pre><code>int peek(int stack[], int top) {
+    if (top == -1) return -1;
+    return stack[top];
+}
+
+int isEmpty(int top) {
+    return top == -1;
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Stack Overflow in Fixed Arrays</h2>
+                <p>When a fixed-size array stack reaches its capacity, any push attempt causes overflow. There are several strategies for handling this:</p>
+                <div class="callout callout--info">
+                    <strong>Strategy 1: Return an error.</strong> The simplest approach. Push returns false or sets an error flag. The caller must check before pushing. This is common in embedded systems where memory is limited.
+                </div>
+                <div class="callout callout--warn">
+                    <strong>Strategy 2: Resize dynamically.</strong> Allocate a larger array, copy elements, free the old array. This gives you a dynamic array stack. The resize is O(n) but happens rarely enough that amortized cost is O(1).
+                </div>
+                <div class="callout callout--info">
+                    <strong>Strategy 3: Use a circular buffer.</strong> When the array is full, overwrite the oldest elements. This turns the stack into a bounded buffer. Useful for logging or recent-history tracking where old data can be discarded.
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>Dynamic Array Resizing</h2>
+                <p>Dynamic arrays solve the fixed-size limitation by growing when needed. The standard strategy is to double the capacity each time the array fills up.</p>
+                <p>Here is why doubling works. If you start with capacity 1 and double on each resize, the total cost of copying all elements so far is 1 + 2 + 4 + 8 + ... + n, which is less than 2n. This means the total work across all resizes is O(n), making the amortized cost per push O(1).</p>
+                <p>If you grew by a smaller factor (like 1.5x), the math still works out to amortized O(1), but you resize more often. Doubling is the most common choice because it minimizes the number of resizes.</p>
+                <div class="callout callout--info">
+                    <strong>Amortized O(1) means:</strong> Most pushes are O(1). Occasionally a push triggers a resize and costs O(n). But averaged over many pushes, each push costs O(1). For 1000 pushes, you might pay for 10 resizes (1 + 2 + 4 + ... + 512 = 1023 copies), which is negligible compared to the 1000 O(1) pushes.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Code Implementations</h2>
+
+                <h3>C (Fixed-Size Array Stack)</h3>
+                <div class="code-block" data-lang="c">
+                    <div class="code-block__header"><span>C</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#include &lt;stdio.h&gt;
+#define MAX 100
+
+typedef struct {
+    int data[MAX];
+    int top;
+} Stack;
+
+void init(Stack *s) { s->top = -1; }
+int isEmpty(Stack *s) { return s->top == -1; }
+
+void push(Stack *s, int val) {
+    if (s->top == MAX - 1) {
+        printf("Overflow\n");
+        return;
+    }
+    s->data[++s->top] = val;
+}
+
+int pop(Stack *s) {
+    if (s->top == -1) {
+        printf("Underflow\n");
+        return -1;
+    }
+    return s->data[s->top--];
+}
+
+int peek(Stack *s) {
+    if (s->top == -1) return -1;
+    return s->data[s->top];
+}</code></pre>
+                </div>
+
+                <h3>C++ (Dynamic Array with std::vector)</h3>
+                <div class="code-block" data-lang="cpp">
+                    <div class="code-block__header"><span>C++</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+
+template &lt;typename T&gt;
+class ArrayStack {
+    std::vector&lt;T&gt; arr;
+public:
+    void push(const T&amp; val) { arr.push_back(val); }
+
+    T pop() {
+        if (arr.empty()) throw std::runtime_error("Underflow");
+        T val = arr.back();
+        arr.pop_back();
+        return val;
+    }
+
+    T peek() const {
+        if (arr.empty()) throw std::runtime_error("Empty");
+        return arr.back();
+    }
+
+    bool isEmpty() const { return arr.empty(); }
+    int size() const { return arr.size(); }
+};</code></pre>
+                </div>
+
+                <h3>Java (Dynamic Array Stack)</h3>
+                <div class="code-block" data-lang="java">
+                    <div class="code-block__header"><span>Java</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>import java.util.ArrayList;
+import java.util.List;
+
+public class ArrayStack&lt;T&gt; {
+    private List&lt;T&gt; data = new ArrayList&lt;&gt;();
+
+    public void push(T val) {
+        data.add(val);
+    }
+
+    public T pop() {
+        if (data.isEmpty()) throw new RuntimeException("Underflow");
+        return data.remove(data.size() - 1);
+    }
+
+    public T peek() {
+        if (data.isEmpty()) throw new RuntimeException("Empty");
+        return data.get(data.size() - 1);
+    }
+
+    public boolean isEmpty() { return data.isEmpty(); }
+    public int size() { return data.size(); }
+}</code></pre>
+                </div>
+
+                <h3>Python</h3>
+                <div class="code-block" data-lang="python">
+                    <div class="code-block__header"><span>Python</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>class ArrayStack:
+    def __init__(self):
+        self._data = []
+
+    def push(self, val):
+        self._data.append(val)
+
+    def pop(self):
+        if not self._data:
+            raise IndexError("Stack underflow")
+        return self._data.pop()
+
+    def peek(self):
+        if not self._data:
+            raise IndexError("Stack is empty")
+        return self._data[-1]
+
+    def is_empty(self):
+        return len(self._data) == 0
+
+    def size(self):
+        return len(self._data)</code></pre>
+                </div>
+
+                <h3>JavaScript</h3>
+                <div class="code-block" data-lang="javascript">
+                    <div class="code-block__header"><span>JavaScript</span><button class="copy-btn" data-copy>Copy</button></div>
+                    <pre><code>class ArrayStack {
+    constructor() {
+        this._data = [];
+    }
+
+    push(val) {
+        this._data.push(val);
+    }
+
+    pop() {
+        if (this._data.length === 0) {
+            throw new Error("Stack underflow");
+        }
+        return this._data.pop();
+    }
+
+    peek() {
+        if (this._data.length === 0) {
+            throw new Error("Stack is empty");
+        }
+        return this._data[this._data.length - 1];
+    }
+
+    isEmpty() {
+        return this._data.length === 0;
+    }
+
+    size() {
+        return this._data.length;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--alt" data-reveal>
+            <div class="shell">
+                <h2>When to Use an Array Stack</h2>
+                <p>Array stacks are the default choice for most situations. Use an array stack when:</p>
+                <ul>
+                    <li>You know the maximum number of elements (use fixed-size).</li>
+                    <li>You want the fastest possible push and pop (array stacks have the best cache performance).</li>
+                    <li>You are working in a systems language like C or C++ where heap allocation is expensive.</li>
+                    <li>You are implementing a stack for competitive programming where speed matters.</li>
+                </ul>
+                <div class="callout callout--info">
+                    <strong>Performance tip:</strong> Array stacks benefit from CPU cache locality. Because elements are stored in contiguous memory, the CPU can prefetch upcoming elements. Linked list stacks cannot benefit from this because their nodes are scattered across the heap.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <div class="shell">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq">
+                    <details class="faq-item" open>
+                        <summary>What is the difference between a fixed-size array stack and a dynamic array stack?</summary>
+                        <p>A fixed-size array stack has a predetermined maximum capacity set at creation. A dynamic array stack starts with an initial capacity and doubles it when full, providing amortized O(1) push operations without a hard limit.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Why is the top pointer important in an array stack?</summary>
+                        <p>The top pointer tells you where the next push should go and where the next pop should read from. Without it you would need to scan the entire array to find the last element, making push and pop O(n) instead of O(1).</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>What happens when a dynamic array stack resizes?</summary>
+                        <p>When a dynamic array is full, a new array twice the size is allocated, all existing elements are copied to the new array, and the old array is freed. This copy costs O(n) but happens so rarely that the amortized cost per push is still O(1).</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is an array stack better than a linked list stack?</summary>
+                        <p>Array stacks are generally better for performance because they use contiguous memory which is cache-friendly. Linked list stacks are better when you cannot predict the maximum size and want to avoid resizing overhead. For most applications, an array stack is the better default choice.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How do I implement an array stack in Python?</summary>
+                        <p>In Python, a regular list works as an array stack. Use list.append() for push, list.pop() for pop, and list[-1] for peek. Python lists are dynamic arrays under the hood, so they handle resizing automatically.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand"><span class="brand__mark brand__mark--logo"><img src="./images/stack.gif" alt="" width="24" height="24"></span> EasyStack</div>
+                    <p class="footer__about">A free, interactive stack data structure visualizer with comprehensive guides.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arundada9000" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><img src="./images/stack-fav.png" alt="GitHub" style="width:19px;height:19px;border-radius:4px"></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Guides</h4>
+                    <ul>
+                        <li><a href="./stack-operations">Stack Operations</a></li>
+                        <li><a href="./push-pop">Push and Pop</a></li>
+                        <li><a href="./stack-complexity">Time Complexity</a></li>
+                        <li><a href="./stack-analogies">Real-World Analogies</a></li>
+                        <li><a href="./call-stack">The Call Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="./guides">All Guides</a></li>
+                        <li><a href="./array-stack">Array Implementation</a></li>
+                        <li><a href="./linked-list-stack">Linked List Stack</a></li>
+                        <li><a href="./stack-memory">Stack Memory</a></li>
+                        <li><a href="./monotonic-stack">Monotonic Stack</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Site</h4>
+                    <ul>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./contact">Contact</a></li>
+                        <li><a href="./privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/arundada9000/Stack" target="_blank" rel="noopener">Source Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Copyright <span data-year>2026</span> EasyStack. Made by Arun Neupane.</span>
+                <span>Free forever. No sign-up. Fully offline-ready PWA.</span>
+            </div>
+        </div>
+    </footer>
+    <script src="./hig.js"></script>
+</body>
+</html>

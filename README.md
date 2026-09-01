@@ -1,83 +1,122 @@
-﻿# Stack Visualization ‍
+﻿# EasyStack
 
-Welcome to **Stack Visualization**! This project allows you to visualize the operations of a stack data structure in a dynamic and interactive way. You can see how elements are pushed onto and popped from the stack, helping you better understand stack behavior and operations.
+Free interactive stack data structure visualizer, guides, and tools.
 
----
+Live site: https://easystack.netlify.app
 
-##  Features
+No build step. No framework. Plain HTML, CSS, and vanilla JavaScript, deployed as a static site on Netlify and installable as a PWA.
 
-- **Interactive Stack Operations:**
-  - **Push:** Add elements to the stack and watch them appear visually.
-  - **Pop:** Remove elements from the stack and see the effect in real time.
-  - **Peek:** View the top element of the stack without removing it.
-- **Step-by-Step Visualization:** Watch the stack change as each operation is performed, with clear and easy-to-understand animations.
-- **Real-Time Feedback:** See how the stack grows and shrinks with each operation.
-- **Stack Overflow & Underflow Handling:** Handle stack overflow and underflow situations gracefully.
+## What it is
 
----
+EasyStack teaches the stack data structure through three things:
 
-##  Live Demo
+- An animated, interactive stack visualizer.
+- 22 in-depth guides covering operations, implementations in 5 languages, the call stack, stack memory, monotonic stacks, recursion, DFS, browser and OS stacks, and interview problems.
+- 3 tools: an advanced stack visualizer, a call stack frame visualizer, and a complexity analyzer.
 
-Check it out Here : [Easy Stack](https://easystack.netlify.app)
+## Features
 
----
+- Animated push, pop, and peek operations with a live stack display.
+- Code examples in C, C++, Java, Python, and JavaScript.
+- Keyboard shortcuts for common operations.
+- Light and dark mode across every page.
+- PWA support with offline fallback.
+- Clean, canonical URLs for every page.
+- Rich structured data (JSON-LD) for search and answer engines.
 
-##  Tech Stack
+## Page map
 
-**Stack Visualization** is built using the following technologies:
+| Route | File | Description |
+| --- | --- | --- |
+| / | index.html | Home and interactive stack visualizer |
+| /guides | guides.html | Guides hub |
+| /stack-operations | stack-operations.html | Core stack operations |
+| /push-pop | push-pop.html | Push and pop in depth |
+| /array-stack | array-stack.html | Array-based implementation |
+| /linked-list-stack | linked-list-stack.html | Linked-list implementation |
+| /stack-complexity | stack-complexity.html | Time and space complexity |
+| /stack-analogies | stack-analogies.html | Real-world analogies |
+| /javascript-stack | javascript-stack.html | JavaScript implementation |
+| /call-stack | call-stack.html | The call stack |
+| /stack-memory | stack-memory.html | Stack memory |
+| /monotonic-stack | monotonic-stack.html | Monotonic stacks |
+| /stack-debugging | stack-debugging.html | Debugging with stacks |
+| /stack-recursion | stack-recursion.html | Recursion and stacks |
+| /stack-best-practices | stack-best-practices.html | Best practices |
+| /stack-problems | stack-problems.html | Classic problems |
+| /stacks-vs-queues | stacks-vs-queues.html | Stacks vs queues |
+| /stack-dfs | stack-dfs.html | DFS with stacks |
+| /browser-stack | browser-stack.html | Browser use of stacks |
+| /os-stack | os-stack.html | OS use of stacks |
+| /stack-interview | stack-interview.html | Interview preparation |
+| /python-stack | python-stack.html | Python implementation |
+| /java-stack | java-stack.html | Java implementation |
+| /cpp-stack | cpp-stack.html | C++ implementation |
+| /c-stack | c-stack.html | C implementation |
+| /stack-visualizer | stack-visualizer.html | Advanced stack visualizer tool |
+| /stack-frame-visualizer | stack-frame-visualizer.html | Call stack frame visualizer tool |
+| /complexity-analyzer | complexity-analyzer.html | Complexity analyzer tool |
+| /about | about.html | About the project |
+| /contact | contact.html | Contact |
+| /feedback | feedback.html | Feedback |
+| /privacy | privacy.html | Privacy policy |
+| /404 | 404.html | Not found page |
+| /offline | offline.html | Offline fallback page |
 
-- **Frontend:**
-  - HTML, CSS, JavaScript
-  - Vanilla JS for stack operations and animations
-- **Libraries:**
-  - No external libraries were used; the project is built with **vanilla JavaScript** for educational purposes.
+## Tech stack
 
----
+- HTML5, CSS3, and vanilla JavaScript (ES2015+).
+- No build step, no bundler, no npm dependencies.
+- Hosted on Netlify as a static site.
+- PWA via `manifest.json` and `service-worker.js`.
+- Guide and tool pages share the `hig.css` / `hig.js` design system.
 
-##  How It Works
+## Local development
 
-1. **Visualizing Stack Operations:**
-   - The stack is represented visually on the page with a stack container, where each element is shown as a box.
-   - Push and Pop operations are animated to help you see the effects in real time.
-2. **Real-Time Updates:**
+There is no build step. Serve the repository root and open a page:
 
-   - As you push or pop elements, the stack automatically updates and shows the current state of the stack.
+```bash
+python -m http.server 8000
+```
 
-3. **Stack Overflow/Underflow:**
-   - If you try to push an element onto a full stack or pop an element from an empty stack, an error message is shown to handle these edge cases.
+or
 
----
+```bash
+npx serve
+```
 
-##  Privacy Notice
+Then browse to http://localhost:8000.
 
-**Stack Visualization** does not collect any user data or require any backend. The project runs entirely in the browser and all operations are processed locally. No personal information is stored or transmitted.
+## Deployment
 
----
+- Push to `main` and Netlify publishes the repository root.
+- `_redirects` and `_headers` are applied automatically by Netlify.
+- When you change cached assets, bump `CACHE_VERSION` in `service-worker.js` so visitors get the new files.
 
-## ✨ Contributing
+## SEO conventions
 
-If you want to contribute to the project, feel free to fork the repository, make changes, and submit a pull request. Here's how you can contribute:
+- Clean, canonical URLs (no `.html`), enforced by `_redirects`.
+- Unique `<title>` and meta description per page.
+- Open Graph and Twitter Card tags using `images/social-card.png`.
+- JSON-LD structured data: `WebSite` on the home page, `Article` and `SoftwareApplication` plus `BreadcrumbList`, `HowTo`, and `FAQPage` across pages.
+- All public URLs listed in `sitemap.xml`.
+- Crawler directives in `robots.txt`.
 
-1. Fork the repo to your GitHub account.
-2. Create a new branch for your changes (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push your changes to the branch (`git push origin feature-name`).
-5. Open a pull request and let me know what you've changed!
+## Architecture
 
----
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full architecture, routing, theming, and how to add a new page.
 
-##  Contact
+## Contributing
 
-If you have any questions, feature requests, or suggestions, feel free to reach out to me:
-
-- Email: [arunneupane0000@gmail.com](mailto:arunneupane0000@gmail.com)
-- GitHub: [@arundada9000](https://github.com/arundada9000)
-
----
-
-_Thank you for checking out **Stack Visualization**! I hope it helps you understand the stack data structure better!_ 
----
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute. Please also read the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see [SECURITY.md](SECURITY.md).
 
 ## License
 
-This project is for educational and personal learning purposes only. Commercial use, public deployment, or any revenue-generating use requires explicit written permission from the author. See [LICENSE](LICENSE) for details.
+MIT. See [LICENSE](LICENSE).
+
+## Author
+
+Arun Neupane, a CSIT student from Nepal.
+
+- GitHub: [@arundada9000](https://github.com/arundada9000)
+- YouTube: [@code_with_ease](https://www.youtube.com/@code_with_ease)
